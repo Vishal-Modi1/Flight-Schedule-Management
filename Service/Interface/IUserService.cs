@@ -4,6 +4,6 @@ namespace Service.Interface
 {
     public interface IUserService
     {
-        UserVM Create(UserVM userVM);
+        CurrentResponse Create(UserVM userVM);
     }
 }

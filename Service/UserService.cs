@@ -1,11 +1,13 @@
 ﻿using DataModels.Models;
 using Repository.Interface;
 using Service.Interface;
+using System;
+using System.Net;
 using ViewModels.VM;
 
 namespace Service
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _userRepository;
 
@@ -14,12 +16,23 @@ namespace Service
             _userRepository = userRepository;
         }
 
-        public UserVM Create(UserVM userVM)
+        public CurrentResponse Create(UserVM userVM)
         {
-            User user = new User();
-            _userRepository.Create(user);
+            try
+            {
+                User user = new User();
+                user = _userRepository.Create(user);
 
-            return userVM;
+                CreateResponse(user, (int)HttpStatusCode.OK, "User is added successfully");
+                
+                return _currentResponse;
+            }
+            catch (Exception exc)
+            {
+                CreateResponse(null, (int)HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
+using Service.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -25,10 +27,12 @@ namespace API.Controllers
         [Route("Create")]
         public IActionResult Create(UserVM userVM)
         {
-            var data = _userService.Create(userVM);
+            CurrentResponse response = _userService.Create(userVM);
 
-            return Ok();
-
+            if(response.Status == HttpStatusCode.OK)
+                return Ok(response);
+            else
+                throw new RestException(response);
         }
     }
 }
