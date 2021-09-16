@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/API/obj
+/API/bin/Debug/net5.0
+/DataModels/obj
+/DataModels/bin/Debug/net5.0
+/FlightScheduleManagement/bin
+/FlightScheduleManagement/obj/Debug
+/packages
+/Repository/bin/Debug/net5.0
+/Repository/obj
+/Service/bin/Debug/net5.0
+/Service/obj
+/ViewModels/bin/Debug/net5.0
+/ViewModels/obj
