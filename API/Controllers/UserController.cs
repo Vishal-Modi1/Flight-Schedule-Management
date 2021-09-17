@@ -1,12 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
-using Service.Middleware;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using ViewModels.VM;
 
 namespace API.Controllers
@@ -24,15 +17,22 @@ namespace API.Controllers
 
 
         [HttpGet]
-        [Route("Create")]
+        [Route("getDetails")]
+        public IActionResult GetDetails()
+        {
+            CurrentResponse response = _userService.GetDetails();
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("create")]
         public IActionResult Create(UserVM userVM)
         {
             CurrentResponse response = _userService.Create(userVM);
 
-            if(response.Status == HttpStatusCode.OK)
-                return Ok(response);
-            else
-                throw new RestException(response);
+            return Ok(response);
+
         }
     }
 }

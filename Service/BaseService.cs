@@ -1,4 +1,5 @@
-﻿using ViewModels.VM;
+﻿using System.Net;
+using ViewModels.VM;
 
 namespace Service
 {
@@ -17,11 +18,11 @@ namespace Service
         //    return _baseRepository.LogException(exception);
         //}
 
-        public CurrentResponse CreateResponse(object data, int statusCode, string message)
+        public CurrentResponse CreateResponse(object data, HttpStatusCode statusCode, string message)
         {
-            _currentResponse.data = data;
-            _currentResponse.status = statusCode;
-            _currentResponse.message = message;
+            _currentResponse.Data = data;
+            _currentResponse.Status = statusCode;
+            _currentResponse.Message = message;
 
             return _currentResponse;
         }

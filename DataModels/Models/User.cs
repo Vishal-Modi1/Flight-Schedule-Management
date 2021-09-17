@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DataModels.Models
 {
@@ -25,6 +26,11 @@ namespace DataModels.Models
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
+        
+        public List<UserRole> UserRoles { get; set; }
+        public List<InstructorType> InstructorTypes { get; set; }
+        public List<Country> Countries { get; set; }
+
 
     }
 }

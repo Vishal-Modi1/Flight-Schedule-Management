@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRoleRepository : IUserRoleRepository
     {
         private MyContext _myContext;
 
-        public User Create(User user)
+        public List<UserRole> List()
         {
-            using(_myContext = new MyContext())
+            using (_myContext = new MyContext())
             {
-                _myContext.Users.Add(user);
-                return user;
+                return _myContext.UserRoles.ToList();
             }
         }
-
-
     }
 }

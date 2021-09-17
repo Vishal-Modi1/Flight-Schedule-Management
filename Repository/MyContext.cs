@@ -40,6 +40,12 @@ namespace Repository
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<InstructorType> InstructorTypes { get; set; }
+
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
     }
 
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Net;
 using ViewModels.VM;
 
 namespace Service.Middleware
 {
     public class RestException : Exception
     {
-        public RestException(int code, object errors = null)
+        public RestException(HttpStatusCode code, object errors = null)
         {
             Code = code;
             Errors = errors;
@@ -13,11 +14,11 @@ namespace Service.Middleware
 
         public RestException(CurrentResponse response)
         {
-            Code = response.status;
-            Errors = response.message;
+            Code = response.Status;
+            Errors = response.Message;
         }
 
-        public int Code { get; }
+        public HttpStatusCode Code { get; }
         public object Errors { get; }
     }
 }
