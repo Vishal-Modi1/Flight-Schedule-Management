@@ -13,7 +13,7 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
-                return _myContext.InstructorTypes.ToList();
+                  return _myContext.InstructorTypes.ToList();
             }
         }
     }
