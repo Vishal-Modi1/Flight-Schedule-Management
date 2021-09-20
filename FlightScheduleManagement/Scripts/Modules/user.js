@@ -1,19 +1,53 @@
 ﻿$(function () {
 
-    $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
+    $(document).ready(function () {
+        $('#example2').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "ajax": {
+                "url": "/User/GetDetailsAsync",
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                {
+                    "data": "FirstName",
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "LastName",
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "Email",
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "UserRole",
+                    "autoWidth": true,
+                    "searchable": true
+                }, {
+                    "data": "IsInstructore",
+                    "autoWidth": true,
+                    "searchable": true
+                }, {
+                    "data": "IsActive",
+                    "autoWidth": true,
+                    "searchable": true
+                },
+            ]
+        });
     });
-
 
     $('#createUser').on('click', function () {
 
