@@ -15,3 +15,5 @@
 /Service/obj
 /ViewModels/bin/Debug/net5.0
 /ViewModels/obj
+/Mapper/obj/Debug
+/ViewModels/bin/Debug

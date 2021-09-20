@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using System.Net;
 using ViewModels.VM;
 
 namespace Service
@@ -20,7 +21,8 @@ namespace Service
 
         public CurrentResponse CreateResponse(object data, HttpStatusCode statusCode, string message)
         {
-            _currentResponse.Data = data;
+
+            _currentResponse.Data = JsonConvert.SerializeObject(data); 
             _currentResponse.Status = statusCode;
             _currentResponse.Message = message;
 

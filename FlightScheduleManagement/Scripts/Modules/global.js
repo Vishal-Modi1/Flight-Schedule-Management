@@ -10,8 +10,6 @@ function openCreateModal(title, ajaxURL) {
     $('#create-modal').modal('toggle')
     $('#create-modal-title').text(title)
 
-    debugger
-
     $.ajax({
         url: ajaxURL,
         type: 'GET',
@@ -21,3 +19,24 @@ function openCreateModal(title, ajaxURL) {
 
     });
 }
+
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+$(document).on('click', '.closeModal', function () {
+
+    $('#create-modal').modal('toggle')
+})

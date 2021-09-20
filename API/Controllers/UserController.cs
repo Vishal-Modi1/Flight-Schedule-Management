@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataModels.Models;
+using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
+using System;
 using ViewModels.VM;
 
 namespace API.Controllers
@@ -32,7 +34,7 @@ namespace API.Controllers
             CurrentResponse response = _userService.Create(userVM);
 
             return Ok(response);
-
         }
+
     }
 }

@@ -17,6 +17,8 @@ namespace Repository
             using(_myContext = new MyContext())
             {
                 _myContext.Users.Add(user);
+                _myContext.SaveChanges();
+                
                 return user;
             }
         }

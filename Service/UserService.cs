@@ -40,7 +40,7 @@ namespace Service
         {
             try
             {
-                User user = new User();
+                User user = ToDataObject(userVM);
                 user = _userRepository.Create(user);
 
                 CreateResponse(user, HttpStatusCode.OK, "User is added successfully");
@@ -93,5 +93,44 @@ namespace Service
 
             return countryListVM;
         }
+
+        #region Object Mapping
+
+        public User ToDataObject(UserVM userVM)
+        {
+            User user = new User();
+
+            user.CompanyName = userVM.CompanyName;
+            user.DateofBirth = userVM.DateofBirth;
+            user.Email = userVM.Email;
+            user.FirstName = userVM.FirstName;
+            user.LastName = userVM.LastName;
+            user.Password = userVM.Password;
+            user.Phone = userVM.Phone;
+            user.RoleId = userVM.RoleId;
+            user.IsIntructor = userVM.IsIntructor;
+            user.InstructorTypeId = userVM.InstructorTypeId;
+            user.Gender = userVM.Gender;
+            user.ExternalId = userVM.ExternalId;
+            user.CountryId = userVM.CountryId;
+            user.ExternalId = userVM.ExternalId;
+            user.IsSendEmailInvite = userVM.IsSendEmailInvite;
+            user.Gender = userVM.Gender;
+
+
+
+            if (userVM.Id == 0)
+            {
+                user.CreatedOn = DateTime.UtcNow;
+            }
+
+            user.UpdatedOn = DateTime.UtcNow;
+
+
+            return user;
+        }
+
+        #endregion
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FlightScheduleManagement.Utilities
@@ -25,6 +26,30 @@ namespace FlightScheduleManagement.Utilities
                     return response;
                 }
                 catch(Exception exc)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string url, string jsonData)
+        {
+            using (_httpClient = new HttpClient())
+            {
+                try
+                {
+                    string apiURL = $"{ConfigurationManager._apiURL}{url}";
+
+                    _httpClient.BaseAddress = new Uri(apiURL);
+                    _httpClient.DefaultRequestHeaders.Accept.Clear();
+
+                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                    var response = _httpClient.PostAsync(apiURL, content).Result;
+
+
+                    return response;
+                }
+                catch (Exception exc)
                 {
                     return null;
                 }

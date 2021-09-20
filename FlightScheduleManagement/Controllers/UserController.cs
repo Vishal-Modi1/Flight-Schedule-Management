@@ -1,6 +1,8 @@
 ﻿using FlightScheduleManagement.Utilities;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ViewModels.VM;
+using System.Web.Script.Serialization;
 
 namespace FlightScheduleManagement.Controllers
 {
@@ -22,9 +24,41 @@ namespace FlightScheduleManagement.Controllers
         [HttpGet]
         public async Task<ActionResult> CreateAsync()
         {
-            var data = await _httpCaller.GetAsync("user/getDetails");
+            UserVM userVM = await GetDetailsAsync();
+            return PartialView(userVM);
+        }
 
-            return PartialView();
+        private async Task<UserVM> GetDetailsAsync()
+        {
+            var response = await _httpCaller.GetAsync("user/getDetails");
+
+            UserVM userVM = new UserVM();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonContent = response.Content.ReadAsStringAsync().Result;
+                var data = new JavaScriptSerializer().Deserialize<CurrentResponse>(jsonContent);
+
+                userVM = new JavaScriptSerializer().Deserialize<UserVM>(data.Data.ToString());
+
+            }
+
+            return userVM;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateAsync(UserVM userVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                userVM = await GetDetailsAsync();
+                return PartialView(userVM); 
+
+            }
+
+            string jsonData = new JavaScriptSerializer().Serialize(userVM);
+            var data = await _httpCaller.PostAsync("user/create", jsonData);
+            return PartialView(userVM);
         }
     }
 }
