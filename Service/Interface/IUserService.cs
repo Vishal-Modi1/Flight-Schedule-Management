@@ -6,6 +6,10 @@ namespace Service.Interface
     {
         CurrentResponse Create(UserVM userVM);
 
-        CurrentResponse GetDetails();
+        CurrentResponse GetDetails(int id);
+
+        CurrentResponse IsEmailExist(string email);
+
+        CurrentResponse Edit(UserVM userVM);
     }
 }

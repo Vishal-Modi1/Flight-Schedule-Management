@@ -2015,6 +2015,7 @@
     <Content Include="AdminPortal\plugins\uplot\uPlot.iife.js" />
     <Content Include="AdminPortal\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="AdminPortal\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -2033,6 +2034,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />

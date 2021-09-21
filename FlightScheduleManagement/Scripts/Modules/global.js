@@ -20,6 +20,10 @@ function openCreateModal(title, ajaxURL) {
     });
 }
 
+function openSuccessModal(message) {
+
+}
+
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
@@ -38,5 +42,10 @@ $.fn.serializeObject = function () {
 
 $(document).on('click', '.closeModal', function () {
 
-    $('#create-modal').modal('toggle')
+    closeCreateModal();
 })
+
+function closeCreateModal()
+{
+    $('#create-modal').modal('toggle')
+}

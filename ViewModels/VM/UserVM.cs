@@ -20,6 +20,7 @@ namespace ViewModels.VM
         public string LastName { get; set; }
         
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [Display(Name = "Is Send Email Invite")]
@@ -30,7 +31,7 @@ namespace ViewModels.VM
         public int RoleId { get; set; }
 
         [Display(Name = "Is Instructor")]
-        public Nullable<bool> IsIntructor { get; set; }
+        public Nullable<bool> IsInstructor { get; set; }
 
         [Display(Name = "Instructor Type")]
         public int InstructorTypeId { get; set; }
@@ -47,6 +48,8 @@ namespace ViewModels.VM
 
         [Display(Name = "Country")]
         public Nullable<int> CountryId { get; set; }
+
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDeleted { get; set; }

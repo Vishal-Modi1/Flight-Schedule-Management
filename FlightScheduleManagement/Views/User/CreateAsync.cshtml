@@ -7,6 +7,7 @@
     {
         //  @Html.AntiForgeryToken()
 
+        @Html.HiddenFor(p => p.Id)
         <div class="row">
             <div class="col-sm-5">
                 <!-- text input -->
@@ -31,7 +32,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
 
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @if (Model.Id > 0)
+                    {
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", @readonly = true } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
+                    }
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -66,13 +74,15 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="height:86px;">
+
             <div class="col-sm-5">
                 <!-- text input -->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IsIntructor, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @Html.EditorFor(model => model.IsIntructor, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.IsIntructor, "", new { @class = "text-danger" })
+                <div class="form-group" style="padding-top:25px;">
+                    @Html.LabelFor(model => model.IsInstructor, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <input type="checkbox" name="IsInstructorSwitch" id="IsInstructorSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
+
+                    @Html.HiddenFor(model => model.IsInstructor)
                 </div>
             </div>
             <div class="col-sm-5">
@@ -115,33 +125,66 @@
                     @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-sm-5">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
             <div class="col-sm-5">
-                <!-- text input -->
                 <div class="form-group">
                     @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @*@Html.EditorFor(model => model.CountryId, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.DropDownListFor(model => model.Countries, new SelectList(Model.Countries, "Id", "Name"), "Select Country" , new { @class = "form-control" })
-
+                    @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.Countries, "Id", "Name"), "Select Country", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+        </div>
+
+        <div class="row">
+
+
             <div class="col-sm-5">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div class="form-group clearfix">
+                    @Html.Label("Gender : ", htmlAttributes: new { @class = "control-label col-md-3" })
+                    @*  @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })*@
+
+                    <div class="icheck-primary d-inline">
+
+                        @if (Model.Id > 0 && Model.Gender == "Male")
+                        {
+                            <input type="radio" id="rbtnMale" name="Gender" checked value="Male">
+                        }
+                        else
+                        {
+                            <input type="radio" id="rbtnMale" name="Gender" value="Male">
+                        }
+                        <label for="rbtnMale"> Male </label>
+
+                    </div>
+                    <div class="icheck-primary d-inline">
+
+                        @if (Model.Id > 0 && Model.Gender == "Female")
+                        {
+                            <input type="radio" id="rbtnFemale" name="Gender" checked value="Female">
+
+                        }
+                        else
+                        {
+                            <input type="radio" id="rbtnFemale" name="Gender" value="Female">
+
+                        }
+                        <label for="rbtnFemale">
+                            Female
+                        </label>
+                    </div>
+
                 </div>
             </div>
+
+            @*<div class="col-sm-5">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
         </div>
 
         <br />
@@ -154,3 +197,51 @@
     }
 
 </div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#DateofBirth').datepicker({
+            weekStart: 1,
+            daysOfWeekHighlighted: "6,0",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
+        });
+
+        // $('#DateofBirth').datepicker("setDate", new Date());
+
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+
+        if ('@Model.Id' > 0) {
+
+            $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
+            SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
+
+        }
+        //  $('#IsInstructor').val(true)
+
+        $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
+
+            debugger
+            SetIsInstructorValue(data);
+        });
+
+        function SetIsInstructorValue(data) {
+            if (data == false) {
+
+                $('#instructorTypeDiv').css('display', 'none')
+                $('#IsInstructor').val(false)
+            }
+
+            else {
+                $('#instructorTypeDiv').css('display', 'block')
+                $('#IsInstructor').val(true)
+            }
+        }
+
+    })
+</script>

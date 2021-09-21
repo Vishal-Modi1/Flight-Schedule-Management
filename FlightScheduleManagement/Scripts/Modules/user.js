@@ -47,14 +47,40 @@
                 },
             ]
         });
+    var isEmailExist = false;
+
+    $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+
+
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
     });
 
     $('#createUser').on('click', function () {
 
-        openCreateModal('Create User', '/User/CreateAsync')
+        openCreateModal('Create User', '/User/editasync?id=15')
     });
 
     $(document).on('click', '#btnsubmit', function () {
+
+        var isInstructor = $('#IsInstructorSwitch').prop('checked');
+        $('#IsInstructorSwitch').val($('#IsInstructorSwitch').prop('checked'))
+
 
         $.ajax({
             url: "/user/createasync",
@@ -63,20 +89,54 @@
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (data) {
-                if (data != null && data.Success) {
-                    alert(data.Message);
-                } else {
-                    // DoSomethingElse()
-                    alert(data.Message);
-                }
+
+                closeCreateModal();
+                toastr.success(data.Message)
             },
             error: function (data) {
                 $('#create-modal-body').html(data.responseText)
-            }
 
+                $('#IsInstructorSwitch').bootstrapSwitch('state', isInstructor);
+
+                if (isInstructor == true) {
+
+                    $('#instructorTypeDiv').css('display', 'block')
+                    $('#IsInstructor').val(true)
+                }
+
+                else {
+                    $('#instructorTypeDiv').css('display', 'none')
+                    $('#IsInstructor').val(false)
+                }
+            }
         });
     });
 
-   });
+
+    //$(document).on('blur', '#Email', function () {
+
+    //    IsEmailExist();
+    //})
+
+    function IsEmailExist() {
+
+        var email = $('#Email').val()
+
+        $.ajax({
+            url: 'user/IsEmailExistAsync?email=' + email,
+            type: 'GET',
+            success: function (data) {
+
+                if (data == 'true') {
+                    isEmailExist = true;
+                }
+                else {
+                    isEmailExist = false;
+                }
+            }
+        })
+    }
+
+});
 
 

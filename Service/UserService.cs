@@ -24,9 +24,16 @@ namespace Service
             _countryRepository = countryRepository;
         }
 
-        public CurrentResponse GetDetails()
+        public CurrentResponse GetDetails(int id)
         {
+            User user = _userRepository.FindById(id);
             UserVM userVM = new UserVM();
+
+            if (user != null)
+            {
+                userVM = ToBusinessObject(user);
+            }
+            
             userVM.Countries = ListCountries();
             userVM.InstructorTypes = ListInstructorTypes();
             userVM.UserRoles = ListUserRoles();
@@ -35,6 +42,7 @@ namespace Service
 
             return _currentResponse;
         }
+
 
         public CurrentResponse Create(UserVM userVM)
         {
@@ -45,6 +53,43 @@ namespace Service
 
                 CreateResponse(user, HttpStatusCode.OK, "User is added successfully");
                 
+                return _currentResponse;
+            }
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse Edit(UserVM userVM)
+        {
+            try
+            {
+                User user = ToDataObject(userVM);
+                user = _userRepository.Edit(user);
+
+                CreateResponse(user, HttpStatusCode.OK, "User updated successfully");
+
+                return _currentResponse;
+            }
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse IsEmailExist(string email)
+        {
+            try
+            {
+                bool isEmailExist = _userRepository.IsEmailExist(email);
+
+                CreateResponse(isEmailExist, HttpStatusCode.OK, "");
+
                 return _currentResponse;
             }
             catch (Exception exc)
@@ -100,6 +145,7 @@ namespace Service
         {
             User user = new User();
 
+            user.Id = userVM.Id;
             user.CompanyName = userVM.CompanyName;
             user.DateofBirth = userVM.DateofBirth;
             user.Email = userVM.Email;
@@ -108,16 +154,14 @@ namespace Service
             user.Password = userVM.Password;
             user.Phone = userVM.Phone;
             user.RoleId = userVM.RoleId;
-            user.IsIntructor = userVM.IsIntructor;
-            user.InstructorTypeId = userVM.InstructorTypeId;
+            user.IsIntructor = userVM.IsInstructor;
+            user.InstructorTypeId = (bool) userVM.IsInstructor ? userVM.InstructorTypeId : null ;
             user.Gender = userVM.Gender;
             user.ExternalId = userVM.ExternalId;
             user.CountryId = userVM.CountryId;
             user.ExternalId = userVM.ExternalId;
             user.IsSendEmailInvite = userVM.IsSendEmailInvite;
             user.Gender = userVM.Gender;
-
-
 
             if (userVM.Id == 0)
             {
@@ -126,8 +170,33 @@ namespace Service
 
             user.UpdatedOn = DateTime.UtcNow;
 
-
             return user;
+        }
+
+        public UserVM ToBusinessObject(User user)
+        {
+            UserVM userDetails = new UserVM();
+
+            userDetails.Id = user.Id;
+            userDetails.CompanyName = user.CompanyName;
+            userDetails.DateofBirth = user.DateofBirth;
+            userDetails.Email = user.Email;
+            userDetails.FirstName = user.FirstName;
+            userDetails.LastName = user.LastName;
+            userDetails.Password = user.Password;
+            userDetails.Phone = user.Phone;
+            userDetails.RoleId = user.RoleId;
+            userDetails.IsInstructor = user.IsIntructor;
+            userDetails.InstructorTypeId = user.InstructorTypeId == null ? 0 : (int)user.InstructorTypeId;
+            userDetails.Gender = user.Gender;
+            userDetails.ExternalId = user.ExternalId;
+            userDetails.CountryId = user.CountryId;
+            userDetails.ExternalId = user.ExternalId;
+            userDetails.IsSendEmailInvite = user.IsSendEmailInvite;
+            userDetails.Gender = user.Gender;
+
+
+            return userDetails;
         }
 
         #endregion

@@ -20,9 +20,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("getDetails")]
-        public IActionResult GetDetails()
+        public IActionResult GetDetails(int id)
         {
-            CurrentResponse response = _userService.GetDetails();
+            CurrentResponse response = _userService.GetDetails(id);
 
             return Ok(response);
         }
@@ -32,6 +32,24 @@ namespace API.Controllers
         public IActionResult Create(UserVM userVM)
         {
             CurrentResponse response = _userService.Create(userVM);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("edit")]
+        public IActionResult Edit(UserVM userVM)
+        {
+            CurrentResponse response = _userService.Edit(userVM);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("isemailexist")]
+        public IActionResult IsEmailExist(string email)
+        {
+            CurrentResponse response = _userService.IsEmailExist(email);
 
             return Ok(response);
         }
