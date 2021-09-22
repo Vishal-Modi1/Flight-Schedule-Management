@@ -54,5 +54,31 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("Delete")]
+        public IActionResult Delete(int id)
+        {
+            CurrentResponse response = _userService.Delete(id);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("updatestatus")]
+        public IActionResult UpdateStatus(int id, bool isActive)
+        {
+            CurrentResponse response = _userService.UpdateActiveStatus(id, isActive);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("list")]
+        public IActionResult List(DatatableParams datatableParams)
+        {
+            CurrentResponse response = _userService.List(datatableParams);
+
+            return Ok(response);
+        }
     }
 }

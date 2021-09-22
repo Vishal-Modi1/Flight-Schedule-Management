@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div class="row" style="height:86px;">
+        <div class="row" style="height:110px;">
 
             <div class="col-sm-5">
                 <!-- text input -->
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="col-sm-5">
-                <div class="form-group">
+                <div class="form-group" id="instructorTypeDiv">
                     @Html.LabelFor(model => model.InstructorTypeId, htmlAttributes: new { @class = "control-label col-md-6" })
                     @Html.DropDownListFor(model => model.InstructorTypeId, new SelectList(Model.InstructorTypes, "Id", "Name"),  "Select Instructor Type", new { @class = "form-control" }) 
 
@@ -147,7 +147,7 @@
 
                     <div class="icheck-primary d-inline">
 
-                        @if (Model.Id > 0 && Model.Gender == "Male")
+                        @if ((Model.Id > 0 && Model.Gender == "Male") || Model.Id == 0)
                         {
                             <input type="radio" id="rbtnMale" name="Gender" checked value="Male">
                         }

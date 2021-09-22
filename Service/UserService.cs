@@ -33,7 +33,7 @@ namespace Service
             {
                 userVM = ToBusinessObject(user);
             }
-            
+
             userVM.Countries = ListCountries();
             userVM.InstructorTypes = ListInstructorTypes();
             userVM.UserRoles = ListUserRoles();
@@ -51,8 +51,8 @@ namespace Service
                 User user = ToDataObject(userVM);
                 user = _userRepository.Create(user);
 
-                CreateResponse(user, HttpStatusCode.OK, "User is added successfully");
-                
+                CreateResponse(user, HttpStatusCode.OK, "User added successfully");
+
                 return _currentResponse;
             }
             catch (Exception exc)
@@ -100,9 +100,28 @@ namespace Service
             }
         }
 
+        public CurrentResponse List(DatatableParams datatableParams)
+        {
+            try
+            {
+                var data = _userRepository.List(datatableParams);
+
+                CreateResponse(data, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
         private List<InstructorTypeVM> ListInstructorTypes()
         {
-            List<InstructorType> instructorTypesList =  _instructorTypeRepository.List();
+            List<InstructorType> instructorTypesList = _instructorTypeRepository.List();
             List<InstructorTypeVM> instructorTypesListVM = new List<InstructorTypeVM>();
 
             foreach (InstructorType instructorType in instructorTypesList)
@@ -154,8 +173,8 @@ namespace Service
             user.Password = userVM.Password;
             user.Phone = userVM.Phone;
             user.RoleId = userVM.RoleId;
-            user.IsIntructor = userVM.IsInstructor;
-            user.InstructorTypeId = (bool) userVM.IsInstructor ? userVM.InstructorTypeId : null ;
+            user.IsInstructor = userVM.IsInstructor;
+            user.InstructorTypeId = (bool)userVM.IsInstructor ? userVM.InstructorTypeId : null;
             user.Gender = userVM.Gender;
             user.ExternalId = userVM.ExternalId;
             user.CountryId = userVM.CountryId;
@@ -186,7 +205,7 @@ namespace Service
             userDetails.Password = user.Password;
             userDetails.Phone = user.Phone;
             userDetails.RoleId = user.RoleId;
-            userDetails.IsInstructor = user.IsIntructor;
+            userDetails.IsInstructor = user.IsInstructor;
             userDetails.InstructorTypeId = user.InstructorTypeId == null ? 0 : (int)user.InstructorTypeId;
             userDetails.Gender = user.Gender;
             userDetails.ExternalId = user.ExternalId;
@@ -197,6 +216,51 @@ namespace Service
 
 
             return userDetails;
+        }
+
+        public CurrentResponse Delete(int id)
+        {
+            try
+            {
+                _userRepository.Delete(id);
+                CreateResponse(true, HttpStatusCode.OK, "User deleted successfully.");
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse UpdateActiveStatus(int id, bool isActive)
+        {
+            try
+            {
+                _userRepository.UpdateActiveStatus(id, isActive);
+
+                string message = "User activated successfully.";
+
+                if (!isActive)
+                {
+                    message = "User deactivated successfully.";
+
+                }
+
+                CreateResponse(true, HttpStatusCode.OK, message);
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
         }
 
         #endregion

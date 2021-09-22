@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.VM;
 
 namespace Repository
 {
@@ -45,6 +46,8 @@ namespace Repository
         public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<Country> Countries { get; set; }
+
+        public DbSet<UserSearchList> UserSearchLists { get; set; }
 
     }
 

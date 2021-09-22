@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.VM;
 
 namespace FlightScheduleManagement.Utilities
 {
@@ -9,7 +11,7 @@ namespace FlightScheduleManagement.Utilities
     {
         private HttpClient _httpClient; 
 
-        public async Task<HttpResponseMessage> GetAsync(string url)
+        public async Task<CurrentResponse> GetAsync(string url)
         {
             using (_httpClient = new HttpClient())
             {
@@ -21,7 +23,8 @@ namespace FlightScheduleManagement.Utilities
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
                     _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage response = await _httpClient.GetAsync(apiURL);
+                    HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(apiURL);
+                    CurrentResponse  response = JsonConvert.DeserializeObject<CurrentResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
 
                     return response;
                 }
@@ -32,7 +35,7 @@ namespace FlightScheduleManagement.Utilities
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string url, string jsonData)
+        public async Task<CurrentResponse> PostAsync(string url, string jsonData)
         {
             using (_httpClient = new HttpClient())
             {
@@ -44,8 +47,8 @@ namespace FlightScheduleManagement.Utilities
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
 
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    var response = _httpClient.PostAsync(apiURL, content).Result;
-
+                    HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(apiURL, content);
+                    CurrentResponse response = JsonConvert.DeserializeObject<CurrentResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
 
                     return response;
                 }

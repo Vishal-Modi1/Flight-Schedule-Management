@@ -1,59 +1,8 @@
 ﻿$(function () {
 
-    $(document).ready(function () {
-        $('#example2').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "ajax": {
-                "url": "/User/GetDetailsAsync",
-                "type": "get",
-                "datatype": "json"
-            },
-            "columns": [
-                {
-                    "data": "FirstName",
-                    "autoWidth": true,
-                    "searchable": true
-                },
-                {
-                    "data": "LastName",
-                    "autoWidth": true,
-                    "searchable": true
-                },
-                {
-                    "data": "Email",
-                    "autoWidth": true,
-                    "searchable": true
-                },
-                {
-                    "data": "UserRole",
-                    "autoWidth": true,
-                    "searchable": true
-                }, {
-                    "data": "IsInstructore",
-                    "autoWidth": true,
-                    "searchable": true
-                }, {
-                    "data": "IsActive",
-                    "autoWidth": true,
-                    "searchable": true
-                },
-            ]
-        });
-    var isEmailExist = false;
-
-    $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
+    $('#userList').DataTable({
+        "processing": true,
+        "serverSide": true,
         "paging": true,
         "lengthChange": true,
         "searching": true,
@@ -61,8 +10,57 @@
         "info": true,
         "autoWidth": false,
         "responsive": true,
-    });
+        "ajax": {
+            "url": "/User/ListAsync",
+            "type": "get",
+            "datatype": "json"
+        },
+        aoColumns: [
 
+            { mData: 'FirstName' },
+            { mData: 'LastName' },
+            { mData: 'Email' },
+            { mData: 'UserRole' },
+            {
+                mData: 'IsInstructor',
+                "render": function (data, type, row) {
+
+                    if (row.IsInstructor == true) {
+                        return 'Yes';
+                    } else {
+                        return 'No';
+                    }
+                }
+            },
+            {
+                mData: 'IsActive',
+                "render": function (data, type, row) {
+
+                    if (row.IsActive == true) {
+                        return '<div class="icheck-primary d-inline"><input checked type="checkbox" class="userStatus" '
+                            + ' data-id="' + row.Id + '" data-name="' + row.FirstName + ' ' + row.LastName + '"'
+                            + ' id = "userStatus' + row.Id + '" > <label for="userStatus' + row.Id +'"></label>';
+                    } else {
+                        return '<div class="icheck-primary d-inline"><input type="checkbox" class="userStatus"'
+                            + ' data-id="' + row.Id + '" data-name="' + row.FirstName + ' ' + row.LastName + '"'
+                            + ' id = "userStatus' + row.Id + '" > <label for="userStatus' + row.Id + '"></label>';
+                    }
+                }
+            },
+            {
+                targets: 6,
+                mData: null,
+                "render": function (data, type, row) {
+
+                    var editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.Id + '" ><i class="fas fa-pencil-alt"></i></button>';
+                    var deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
+                        + 'data-id="' + row.Id + '" data-name="' + row.FirstName + ' ' + row.LastName +'"><i class="far fa-trash-alt"></i></button>';
+
+                    return editHtml + '&nbsp;&nbsp;&nbsp;' + deleteHtml;
+                }
+            }
+        ]
+    });
 
     var Toast = Swal.mixin({
         toast: true,
@@ -73,14 +71,26 @@
 
     $('#createUser').on('click', function () {
 
-        openCreateModal('Create User', '/User/editasync?id=15')
+        openCreateModal('Create User', '/User/createasync')
+    });
+
+    $(document).on('click', '.btnedit', function () {
+
+        var id = $(this).attr('data-id');
+        openCreateModal('Edit User', 'user/editasync?id=' + id)
+    });
+
+    $(document).on('click', '.btndelete', function () {
+
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        openDeleteModal('Delete User', name, id)
     });
 
     $(document).on('click', '#btnsubmit', function () {
 
         var isInstructor = $('#IsInstructorSwitch').prop('checked');
         $('#IsInstructorSwitch').val($('#IsInstructorSwitch').prop('checked'))
-
 
         $.ajax({
             url: "/user/createasync",
@@ -92,6 +102,7 @@
 
                 closeCreateModal();
                 toastr.success(data.Message)
+                refreshTable()
             },
             error: function (data) {
                 $('#create-modal-body').html(data.responseText)
@@ -113,10 +124,22 @@
     });
 
 
-    //$(document).on('blur', '#Email', function () {
+    $(document).on('change', '.userStatus', function () {
 
-    //    IsEmailExist();
-    //})
+        var id = $(this).attr('data-id')
+        var name = $(this).attr('data-name')
+        var status = $(this).is(":checked");
+        var title = 'Activate user';
+        var content = 'Activate ' + name;
+
+        if (status == false) {
+
+            title = 'Deactivate user';
+            content = 'Deactivate ' + name;
+        }
+
+        openInfoModal(title, content, id)
+    })
 
     function IsEmailExist() {
 
@@ -135,6 +158,54 @@
                 }
             }
         })
+    }
+
+    $('.btnDeleteModalButton').on('click', function () {
+
+        var id = $(this).attr('data-id')
+
+        $.ajax({
+            url: 'User/DeleteAsync?id=' + id,
+            type : 'GET',
+            success: function (data) {
+
+                closeDeleteModal();
+                toastr.success(data.Message)
+                refreshTable()
+
+            },
+            error: function (error) {
+
+                toastr.success(data.Message)
+            }
+        })
+    })
+
+    $('.btnInfoModalButton').on('click', function () {
+
+        var id = $(this).attr('data-id')
+        var userStatus = $('#userStatus' + id).is(':checked');
+
+        $.ajax({
+            url: 'User/UpdateStatus?id=' + id + '&isActive=' + userStatus,
+            type: 'GET',
+            success: function (data) {
+
+                closeInfoModal();
+                toastr.success(data.Message)
+                refreshTable()
+            },
+            error: function (error) {
+
+                toastr.success(data.Message)
+            }
+        })
+    })
+
+    function refreshTable() {
+
+        var oTable = $('#userList').DataTable();
+        oTable.ajax.reload();
     }
 
 });

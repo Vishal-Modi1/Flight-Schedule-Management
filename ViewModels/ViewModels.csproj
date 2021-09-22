@@ -45,8 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VM\CountryVM.cs" />
     <Compile Include="VM\CurrentResponse.cs" />
+    <Compile Include="VM\DatatableParams.cs" />
     <Compile Include="VM\InstructorTypeVM.cs" />
     <Compile Include="VM\UserRoleVM.cs" />
+    <Compile Include="VM\UserSearchList.cs" />
     <Compile Include="VM\UserVM.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

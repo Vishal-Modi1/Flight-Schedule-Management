@@ -1,4 +1,4 @@
-Create PROCEDURE [dbo].[GetUserList]  
+ALTER PROCEDURE [dbo].[GetUserList]  
 (       
     @SearchValue NVARCHAR(50) = NULL,  
     @PageNo INT = 1,  
@@ -49,10 +49,10 @@ AS BEGIN
                         THEN UR.Name  
             END DESC,
 			CASE WHEN (@SortColumn = 'IsIntructor' AND @SortOrder='ASC')  
-                        THEN U.IsIntructor 
+                        THEN U.IsInstructor 
             END ASC,  
             CASE WHEN (@SortColumn = 'IsIntructor' AND @SortOrder='DESC')  
-                        THEN U.IsIntructor  
+                        THEN U.IsInstructor  
             END DESC, 
 			CASE WHEN (@SortColumn = 'IsActive' AND @SortOrder='ASC')  
                         THEN U.IsActive  
@@ -65,7 +65,7 @@ AS BEGIN
     ),  
     CTE_TotalRows AS   
     (  
-        select count(U.ID) as TotalRows from Users U
+        select count(U.ID) as TotalRecords from Users U
 		LEFT JOIN  UserRoles UR on UR.Id=U.RoleId
         WHERE @SearchValue= '' OR  (   
               FirstName LIKE '%' + @SearchValue + '%' OR
@@ -74,7 +74,7 @@ AS BEGIN
 			  UR.Name LIKE '%' + @SearchValue + '%'
             )   
     )  
-    Select TotalRows, U.Id, U.FirstName, U.LastName,U.Email,U.IsIntructor,U.IsActive,Ur.Name from Users U
+    Select TotalRecords, U.Id, U.FirstName, U.LastName,U.Email,ISNULL(U.IsInstructor, 0 ) AS IsInstructor,ISNULL(U.IsActive, 0 ) AS IsActive,Ur.Name as UserRole from Users U
 	LEFT JOIN  UserRoles UR on UR.Id=U.RoleId
 	, CTE_TotalRows   
     WHERE EXISTS (SELECT 1 FROM CTE_Results WHERE CTE_Results.ID = U.ID)  

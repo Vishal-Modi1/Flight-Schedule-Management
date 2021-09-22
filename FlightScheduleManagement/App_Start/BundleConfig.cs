@@ -38,7 +38,8 @@ namespace FlightScheduleManagement
     "~/AdminPortal/plugins/datatables-buttons/js/buttons.print.min.js",
     "~/AdminPortal/plugins/datatables-buttons/js/buttons.colVis.min.js",
     "~/AdminPortal/plugins/sweetalert2/sweetalert2.min.js",
-    "~/AdminPortal/plugins/toastr/toastr.min.js"));
+    "~/AdminPortal/plugins/toastr/toastr.min.js",
+    "~/AdminPortal/plugins/bootstrap-switch/js/bootstrap-switch.min.js"));
 
             bundles.Add(new ScriptBundle("~/AdminPortal/js").Include(
     "~/AdminPortal/js/adminlte.min.js",

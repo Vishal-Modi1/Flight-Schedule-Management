@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,6 +23,8 @@ namespace ViewModels.VM
 
         [Display(Name = "Is Send Email Invite")]
         public Nullable<bool> IsSendEmailInvite { get; set; }
+
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
         public string Phone { get; set; }
 
         [Display(Name = "User Role")]

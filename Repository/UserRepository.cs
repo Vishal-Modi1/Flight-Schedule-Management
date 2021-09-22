@@ -1,6 +1,10 @@
 ﻿using DataModels.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
+using System.Collections.Generic;
 using System.Linq;
+using ViewModels.VM;
 
 namespace Repository
 {
@@ -10,11 +14,11 @@ namespace Repository
 
         public User Create(User user)
         {
-            using(_myContext = new MyContext())
+            using (_myContext = new MyContext())
             {
                 _myContext.Users.Add(user);
                 _myContext.SaveChanges();
-                
+
                 return user;
             }
         }
@@ -36,7 +40,7 @@ namespace Repository
                 existingDetails.Password = user.Password;
                 existingDetails.Phone = user.Phone;
                 existingDetails.RoleId = user.RoleId;
-                existingDetails.IsIntructor = user.IsIntructor;
+                existingDetails.IsInstructor = user.IsInstructor;
                 existingDetails.InstructorTypeId = user.InstructorTypeId;
                 existingDetails.Gender = user.Gender;
                 existingDetails.ExternalId = user.ExternalId;
@@ -64,6 +68,49 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 return _myContext.Users.Where(p => p.Id == id && p.IsDeleted != true).FirstOrDefault();
+            }
+        }
+
+        public List<UserSearchList> List(DatatableParams datatableParams)
+        {
+            using (_myContext = new MyContext())
+            {
+                List<UserSearchList> list;
+                string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { datatableParams.Start + 1}, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
+
+                list = _myContext.UserSearchLists.FromSqlRaw<UserSearchList>(sql).ToList();
+               
+                return list;
+
+            }
+
+        }
+
+        public void Delete(int id)
+        {
+            using (_myContext = new MyContext())
+            {
+                User user = _myContext.Users.Where(p => p.Id == id).FirstOrDefault();
+
+                if(user != null)
+                {
+                    user.IsDeleted = true;
+                    _myContext.SaveChanges();
+                }
+            }
+        }
+
+        public void UpdateActiveStatus(int id, bool isActive)
+        {
+            using (_myContext = new MyContext())
+            {
+                User user = _myContext.Users.Where(p => p.Id == id).FirstOrDefault();
+
+                if (user != null)
+                {
+                    user.IsActive = isActive;
+                    _myContext.SaveChanges();
+                }
             }
         }
     }

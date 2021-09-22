@@ -12,7 +12,7 @@ namespace DataModels.Models
         public Nullable<bool> IsSendEmailInvite { get; set; }
         public string Phone { get; set; }
         public int RoleId { get; set; }
-        public Nullable<bool> IsIntructor { get; set; }
+        public Nullable<bool> IsInstructor { get; set; }
         public Nullable<int> InstructorTypeId { get; set; }
         public string CompanyName { get; set; }
         public string ExternalId { get; set; }

@@ -17,3 +17,9 @@
 /ViewModels/obj
 /Mapper/obj/Debug
 /ViewModels/bin/Debug
+/API/bin/Release/net5.0
+/DataModels/bin/Release/net5.0
+/FlightScheduleManagement/obj/Release
+/Service/bin/Release/net5.0
+/ViewModels/bin/Release
+/Repository/bin/Release/net5.0

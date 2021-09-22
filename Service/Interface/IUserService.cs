@@ -11,5 +11,11 @@ namespace Service.Interface
         CurrentResponse IsEmailExist(string email);
 
         CurrentResponse Edit(UserVM userVM);
+
+        CurrentResponse List(DatatableParams datatableParams);
+
+        CurrentResponse Delete(int id);
+
+        CurrentResponse UpdateActiveStatus(int id, bool isActive);
     }
 }
