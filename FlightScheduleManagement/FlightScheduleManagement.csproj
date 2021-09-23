@@ -2141,6 +2141,7 @@
     <Content Include="AdminPortal\plugins\summernote\summernote.js.map" />
     <Content Include="AdminPortal\plugins\summernote\summernote.min.js.map" />
     <Content Include="AdminPortal\plugins\toastr\toastr.js.map" />
+    <None Include="Properties\PublishProfiles\FlightScheduleManagement - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2154,12 +2155,16 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Modules\global.js" />
     <Content Include="Scripts\Modules\user.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
