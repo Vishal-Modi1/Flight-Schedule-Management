@@ -57,9 +57,11 @@ namespace PresentationLayer.Controllers
 
             DatatableParams datatableParams = new DatatableParams();
 
-            datatableParams.SearchText = query["search[value]"];
+            var draw = query["draw"].FirstOrDefault();
             datatableParams.Start = Convert.ToInt32(query["start"]);
             datatableParams.Length = Convert.ToInt32(query["length"]);
+            datatableParams.SearchText = query["search[value]"];
+            
             int sortColumn = Convert.ToInt32(query["order[0][column]"]);
 
             if (sortColumn == 0)
@@ -95,8 +97,14 @@ namespace PresentationLayer.Controllers
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
             List<UserSearchList> userList = JsonConvert.DeserializeObject<List<UserSearchList>>(response.Data);
 
-            int totalRecords = userList.Count() > 0 ? userList[0].TotalRecords : 0;
-            return Json(new { recordsFiltered = userList.Count(), recordsTotal = totalRecords, data = userList });
+            int recordsTotal = userList.Count() > 0 ? userList[0].TotalRecords : 0;
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = recordsTotal,
+                recordsTotal = recordsTotal,
+                data = userList
+            });
 
         }
 

@@ -1,22 +1,28 @@
 ﻿$(function () {
-
     $('#userList').DataTable({
         "processing": true,
         "serverSide": true,
+        "PageLength": 10,
         "paging": true,
         "lengthChange": true,
+        "filter": true,
         "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false,
         "responsive": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "ajax": {
             "url": "/User/List",
             "type": "get",
-            "datatype": "json"
+            "datatype": "json",
         },
+        "columnDefs": [{
+            "targets": [0],
+            "visible": false,
+            "searchable": false
+        }],
         aoColumns: [
-
             { mData: 'firstName' },
             { mData: 'lastName' },
             { mData: 'email' },
@@ -39,7 +45,7 @@
                     if (row.isActive == true) {
                         return '<div class="icheck-primary d-inline"><input checked type="checkbox" class="userStatus" '
                             + ' data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"'
-                            + ' id = "userStatus' + row.id + '" > <label for="userStatus' + row.id +'"></label>';
+                            + ' id = "userStatus' + row.id + '" > <label for="userStatus' + row.id + '"></label>';
                     } else {
                         return '<div class="icheck-primary d-inline"><input type="checkbox" class="userStatus"'
                             + ' data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"'
@@ -54,7 +60,7 @@
 
                     var editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.id + '" ><i class="fas fa-pencil-alt"></i></button>';
                     var deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
-                        + 'data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName +'"><i class="far fa-trash-alt"></i></button>';
+                        + 'data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"><i class="far fa-trash-alt"></i></button>';
 
                     return editHtml + '&nbsp;&nbsp;&nbsp;' + deleteHtml;
                 }
