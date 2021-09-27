@@ -1,0 +1,247 @@
+﻿@model ViewModels.VM.UserVM
+@{ 
+//List<SelectListItem> userRolesList =  new List<SelectListItem>() { new SelectListItem() { Text = Model.UserRoles. } }
+}
+<div class="card-body" style="margin-right:-100px">
+    @using (Html.BeginForm("create", "user", FormMethod.Post, new { id = "createuser" }))
+    {
+        //  @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(p => p.Id)
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
+
+                    @if (Model.Id > 0)
+                    {
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", @readonly = true } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
+                    }
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
+
+                    @Html.EditorFor(model => model.IsSendEmailInvite, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IsSendEmailInvite, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @*@Html.DropDownListFor(model => model.RoleId, )*@
+                    @*@Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.UserRoles, "Id", "Name"), "Select Role", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height:110px;">
+
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group" style="padding-top:25px;">
+                    @Html.LabelFor(model => model.IsInstructor, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <input type="checkbox" name="IsInstructorSwitch" id="IsInstructorSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
+
+                    @Html.HiddenFor(model => model.IsInstructor)
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group" id="instructorTypeDiv">
+                    @Html.LabelFor(model => model.InstructorTypeId, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.DropDownListFor(model => model.InstructorTypeId, new SelectList(Model.InstructorTypes, "Id", "Name"),  "Select Instructor Type", new { @class = "form-control" }) 
+
+                    @*@Html.EditorFor(model => model.InstructorTypeId, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.InstructorTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+
+                   
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ExternalId, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.ExternalId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExternalId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DateofBirth, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.DateofBirth, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                    @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.Countries, "Id", "Name"), "Select Country", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-sm-5">
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-3">Gender : </label>
+                    
+                    <div class="icheck-primary d-inline">
+
+                        @if ((Model.Id > 0 && Model.Gender == "Male") || Model.Id == 0)
+                        {
+                            <input type="radio" id="rbtnMale" name="Gender" checked value="Male">
+                        }
+                        else
+                        {
+                            <input type="radio" id="rbtnMale" name="Gender" value="Male">
+                        }
+                        <label for="rbtnMale"> Male </label>
+
+                    </div>
+                    <div class="icheck-primary d-inline">
+
+                        @if (Model.Id > 0 && Model.Gender == "Female")
+                        {
+                            <input type="radio" id="rbtnFemale" name="Gender" checked value="Female">
+
+                        }
+                        else
+                        {
+                            <input type="radio" id="rbtnFemale" name="Gender" value="Female">
+
+                        }
+                        <label for="rbtnFemale">
+                            Female
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            @*<div class="col-sm-5">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        </div>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btnsubmit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        
+        $('#DateofBirth').datepicker({
+            weekStart: 1,
+            daysOfWeekHighlighted: "6,0",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
+        });
+
+        // $('#DateofBirth').datepicker("setDate", new Date());
+
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+
+        if ('@Model.Id' > 0) {
+
+            $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
+            SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
+
+        }
+        //  $('#IsInstructor').val(true)
+
+        $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
+
+            debugger
+            SetIsInstructorValue(data);
+        });
+
+        function SetIsInstructorValue(data) {
+            if (data == false) {
+
+                $('#instructorTypeDiv').css('display', 'none')
+                $('#IsInstructor').val(false)
+            }
+
+            else {
+                $('#instructorTypeDiv').css('display', 'block')
+                $('#IsInstructor').val(true)
+            }
+        }
+
+    })
+</script>
+

@@ -23,3 +23,6 @@
 /Service/bin/Release/net5.0
 /ViewModels/bin/Release
 /Repository/bin/Release/net5.0
+/FlightScheduleManagement/Properties
+/PresentationLayer/bin/Debug/net5.0
+/PresentationLayer/obj

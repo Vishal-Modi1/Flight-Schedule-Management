@@ -1,0 +1,32 @@
+[
+  {
+    "outputFileName": "wwwroot/css/adminlte.min.css",
+    "inputFiles": [
+      "wwwroot/css/adminlte.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/plugins/fontawesome-free/css/all.min.css",
+    "inputFiles": [
+      "wwwroot/plugins/fontawesome-free/css/all.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery/dist/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    ]
+  }
+]
