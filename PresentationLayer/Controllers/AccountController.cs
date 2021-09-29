@@ -50,11 +50,14 @@ namespace PresentationLayer.Controllers
             return View(loginVM);
         }
 
-        [HttpPost]
         [Authorize]
         public IActionResult Logout()
         {
-            return RedirectToAction("Login");
+            foreach (var key in HttpContext.Request.Cookies.Keys)
+            {
+                HttpContext.Response.Cookies.Append(key, "", new CookieOptions() { Expires = System.DateTime.Now.AddDays(-1) });
+            }
+            return RedirectToAction("Login","/Account");
         }
 
         private async Task AddCookieAsync(string response)
