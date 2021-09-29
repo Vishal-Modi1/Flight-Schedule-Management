@@ -1,15 +1,12 @@
+using Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace PresentationLayer
 {
@@ -18,9 +15,11 @@ namespace PresentationLayer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _configurationSettings = ConfigurationSettings.Instance;
         }
 
         public IConfiguration Configuration { get; }
+        private readonly ConfigurationSettings _configurationSettings;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,6 +31,16 @@ namespace PresentationLayer
                 options.ValueCountLimit = int.MaxValue;
                 options.ValueLengthLimit = int.MaxValue;
             });
+
+            services.AddAuthentication("CookieAuthentication")
+           .AddCookie("CookieAuthentication", config =>
+           {
+               config.Cookie.Name = _configurationSettings.CookieName;
+               config.LoginPath = "/Account/Login";
+               config.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+               //config.ExpireTimeSpan = TimeSpan.FromDays(_configurationSettings.JWTExpireDays);
+               config.SlidingExpiration = true;
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,13 +61,14 @@ namespace PresentationLayer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

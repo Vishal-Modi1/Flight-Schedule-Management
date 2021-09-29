@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using ViewModels.VM;
 
 namespace PresentationLayer.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly HttpCaller _httpCaller;

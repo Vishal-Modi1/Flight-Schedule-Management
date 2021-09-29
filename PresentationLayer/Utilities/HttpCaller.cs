@@ -4,13 +4,19 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModels.VM;
+using Configuration;
 
 namespace PresentationLayer.Utilities
 {
     public class HttpCaller
     {
         private HttpClient _httpClient;
-        private ConfigurationManager _configurationManager = ConfigurationManager.Instance;
+        private readonly ConfigurationSettings _configurationSettings;
+
+        public HttpCaller()
+        {
+            _configurationSettings = ConfigurationSettings.Instance;
+        }
 
         public async Task<CurrentResponse> GetAsync(string url)
         {
@@ -18,7 +24,7 @@ namespace PresentationLayer.Utilities
             {
                 try
                 {
-                    string apiURL = $"{ConfigurationManager._apiURL}{url}";
+                    string apiURL = $"{_configurationSettings.APIURL}{url}";
 
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -42,7 +48,7 @@ namespace PresentationLayer.Utilities
             {
                 try
                 {
-                    string apiURL = $"{ConfigurationManager._apiURL}{url}";
+                    string apiURL = $"{_configurationSettings.APIURL}{url}";
 
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();

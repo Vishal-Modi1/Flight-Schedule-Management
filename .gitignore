@@ -26,3 +26,6 @@
 /FlightScheduleManagement/Properties
 /PresentationLayer/bin/Debug/net5.0
 /PresentationLayer/obj
+/Configuration/obj/Debug/net5.0
+/Configuration/obj
+/Configuration/bin/Debug/net5.0
