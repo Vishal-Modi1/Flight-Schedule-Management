@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Configuration;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Utilities
 {
@@ -33,6 +35,9 @@ namespace API.Utilities
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configurationSettings.JWTKey));
             DateTime expires = DateTime.Now.AddDays(_configurationSettings.JWTExpireDays);
+
+            //  DateTime expires = DateTime.Now.AddSeconds(15);
+
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -45,5 +50,7 @@ namespace API.Utilities
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
     }
 }

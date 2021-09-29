@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewModels.VM;
 using Configuration;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace PresentationLayer.Utilities
 {
@@ -12,10 +16,12 @@ namespace PresentationLayer.Utilities
     {
         private HttpClient _httpClient;
         private readonly ConfigurationSettings _configurationSettings;
+        private readonly HttpContext _httpContext;
 
-        public HttpCaller()
+        public HttpCaller(HttpContext httpContext)
         {
             _configurationSettings = ConfigurationSettings.Instance;
+            _httpContext = httpContext;
         }
 
         public async Task<CurrentResponse> GetAsync(string url)
@@ -29,6 +35,7 @@ namespace PresentationLayer.Utilities
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
                     _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken());
 
                     HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(apiURL);
                     CurrentResponse  response = JsonConvert.DeserializeObject<CurrentResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
@@ -53,6 +60,8 @@ namespace PresentationLayer.Utilities
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
 
+                    _httpClient.DefaultRequestHeaders.Authorization =  new AuthenticationHeaderValue("Bearer", GetToken());
+
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                     HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(apiURL, content);
                     CurrentResponse response = JsonConvert.DeserializeObject<CurrentResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
@@ -64,6 +73,16 @@ namespace PresentationLayer.Utilities
                     return null;
                 }
             }
+        }
+
+        public string GetToken()
+        {
+            ClaimsPrincipal cp = _httpContext.User;
+
+            string token = cp.Claims.Where(c => c.Type == "AcessToken")
+                               .Select(c => c.Value).SingleOrDefault();
+
+            return token;
         }
     }
 }

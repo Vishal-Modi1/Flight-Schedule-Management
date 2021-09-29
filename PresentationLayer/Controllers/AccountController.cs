@@ -1,13 +1,12 @@
-﻿using DataModels.Models;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -17,9 +16,9 @@ namespace PresentationLayer.Controllers
     {
         private readonly HttpCaller _httpCaller;
 
-        public AccountController()
+        public AccountController(IHttpContextAccessor httpContextAccessor)
         {
-            _httpCaller = new HttpCaller();
+            _httpCaller = new HttpCaller(httpContextAccessor.HttpContext);
         }
 
         // GET: Account
@@ -66,12 +65,14 @@ namespace PresentationLayer.Controllers
              {
                   new Claim(ClaimTypes.Name, loginResponse.FirstName),
                   new Claim(ClaimTypes.Email, loginResponse.Email),
-                  new Claim("AcessToken", string.Format("Bearer {0}", loginResponse.AccessToken)),
+                  new Claim("AcessToken", loginResponse.AccessToken),
              };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
             ClaimsPrincipal userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+            Thread.CurrentPrincipal = userPrincipal;
+
             await HttpContext.SignInAsync(userPrincipal);
         }
     }

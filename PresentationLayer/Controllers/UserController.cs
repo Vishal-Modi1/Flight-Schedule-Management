@@ -6,6 +6,8 @@ using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -16,9 +18,9 @@ namespace PresentationLayer.Controllers
     {
         private readonly HttpCaller _httpCaller;
 
-        public UserController()
+        public UserController(IHttpContextAccessor httpContextAccessor)
         {
-            _httpCaller = new HttpCaller();
+            _httpCaller = new HttpCaller(httpContextAccessor.HttpContext);
         }
 
         // GET: User

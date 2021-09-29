@@ -37,10 +37,12 @@ namespace PresentationLayer
            {
                config.Cookie.Name = _configurationSettings.CookieName;
                config.LoginPath = "/Account/Login";
-               config.ExpireTimeSpan = TimeSpan.FromSeconds(15);
-               //config.ExpireTimeSpan = TimeSpan.FromDays(_configurationSettings.JWTExpireDays);
+              // config.ExpireTimeSpan = TimeSpan.FromSeconds(25);
+               config.ExpireTimeSpan = TimeSpan.FromDays(_configurationSettings.JWTExpireDays);
                config.SlidingExpiration = true;
            });
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

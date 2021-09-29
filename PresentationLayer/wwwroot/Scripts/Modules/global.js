@@ -99,3 +99,7 @@ function startLoading() {
 function stopLoading() {
     $('#loader').css('display', 'none')
 }
+
+$(document).ajaxError(function (event, request, settings) {
+   // alert()
+});
