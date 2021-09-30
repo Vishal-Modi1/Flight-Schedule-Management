@@ -128,10 +128,10 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> CreateAsync(UserVM userVM)
         {
 
-            if (userVM.IsInstructor != null && !(bool)userVM.IsInstructor)
-            {
-                ModelState["InstructorTypeId"].Errors.Clear();
-            }
+            //if (userVM.IsInstructor != null && !(bool)userVM.IsInstructor)
+            //{
+            //    ModelState["InstructorTypeId"].Errors.Clear();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -172,11 +172,11 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public async Task<string> IsEmailExistAsync(string email)
+        public async Task<IActionResult> IsEmailExistAsync(string email)
         {
             CurrentResponse response = await _httpCaller.GetAsync($"user/isemailexist?email={email}");
 
-            return response.Data;
+            return Json(response);
         }
 
         [HttpGet]

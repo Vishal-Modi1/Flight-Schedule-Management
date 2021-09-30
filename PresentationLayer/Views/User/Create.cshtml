@@ -190,6 +190,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="button" id="btnsubmit" class="btn btn-primary">Save changes</button>
+                @*<button type="submit" class="btn btn-primary btn-block">Sign In</button>*@
                 <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -200,9 +201,9 @@
 
 <script>
 
-    $(document).ready(function () {
+    $(function () {
 
-        $('#DateofBirth').datepicker({
+      $('#DateofBirth').datepicker({
             weekStart: 1,
             daysOfWeekHighlighted: "6,0",
             autoclose: true,
@@ -226,7 +227,6 @@
 
         $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
 
-            debugger
             SetIsInstructorValue(data);
         });
 

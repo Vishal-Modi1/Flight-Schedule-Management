@@ -34,7 +34,7 @@ namespace ViewModels.VM
         public Nullable<bool> IsInstructor { get; set; }
 
         [Display(Name = "Instructor Type")]
-        public int InstructorTypeId { get; set; }
+        public Nullable<int> InstructorTypeId { get; set; }
 
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,14 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Login()
         {
+            string userName = HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Name)
+                               .Select(c => c.Value).SingleOrDefault();
+
+            if(!string.IsNullOrWhiteSpace(userName))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -50,14 +59,12 @@ namespace PresentationLayer.Controllers
             return View(loginVM);
         }
 
+        [HttpGet]
         [Authorize]
-        public IActionResult Logout()
+        public async Task<IActionResult> LogoutAsync()
         {
-            foreach (var key in HttpContext.Request.Cookies.Keys)
-            {
-                HttpContext.Response.Cookies.Append(key, "", new CookieOptions() { Expires = System.DateTime.Now.AddDays(-1) });
-            }
-            return RedirectToAction("Login","/Account");
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "/Account");
         }
 
         private async Task AddCookieAsync(string response)
@@ -77,6 +84,7 @@ namespace PresentationLayer.Controllers
             Thread.CurrentPrincipal = userPrincipal;
 
             await HttpContext.SignInAsync(userPrincipal);
+       
         }
     }
 }

@@ -50,7 +50,5 @@ namespace API.Utilities
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
     }
 }

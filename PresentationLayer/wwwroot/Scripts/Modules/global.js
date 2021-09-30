@@ -5,7 +5,7 @@
     $(this).addClass("active");
 });
 
-function openCreateModal(title, ajaxURL) {
+function openCreateModal(title, ajaxURL, fnCallBackAfterLoad) {
 
     $('#create-modal').modal('toggle')
     $('#create-modal-title').text(title)
@@ -17,12 +17,21 @@ function openCreateModal(title, ajaxURL) {
         type: 'GET',
         success: function (data) {
             $('#create-modal-body').html(data)
+            fnCallBackAfterLoad();
+            //InjectClientsideValidation();
+
         },
         complete: function () {
             stopLoading();
         }
 
     });
+}
+
+function InjectClientsideValidation() {
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
 }
 
 $.fn.serializeObject = function () {

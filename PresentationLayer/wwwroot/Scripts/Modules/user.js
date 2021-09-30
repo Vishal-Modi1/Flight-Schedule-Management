@@ -17,11 +17,6 @@
             "type": "get",
             "datatype": "json",
         },
-        "columnDefs": [{
-            "targets": [0],
-            "visible": false,
-            "searchable": false
-        }],
         aoColumns: [
             { mData: 'firstName' },
             { mData: 'lastName' },
@@ -77,7 +72,7 @@
 
     $('#createUser').on('click', function () {
 
-        openCreateModal('Create User', '/User/create')
+        openCreateModal('Create User', '/User/create', fnCallBackAfterLoad)
     });
 
     $(document).on('click', '.btnedit', function () {
@@ -93,15 +88,92 @@
         openDeleteModal('Delete User', name, id)
     });
 
+    function fnCallBackAfterLoad() {
+        
+        $('#createuser').validate({
+            rules: {
+                FirstName: {
+                    required: true
+                },
+                LastName: {
+                    required: true
+                },
+                RoleId: {
+                    required: true
+                },
+                InstructorTypeId: {
+                    required: true
+                },
+                Phone: {
+                    maxlength: 10,
+                    minlength : 10
+                },
+                Email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        type: 'post',
+                        url: 'user/IsEmailExist?email=' + $('#Email').val(),
+                        dataType: 'json'
+                    }
+                }
+            },
+            messages: {
+                FirstName: {
+                    required: "Please enter first name"
+                },
+                LastName: {
+                    required: "Please enter last name",
+                },
+                RoleId: {
+                    required: "Please select a role",
+                },
+                InstructorTypeId: {
+                    required: "Please select an instructor",
+                },
+                Email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                Phone: {
+                    maxlength: "Please enter vlaid phone no",
+                    minlength: "Please enter vlaid phone no"
+                },
+            },
+
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    }
+ 
+
     $(document).on('click', '#btnsubmit', function () {
 
-        var isInstructor = $('#IsInstructorSwitch').prop('checked');
-        $('#IsInstructorSwitch').val($('#IsInstructorSwitch').prop('checked'))
+        if (!$("#createuser").valid()) 
+        {
+            return false;
+        }
+
+      //  var isInstructor = $('#IsInstructorSwitch').prop('checked');
+        $('#IsInstructor').val($('#IsInstructorSwitch').prop('checked'))
+        $('#IsSendEmailInvite').val($('#IsSendEmailInvite').prop('checked'))
+        
         var data = $("#createuser").serializeObject();
 
         disableForm('createuser');
         startLoading();
 
+        alert()
         $.ajax({
             url: "/user/create",
             type: "POST",
@@ -116,20 +188,20 @@
 
             },
             error: function (data) {
-                $('#create-modal-body').html(data.responseText)
+                //$('#create-modal-body').html(data.responseText)
 
-                $('#IsInstructorSwitch').bootstrapSwitch('state', isInstructor);
+                //$('#IsInstructorSwitch').bootstrapSwitch('state', isInstructor);
 
-                if (isInstructor == true) {
+                //if (isInstructor == true) {
 
-                    $('#instructorTypeDiv').css('display', 'block')
-                    $('#IsInstructor').val(true)
-                }
+                //    $('#instructorTypeDiv').css('display', 'block')
+                //    $('#IsInstructor').val(true)
+                //}
 
-                else {
-                    $('#instructorTypeDiv').css('display', 'none')
-                    $('#IsInstructor').val(false)
-                }
+                //else {
+                //    $('#instructorTypeDiv').css('display', 'none')
+                //    $('#IsInstructor').val(false)
+                //}
             },
             complete: function () {
                 enableForm('createuser')
