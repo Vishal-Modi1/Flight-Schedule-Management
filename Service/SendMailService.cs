@@ -20,12 +20,14 @@ namespace Service
 		private readonly IConfiguration _config;
 		private readonly ISendMailRepository _sendMailRepository;
 		private readonly IUserRepository _userRepository;
+        private readonly MailSettingConfig _mailSettingConfig;
 
-		public SendMailService(IConfiguration config, ISendMailRepository sendMailRepository, IUserRepository userRepository)
+        public SendMailService(IConfiguration config, ISendMailRepository sendMailRepository, IUserRepository userRepository)
 		{
 			_config = config;
 			_sendMailRepository = sendMailRepository;
             _userRepository = userRepository;
+            _mailSettingConfig = MailSettingConfig.Instance;
 
         }
 
@@ -33,13 +35,11 @@ namespace Service
         {
 			try
 			{
-				string FromEmail = _config.GetValue<string>("MailSetting");
-
 				var UserRegistrationMail = GetEmailTemplate(Constants.UserSignInTemplate);
 				UserRegistrationMail = UserRegistrationMail.Replace("{name}", userVM.FirstName + " " + userVM.LastName);
 				UserRegistrationMail = UserRegistrationMail.Replace("{username}", userVM.Email);
 				UserRegistrationMail = UserRegistrationMail.Replace("{password}", userVM.Password);
-				_sendMailRepository.SendMail(FromEmail, userVM.Email, "Sign In" , UserRegistrationMail, "","");
+				_sendMailRepository.SendMail(_mailSettingConfig.SMTP_HOST, _mailSettingConfig.SMTP_PORT, _mailSettingConfig.SMTP_CREDENTIALS, _mailSettingConfig.SMTP_CREDENTIALS_PASSKEY, userVM.Email, "Sign In" , UserRegistrationMail, "","");
 
 				return true;
 			}
@@ -60,7 +60,7 @@ namespace Service
                     {
                         var Mail = GetEmailTemplate(Constants.ForgotPasswordTemplate);
                         Mail = Mail.Replace("{Link}", Url);
-                        _sendMailRepository.SendMail(_config.GetValue<string>("MailSetting"), Email, "Password Reset", Mail, "", "");
+                        _sendMailRepository.SendMail(_mailSettingConfig.SMTP_HOST, _mailSettingConfig.SMTP_PORT, _mailSettingConfig.SMTP_CREDENTIALS, _mailSettingConfig.SMTP_CREDENTIALS_PASSKEY, Email, "Password Reset", Mail, "", "");
                        
                         CreateResponse(user, HttpStatusCode.OK, "Mail sent successfully");
                         return _currentResponse;

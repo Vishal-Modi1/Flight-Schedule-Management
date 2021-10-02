@@ -173,7 +173,6 @@
         disableForm('createuser');
         startLoading();
 
-        alert()
         $.ajax({
             url: "/user/create",
             type: "POST",

@@ -141,9 +141,9 @@ namespace PresentationLayer.Controllers
 
             if (userVM.Id == 0)
             {
-                string emailExist = await IsEmailExistAsync(userVM.Email);
+                CurrentResponse emailExist =  await IsEmailExistAsync(userVM.Email);
 
-                if (emailExist == "true")
+                if (emailExist.Data == "true")
                 {
                     userVM = await GetDetailsAsync(0);
                     ModelState.AddModelError("Email", "Email Already Exist");
@@ -172,11 +172,9 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> IsEmailExistAsync(string email)
+        public async Task<CurrentResponse> IsEmailExistAsync(string email)
         {
-            CurrentResponse response = await _httpCaller.GetAsync($"user/isemailexist?email={email}");
-
-            return Json(response);
+            return await _httpCaller.GetAsync($"user/isemailexist?email={email}");
         }
 
         [HttpGet]

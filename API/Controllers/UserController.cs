@@ -17,7 +17,6 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly ISendMailService _sendMailService;
         private readonly RandomPasswordGenerator _randomPasswordGenerator;
-        private readonly string _fromMailId;
         public UserController(IUserService userService, ISendMailService sendMailService)
         {
             _userService = userService;

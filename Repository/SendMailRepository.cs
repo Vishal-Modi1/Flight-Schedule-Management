@@ -10,23 +10,21 @@ namespace Repository
 {
     public class SendMailRepository : ISendMailRepository
     {
-        public bool SendMail(string From, string to, string subject, string body, string FromName = "", string cc = "")
+        public bool SendMail(string host, int port, string from, string fromPaasKey, string to, string subject, string body, string FromName = "", string cc = "", bool isBodyHtml = true, bool isEnableSsl = true)
         {
-            //NEEED TO REMOVE AND ALSO NEED TO FETCH 
-            From = "hardikmasalawala88@gmail.com";
             try
             {
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.Credentials = new System.Net.NetworkCredential(From, "8866mom143");
-                smtp.EnableSsl = true;
+                smtp.Host = host;
+                smtp.Port = port;
+                smtp.Credentials = new System.Net.NetworkCredential(from, fromPaasKey);
+                smtp.EnableSsl = isEnableSsl;
 
                 MailMessage myMessage = new MailMessage();
                 myMessage.To.Add(new MailAddress(to));
-                myMessage.From = new MailAddress(From);
+                myMessage.From = new MailAddress(from);
                 myMessage.Body = body;
-                myMessage.IsBodyHtml = true;
+                myMessage.IsBodyHtml = isBodyHtml;
                 if (!string.IsNullOrEmpty(cc))
                     myMessage.CC.Add(cc);
                 myMessage.Subject = subject;

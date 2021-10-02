@@ -18,6 +18,10 @@
   "JWTExpireDays": 1,
   "CookieName": "UserLoginCookie",
   "MailSetting": {
-    "MailFrom": "hardikmasalawala88@gmail.com"
+    "SMTP_HOST": "hardikmasalawala88@gmail.com",
+    "SMTP_PORT": "587",
+    "SMTP_CREDENTIALS": "hardikmasalawala88@gmail.com",
+    "SMTP_CREDENTIALS_PASSKEY": "8866mom143",
+    "SMTP_ENABLE_SSL": "true"
   }
 }
