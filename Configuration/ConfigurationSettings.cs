@@ -60,5 +60,10 @@ namespace Configuration
         {
             get => configuration.GetValue<string>("CookieName");
         }
+
+        public string MailSetting
+        {
+            get => configuration.GetValue<string>("MailSetting");
+        }
     }
 }

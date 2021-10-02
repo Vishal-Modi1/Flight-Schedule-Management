@@ -1,4 +1,5 @@
-﻿using DataModels.Models;
+﻿using API.Utilities;
+using DataModels.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
@@ -14,10 +15,14 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly ISendMailService _sendMailService;
+        private readonly RandomPasswordGenerator _randomPasswordGenerator;
+        private readonly string _fromMailId;
+        public UserController(IUserService userService, ISendMailService sendMailService)
         {
             _userService = userService;
+            _sendMailService = sendMailService;
+            _randomPasswordGenerator = new RandomPasswordGenerator();
         }
 
 
@@ -26,7 +31,6 @@ namespace API.Controllers
         public IActionResult GetDetails(int id)
         {
             CurrentResponse response = _userService.GetDetails(id);
-
             return Ok(response);
         }
 
@@ -34,8 +38,16 @@ namespace API.Controllers
         [Route("create")]
         public IActionResult Create(UserVM userVM)
         {
-            CurrentResponse response = _userService.Create(userVM);
+            userVM.Password = _randomPasswordGenerator.RandomPassword();
+            //START Send Create Mail
+            _sendMailService.SendCreateUserMail(userVM);
+            //END Send Create Mail
 
+            #region Encrypt password
+            userVM.Password = CipherCode.EncodeBase64(userVM.Password);
+            #endregion 
+            CurrentResponse response = _userService.Create(userVM);
+            
             return Ok(response);
         }
 
@@ -44,7 +56,6 @@ namespace API.Controllers
         public IActionResult Edit(UserVM userVM)
         {
             CurrentResponse response = _userService.Edit(userVM);
-
             return Ok(response);
         }
 

@@ -16,5 +16,8 @@
   "JWTKey": "SXkSqsKyNUyvGbnHs7ke2NCq8zQzNLW7mPmHbnZZ",
   "JWTIssuer": "https://localhost:44334", //replace this with your application url
   "JWTExpireDays": 30,
-  "CookieName": "UserLoginCookie"
+  "CookieName": "UserLoginCookie",
+  "MailSetting": {
+    "MailFrom": "hardikmasalawala88@gmail.com"
+  }
 }

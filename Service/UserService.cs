@@ -4,6 +4,8 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using ViewModels.VM;
 
 namespace Service
@@ -99,7 +101,23 @@ namespace Service
                 return _currentResponse;
             }
         }
+        public CurrentResponse ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+            try
+            {
+                bool IsUserPasswordReset = _userRepository.ResetUserPassword(resetPasswordVM);
 
+                CreateResponse(IsUserPasswordReset, HttpStatusCode.OK, "Password reset successfully");
+
+                return _currentResponse;
+            }
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
         public CurrentResponse List(DatatableParams datatableParams)
         {
             try

@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using API.Utilities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
+using Service.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -30,6 +33,10 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Login()
         {
+            string callBackResponse = TempData.Count > 0 && TempData["response"] != null ? TempData["response"].ToString() : "";
+            if (!string.IsNullOrEmpty(callBackResponse)) {
+                ViewBag.response = JsonConvert.DeserializeObject<CurrentResponse>(callBackResponse);
+            }
             string userName = HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Name)
                                .Select(c => c.Value).SingleOrDefault();
 
@@ -47,13 +54,14 @@ namespace PresentationLayer.Controllers
             if (ModelState.IsValid)
             {
                 string jsonData = JsonConvert.SerializeObject(loginVM);
-                var response = await _httpCaller.PostAsync("Account/login", jsonData);
+                CurrentResponse response = await _httpCaller.PostAsync("Account/login", jsonData);
 
                 if (response.Status == System.Net.HttpStatusCode.OK)
                 {
                     await AddCookieAsync(response.Data);
                     return RedirectToAction("Index", "Home");
                 }
+                ViewBag.response = response;
             }
 
             return View(loginVM);
@@ -85,6 +93,61 @@ namespace PresentationLayer.Controllers
 
             await HttpContext.SignInAsync(userPrincipal);
        
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                forgotPasswordVM.ResetURL = Request.Scheme + "://" + Request.Host + "/Account/ResetPassword?Token=";
+                string jsonData = JsonConvert.SerializeObject(forgotPasswordVM);
+                CurrentResponse response = await _httpCaller.PostAsync("Account/forgotpassword", jsonData);
+
+                if (response.Status == System.Net.HttpStatusCode.OK)
+                {
+                    TempData["response"] = JsonConvert.SerializeObject(response);
+                    return RedirectToAction("Login", "/Account");
+                }
+            }
+
+            return View(forgotPasswordVM);
+        }
+
+
+        [HttpGet]
+        public IActionResult ResetPassword([FromQuery(Name = "Token")] string Token)
+        {
+            if (string.IsNullOrEmpty(Token)) {
+                return RedirectToAction("Login", "/Account");
+            }
+            ResetPasswordVM ResetPasswordVM = new ResetPasswordVM();
+            ResetPasswordVM.Token = Token;
+            return View(ResetPasswordVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                string jsonData = JsonConvert.SerializeObject(resetPasswordVM);
+                var response = await _httpCaller.PostAsync("Account/resetpassword", jsonData);
+
+                if (response != null && response.Status == System.Net.HttpStatusCode.OK && Convert.ToBoolean(response.Data) == true)
+                {
+                    TempData["response"] = JsonConvert.SerializeObject(response);
+                    return RedirectToAction("Login", "/Account");
+                }
+            }
+
+            return View(resetPasswordVM);
         }
     }
 }

@@ -62,6 +62,21 @@ namespace Repository
                 return _myContext.Users.Where(p => p.Email == email && p.IsDeleted != true).Count() > 0;
             }
         }
+        public bool ResetUserPassword(ResetPasswordVM resetPasswordVM)
+        {
+
+            using (_myContext = new MyContext())
+            {
+                User user = _myContext.Users.Where(p => p.Email == resetPasswordVM.Token).FirstOrDefault();
+                if (user != null)
+                {
+                    user.Password = resetPasswordVM.Password;
+                    _myContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public User FindById(int id)
         {

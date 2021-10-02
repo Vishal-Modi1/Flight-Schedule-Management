@@ -17,5 +17,7 @@ namespace Service.Interface
         CurrentResponse Delete(int id);
 
         CurrentResponse UpdateActiveStatus(int id, bool isActive);
+        
+        CurrentResponse ResetPassword(ResetPasswordVM resetPasswordVM);
     }
 }

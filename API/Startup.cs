@@ -97,6 +97,7 @@ namespace API
             //Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ISendMailService, SendMailService>();
 
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
@@ -104,6 +105,7 @@ namespace API
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IInstructorTypeRepository, InstructorTypeRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ISendMailRepository, SendMailRepository>();
 
         }
 

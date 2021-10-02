@@ -1,7 +1,5 @@
 ﻿@model ViewModels.VM.LoginVM
-@{
-    Layout = null;
-}
+@{ Layout = null; }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,19 +21,17 @@
                 <h3 class="text-center">Login</h3>
                 @using (Html.BeginForm("login", "/account", FormMethod.Post, new { id = "login" }))
                 {
-                    <div style="margin-bottom:20px">
-                        <div class="input-group">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-
-                    </div>
+    <div style="margin-bottom:20px">
+        <div class="input-group">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
 
                     <div style="margin-bottom:20px">
                         <div class="input-group">
@@ -50,28 +46,25 @@
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                    </div>
-                }
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                        </div>
+                                    </div>}
 
                 <br />
                 <div class="row">
-
                     <div class="col-12">
-                        <a href="forgot-password.html">I forgot my password</a>
+                        <a href="@Url.Action("ForgotPassword","/Account")">I forgot my password</a>
                     </div>
-
                 </div>
-
             </div>
         </div>
 
         <partial name="AdminPortal/_Scripts" />
     </div>
 </body>
+
 </html>
 
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -113,6 +106,19 @@
                 $(element).removeClass('is-invalid');
             }
         });
-    });
 
+
+
+    });
 </script>
+@if (ViewBag.response != null)
+{
+<script>
+    $(function () {
+        if (@(Convert.ToInt32(ViewBag.response.Status)) == 200)
+            toastr.success("@(Convert.ToString(ViewBag.response.Message))");
+        else
+            toastr.error("@(Convert.ToString(ViewBag.response.Message))");
+    });
+</script>
+}
