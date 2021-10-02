@@ -90,8 +90,9 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
+                int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
                 List<UserSearchList> list;
-                string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { datatableParams.Start + 1}, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
+                string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
 
                 list = _myContext.UserSearchLists.FromSqlRaw<UserSearchList>(sql).ToList();
                

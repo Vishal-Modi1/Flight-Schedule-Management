@@ -21,8 +21,6 @@ namespace Configuration
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("configuration.json", optional: true, reloadOnChange: true)
                     .Build().GetSection("MailSetting");
-             //MailSetting = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["APP_Name"];
-
         }
 
         public static MailSettingConfig Instance
