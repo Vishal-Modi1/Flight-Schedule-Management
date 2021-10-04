@@ -13,7 +13,7 @@
         "responsive": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "ajax": {
-            "url": "/User/List",
+            "url": "/user/List",
             "type": "get",
             "datatype": "json",
         },
@@ -72,13 +72,13 @@
 
     $('#createUser').on('click', function () {
 
-        openCreateModal('Create User', '/User/create', fnCallBackAfterLoad)
+        openCreateModal('Create User', '/user/create', fnCallBackAfterLoad)
     });
 
     $(document).on('click', '.btnedit', function () {
 
         var id = $(this).attr('data-id');
-        openCreateModal('Edit User', 'user/edit?id=' + id)
+        openCreateModal('Edit User', '/user/edit?id=' + id, fnCallBackAfterLoad)
     });
 
     $(document).on('click', '.btndelete', function () {
@@ -89,7 +89,7 @@
     });
 
     function fnCallBackAfterLoad() {
-        
+
         $('#createuser').validate({
             rules: {
                 FirstName: {
@@ -106,15 +106,23 @@
                 },
                 Phone: {
                     maxlength: 10,
-                    minlength : 10
+                    minlength: 10
                 },
                 Email: {
                     required: true,
                     email: true,
                     remote: {
-                        type: 'post',
-                        url: 'user/IsEmailExist?email=' + $('#Email').val(),
-                        dataType: 'json'
+                        type: 'get',
+                        url: '/user/IsEmailExist',
+                        dataType: 'json',
+                        data: {
+                            'Email': function () { return $('#Email').val(); }
+                        },
+                        success: function (data) {
+                            if (data == "true") {
+                                return 'tttttttttt'
+                            }
+                        }
                     }
                 }
             },
@@ -133,7 +141,8 @@
                 },
                 Email: {
                     required: "Please enter a email address",
-                    email: "Please enter a vaild email address"
+                    email: "Please enter a vaild email address",
+                    remote: "The username is already exist"
                 },
                 Phone: {
                     maxlength: "Please enter vlaid phone no",
@@ -155,19 +164,18 @@
             }
         });
     }
- 
+
 
     $(document).on('click', '#btnsubmit', function () {
 
-        if (!$("#createuser").valid()) 
-        {
+        if (!$("#createuser").valid()) {
             return false;
         }
 
-      //  var isInstructor = $('#IsInstructorSwitch').prop('checked');
+        //  var isInstructor = $('#IsInstructorSwitch').prop('checked');
         $('#IsInstructor').val($('#IsInstructorSwitch').prop('checked'))
         $('#IsSendEmailInvite').val($('#IsSendEmailInvite').prop('checked'))
-        
+
         var data = $("#createuser").serializeObject();
 
         disableForm('createuser');
@@ -232,7 +240,7 @@
         var email = $('#Email').val()
 
         $.ajax({
-            url: 'user/IsEmailExist?email=' + email,
+            url: '/user/IsEmailExist?email=' + email,
             type: 'GET',
             success: function (data) {
 
@@ -251,8 +259,8 @@
         var id = $(this).attr('data-id')
 
         $.ajax({
-            url: 'User/Delete?id=' + id,
-            type : 'GET',
+            url: '/user/Delete?id=' + id,
+            type: 'GET',
             success: function (data) {
 
                 closeDeleteModal();
@@ -273,7 +281,7 @@
         var userStatus = $('#userStatus' + id).is(':checked');
 
         $.ajax({
-            url: 'User/UpdateStatus?id=' + id + '&isActive=' + userStatus,
+            url: '/user/UpdateStatus?id=' + id + '&isActive=' + userStatus,
             type: 'GET',
             success: function (data) {
 

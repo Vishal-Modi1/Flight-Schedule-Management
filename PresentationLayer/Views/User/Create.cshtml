@@ -45,42 +45,22 @@
             </div>
             <div class="col-sm-5 my-auto">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
-                    <input type="checkbox" name="IsSendEmailInvite" id="IsSendEmailInvite" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
-
-                    @*@Html.EditorFor(model => model.IsSendEmailInvite, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.ValidationMessageFor(model => model.IsSendEmailInvite, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-5">
-                <!-- text input -->
-                <div class="form-group">
                     @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-6" })
                     @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="col-sm-5">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @*@Html.DropDownListFor(model => model.RoleId, )*@
-                    @*@Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.UserRoles, "Id", "Name"), "Select Role", new { @class = "form-control" })
 
-                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
+
+
 
         <div class="row">
 
             <div class="col-sm-5 my-auto">
                 <!-- text input -->
                 <div class="form-group">
-                    @Html.LabelFor(model => model.IsInstructor, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.LabelFor(model => model.IsInstructor, htmlAttributes: new { @class = "control-label col-md-7" })
                     <input type="checkbox" name="IsInstructorSwitch" id="IsInstructorSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
 
                     @Html.HiddenFor(model => model.IsInstructor)
@@ -135,6 +115,36 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5" style="padding-top:28px">
+                <!-- text input -->
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
+                    <input type="checkbox" name="IsSendEmailInvite" id="IsSendEmailInvite" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+
+                    @*@Html.EditorFor(model => model.IsSendEmailInvite, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.IsSendEmailInvite, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-5" style="padding-top:28px">
+                <!--<div class="form-group">
+                @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-6" })-->
+                @*@Html.DropDownListFor(model => model.RoleId, )*@
+                @*@Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })*@
+                <!--@Html.DropDownListFor(model => model.RoleId, new SelectList(Model.UserRoles, "Id", "Name"), "Select Role", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>-->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsSendTextMessage, htmlAttributes: new { @class = "control-label col-md-7" })
+                    <input type="checkbox" name="IsSendTextMessageSwitch" id="IsSendTextMessageSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
+
+                    @Html.HiddenFor(model => model.IsSendTextMessage)
+                </div>
+            </div>
         </div>
 
         <div class="row">

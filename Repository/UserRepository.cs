@@ -47,6 +47,8 @@ namespace Repository
                 existingDetails.CountryId = user.CountryId;
                 existingDetails.ExternalId = user.ExternalId;
                 existingDetails.IsSendEmailInvite = user.IsSendEmailInvite;
+                existingDetails.IsSendTextMessage = user.IsSendTextMessage;
+
                 existingDetails.Gender = user.Gender;
 
                 _myContext.SaveChanges();

@@ -198,6 +198,8 @@ namespace Service
             user.CountryId = userVM.CountryId;
             user.ExternalId = userVM.ExternalId;
             user.IsSendEmailInvite = userVM.IsSendEmailInvite;
+            user.IsSendTextMessage = userVM.IsSendTextMessage;
+
             user.Gender = userVM.Gender;
 
             if (userVM.Id == 0)

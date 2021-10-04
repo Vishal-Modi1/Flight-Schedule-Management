@@ -22,7 +22,10 @@ namespace ViewModels.VM
         public string Email { get; set; }
 
         [Display(Name = "Is Send Email Invite")]
-        public Nullable<bool> IsSendEmailInvite { get; set; }
+        public bool IsSendEmailInvite { get; set; }
+
+        [Display(Name = "Is Send Text Message")]
+        public bool IsSendTextMessage { get; set; }
 
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
         public string Phone { get; set; }
@@ -31,7 +34,7 @@ namespace ViewModels.VM
         public int RoleId { get; set; }
 
         [Display(Name = "Is Instructor")]
-        public Nullable<bool> IsInstructor { get; set; }
+        public bool IsInstructor { get; set; }
 
         [Display(Name = "Instructor Type")]
         public Nullable<int> InstructorTypeId { get; set; }
@@ -51,8 +54,8 @@ namespace ViewModels.VM
 
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }

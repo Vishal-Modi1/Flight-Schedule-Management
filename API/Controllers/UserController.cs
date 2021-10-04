@@ -1,9 +1,7 @@
 ﻿using API.Utilities;
-using DataModels.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
-using System;
 using ViewModels.VM;
 
 namespace API.Controllers
@@ -17,13 +15,13 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly ISendMailService _sendMailService;
         private readonly RandomPasswordGenerator _randomPasswordGenerator;
+
         public UserController(IUserService userService, ISendMailService sendMailService)
         {
             _userService = userService;
             _sendMailService = sendMailService;
             _randomPasswordGenerator = new RandomPasswordGenerator();
         }
-
 
         [HttpGet]
         [Route("getDetails")]
@@ -37,13 +35,14 @@ namespace API.Controllers
         [Route("create")]
         public IActionResult Create(UserVM userVM)
         {
-            userVM.Password = _randomPasswordGenerator.RandomPassword();
+            userVM.Password = _randomPasswordGenerator.Generate();
+            
             //START Send Create Mail
             _sendMailService.SendCreateUserMail(userVM);
             //END Send Create Mail
 
             #region Encrypt password
-            userVM.Password = CipherCode.EncodeBase64(userVM.Password);
+            userVM.Password = userVM.Password.Encrypt();
             #endregion 
             CurrentResponse response = _userService.Create(userVM);
             

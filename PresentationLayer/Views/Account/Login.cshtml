@@ -11,27 +11,28 @@
     <title>Flight Schedule Management</title>
     <partial name="AdminPortal/_Styles" />
 </head>
-<body class="login-page" style="min-height: 322.8px; background-image: url('https://wallpaperaccess.com/full/703222.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
+<body class="login-page" style="min-height: 322.8px; background-image: url('/img/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; ">
+   
     <div class="login-box">
         <div class="login-logo">
         </div>
         <!-- /.login-logo -->
         <div class="card" style="background-color: #ffffff94;">
-            <div class="card-body login-card-body">
+            <div class="card-body login-card-body" style="background: rgb(250 250 250 / 5%);">
                 <h3 class="text-center">Login</h3>
                 @using (Html.BeginForm("login", "/account", FormMethod.Post, new { id = "login" }))
                 {
-    <div style="margin-bottom:20px">
-        <div class="input-group">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
-                </div>
-            </div>
-        </div>
-        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-    </div>
+                    <div style="margin-bottom:20px">
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
 
                     <div style="margin-bottom:20px">
                         <div class="input-group">
@@ -46,11 +47,11 @@
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                     </div>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                                        </div>
-                                    </div>}
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                    </div>}
 
                 <br />
                 <div class="row">

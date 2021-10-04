@@ -4,11 +4,11 @@ namespace ViewModels.VM
 {
     public class LoginVM
     {
-        [Required]
+        [Required(ErrorMessage = "The email field is required.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The password field is required.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

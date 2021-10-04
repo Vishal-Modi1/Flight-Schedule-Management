@@ -6,8 +6,6 @@ using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -141,14 +139,14 @@ namespace PresentationLayer.Controllers
 
             if (userVM.Id == 0)
             {
-                CurrentResponse emailExist =  await IsEmailExistAsync(userVM.Email);
+                //string emailExist = await IsEmailExistAsync(userVM.Email);
 
-                if (emailExist.Data == "true")
-                {
-                    userVM = await GetDetailsAsync(0);
-                    ModelState.AddModelError("Email", "Email Already Exist");
-                    return PartialView(userVM);
-                }
+                //if (emailExist == "true")
+                //{
+                //    userVM = await GetDetailsAsync(0);
+                //    ModelState.AddModelError("Email", "Email Already Exist");
+                //    return PartialView(userVM);
+                //}
             }
 
             string url = "user/create";
@@ -172,9 +170,11 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public async Task<CurrentResponse> IsEmailExistAsync(string email)
+        public async Task<ActionResult> IsEmailExistAsync(string email)
         {
-            return await _httpCaller.GetAsync($"user/isemailexist?email={email}");
+            CurrentResponse response = await _httpCaller.GetAsync($"user/isemailexist?email={email}");
+
+            return Json(response.Data);
         }
 
         [HttpGet]

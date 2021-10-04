@@ -1,11 +1,9 @@
-﻿using API.Utilities;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
-using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +32,11 @@ namespace PresentationLayer.Controllers
         public IActionResult Login()
         {
             string callBackResponse = TempData.Count > 0 && TempData["response"] != null ? TempData["response"].ToString() : "";
+            
             if (!string.IsNullOrEmpty(callBackResponse)) {
                 ViewBag.response = JsonConvert.DeserializeObject<CurrentResponse>(callBackResponse);
             }
+
             string userName = HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Name)
                                .Select(c => c.Value).SingleOrDefault();
 
@@ -49,7 +49,7 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM loginVM)
+        public async Task<IActionResult> LoginAsync(LoginVM loginVM)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVM)
+        public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordVM forgotPasswordVM)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        public async Task<IActionResult> ResetPasswordAsync(ResetPasswordVM resetPasswordVM)
         {
             if (ModelState.IsValid)
             {

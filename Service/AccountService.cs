@@ -24,7 +24,7 @@ namespace Service
                 if (user != null && user.Id > 0)
                     CreateResponse(user, HttpStatusCode.OK, "User is valid");
                 else
-                    CreateResponse(null, HttpStatusCode.NotFound, "User is not valid");
+                    CreateResponse(null, HttpStatusCode.NotFound, "Invalid Credentials");
 
                 return _currentResponse;
             }

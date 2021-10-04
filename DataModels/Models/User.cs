@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DataModels.Models
 {
@@ -9,10 +8,11 @@ namespace DataModels.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public Nullable<bool> IsSendEmailInvite { get; set; }
+        public bool IsSendEmailInvite { get; set; }
+        public bool IsSendTextMessage { get; set; }
         public string Phone { get; set; }
         public int RoleId { get; set; }
-        public Nullable<bool> IsInstructor { get; set; }
+        public bool IsInstructor { get; set; }
         public Nullable<int> InstructorTypeId { get; set; }
         public string CompanyName { get; set; }
         public string ExternalId { get; set; }
@@ -20,8 +20,8 @@ namespace DataModels.Models
         public string Gender { get; set; }
         public Nullable<int> CountryId { get; set; }
         public string Password { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }

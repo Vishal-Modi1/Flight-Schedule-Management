@@ -32,7 +32,7 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginVM loginVM)
         {
-            loginVM.Password = CipherCode.EncodeBase64(loginVM.Password);
+            loginVM.Password = loginVM.Password.Encrypt();
             CurrentResponse response = _accountService.GetValidUser(loginVM);//try now 
 
             UserVM user = JsonConvert.DeserializeObject<UserVM>(response.Data);
@@ -95,9 +95,10 @@ namespace API.Controllers
         public IActionResult ForgotPassword(ForgotPasswordVM forgotPasswordVM)
         {
             CurrentResponse response = new CurrentResponse();
+           
             if (ModelState.IsValid)
             {
-                var encryptMail = CipherCode.EncodeBase64(forgotPasswordVM.Email).Replace("=","-");
+                var encryptMail = forgotPasswordVM.Email.Encrypt().Replace("=","-");
                 if (!string.IsNullOrEmpty(encryptMail))
                 {
                     var url = forgotPasswordVM.ResetURL + encryptMail;
@@ -105,6 +106,7 @@ namespace API.Controllers
                     return Ok(response);
                 }
             }
+
             return Ok(response);
         }
 
@@ -114,16 +116,18 @@ namespace API.Controllers
         public IActionResult ResetPassword(ResetPasswordVM model)
         {
             CurrentResponse response = new CurrentResponse();
+           
             if (ModelState.IsValid)
             {
-                model.Token = CipherCode.DecodeBase64(model.Token.Replace("-", "="));
-                model.Password = CipherCode.EncodeBase64(model.Password);
+                model.Token = model.Token.Replace("-", "=").Decrypt();
+                model.Password = model.Password.Encrypt();
                 if (!string.IsNullOrEmpty(model.Token))
                 {
                     response = _userService.ResetPassword(model);//try now 
                     return Ok(response);
                 }
             }
+
             return Ok(response);
         }
     }
