@@ -1,70 +1,102 @@
 ﻿using Configuration;
 using DataModels.Constants;
 using DataModels.Models;
-using Microsoft.Extensions.Configuration;
 using Repository.Interface;
 using Service.Interface;
+using Service.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using ViewModels.Models;
 using ViewModels.VM;
 
 namespace Service
 {
-    public class SendMailService : BaseService,ISendMailService
+    public class SendMailService : BaseService, ISendMailService
     {
-		private readonly IConfiguration _config;
-		private readonly ISendMailRepository _sendMailRepository;
-		private readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IEmailTokenRepository _emailTokenRepository;
         private readonly MailSettingConfig _mailSettingConfig;
+        private readonly ConfigurationSettings _configurationSettings;
+        private readonly MailSender _mailSender;
 
-        public SendMailService(IConfiguration config, ISendMailRepository sendMailRepository, IUserRepository userRepository)
-		{
-			_config = config;
-			_sendMailRepository = sendMailRepository;
+        public SendMailService(IUserRepository userRepository, IEmailTokenRepository emailTokenRepository)
+        {
             _userRepository = userRepository;
+            _emailTokenRepository = emailTokenRepository;
             _mailSettingConfig = MailSettingConfig.Instance;
-
+            _configurationSettings = ConfigurationSettings.Instance;
+            _mailSender = new MailSender();
         }
 
-        public bool SendCreateUserMail(UserVM userVM)
-        {
-			try
-			{
-				var UserRegistrationMail = GetEmailTemplate(Constants.UserSignInTemplate);
-				UserRegistrationMail = UserRegistrationMail.Replace("{name}", userVM.FirstName + " " + userVM.LastName);
-				UserRegistrationMail = UserRegistrationMail.Replace("{username}", userVM.Email);
-				UserRegistrationMail = UserRegistrationMail.Replace("{password}", userVM.Password);
-				_sendMailRepository.SendMail(_mailSettingConfig.SMTP_HOST, _mailSettingConfig.SMTP_PORT, _mailSettingConfig.SMTP_CREDENTIALS, _mailSettingConfig.SMTP_CREDENTIALS_PASSKEY, userVM.Email, "Sign In" , UserRegistrationMail, "","");
-
-				return true;
-			}
-			catch (Exception ex)
-			{
-				return false;
-			}
-		}
-
-        public CurrentResponse PasswordReset(string Email, string Url)
+        public bool NewUserAccountActivation(UserVM userVM, string token)
         {
             try
             {
-                if (!string.IsNullOrEmpty(Email))
+                string newUserAccountActivationMailBody = GetEmailTemplate(EmailTemplate.NewUserAccountActivationTemplate);
+                newUserAccountActivationMailBody = newUserAccountActivationMailBody.Replace("{name}", userVM.FirstName + " " + userVM.LastName);
+                newUserAccountActivationMailBody = newUserAccountActivationMailBody.Replace("{username}", userVM.Email);
+                newUserAccountActivationMailBody = newUserAccountActivationMailBody.Replace("{password}", userVM.Password);
+                newUserAccountActivationMailBody = newUserAccountActivationMailBody.Replace("{link}", $"{userVM.ActivationLink}{token}");
+
+                User user = _userRepository.FindByCondition(p => p.Email == userVM.Email);
+
+                EmailToken emailToken = SaveEmailToken(EmailType.AccountActivation, token, user.Id);
+
+                if (emailToken.Id == 0)
                 {
-                    var user = _userRepository.IsEmailExist(Email);
-                    if (user)
+                    return false;
+                }
+
+                MailSettings mailSettings = GetMailSettings(userVM.Email, "Account Activation", newUserAccountActivationMailBody, "");
+
+                bool isMailSent = _mailSender.SendMail(mailSettings);
+
+                return isMailSent;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public CurrentResponse PasswordReset(string email, string url, string token)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(email))
+                {
+                    User user = _userRepository.FindByCondition(p => p.Email == email && p.IsDeleted != true);
+
+                    if (user == null)
                     {
-                        var Mail = GetEmailTemplate(Constants.ForgotPasswordTemplate);
-                        Mail = Mail.Replace("{Link}", Url);
-                        _sendMailRepository.SendMail(_mailSettingConfig.SMTP_HOST, _mailSettingConfig.SMTP_PORT, _mailSettingConfig.SMTP_CREDENTIALS, _mailSettingConfig.SMTP_CREDENTIALS_PASSKEY, Email, "Password Reset", Mail, "", "");
-                       
-                        CreateResponse(user, HttpStatusCode.OK, "Mail sent successfully");
+                        CreateResponse(false, HttpStatusCode.NotFound, "Email is not exist");
                         return _currentResponse;
                     }
+
+                    string body = GetEmailTemplate(EmailTemplate.ForgotPasswordTemplate);
+                    body = body.Replace("{Link}", url);
+
+                    MailSettings mailSettings = GetMailSettings(email, "Password Reset", body, "");
+                    bool isMailSent = _mailSender.SendMail(mailSettings);
+
+                    EmailToken emailToken = SaveEmailToken(EmailType.ForgotPassword, token, user.Id);
+
+                    if (emailToken.Id == 0)
+                    {
+                        CreateResponse(false, HttpStatusCode.NotFound, "Something went wrong. Please try again later.");
+                        return _currentResponse;
+                    }
+
+                    if (!isMailSent)
+                    {
+                        CreateResponse(false, HttpStatusCode.NotFound, "Something went wrong. Please try again later.");
+                        return _currentResponse;
+                    }
+
+                    CreateResponse(true, HttpStatusCode.OK, "Mail sent successfully");
+
+                    return _currentResponse;
                 }
             }
             catch (Exception ex)
@@ -72,6 +104,7 @@ namespace Service
                 CreateResponse(ex, HttpStatusCode.InternalServerError, ex.Message);
                 return _currentResponse;
             }
+
             return _currentResponse;
         }
 
@@ -79,14 +112,47 @@ namespace Service
         {
             try
             {
-                var file = Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates",templateName);
-                return System.IO.File.ReadAllText(file);
+                var file = Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates", templateName);
 
+                return System.IO.File.ReadAllText(file);
             }
             catch (Exception ex)
             {
                 return null;
             }
+        }
+
+        private MailSettings GetMailSettings(string email, string subject, string body, string cc)
+        {
+            MailSettings mailSettings = new MailSettings();
+
+            mailSettings.Host = _mailSettingConfig.Host;
+            mailSettings.Port = _mailSettingConfig.Port;
+            mailSettings.From = _mailSettingConfig.FromEmail;
+            mailSettings.Password = _mailSettingConfig.Password;
+            mailSettings.To = email;
+            mailSettings.Subject = subject;
+            mailSettings.Body = body;
+            mailSettings.IsBodyHTML = true;
+            mailSettings.IsEnableSSL = true;
+            mailSettings.CC = "";
+
+            return mailSettings;
+        }
+
+        private EmailToken SaveEmailToken(string emailType, string token, int userId)
+        {
+            EmailToken emailToken = new EmailToken();
+
+            emailToken.EmailType = emailType;
+            emailToken.ExpireOn = DateTime.UtcNow.AddDays(_configurationSettings.EmailTokenExpirationDays);
+            emailToken.CreatedOn = DateTime.UtcNow;
+            emailToken.Token = token;
+            emailToken.UserId = userId;
+
+            emailToken = _emailTokenRepository.Create(emailToken);
+
+            return emailToken;
         }
     }
 }

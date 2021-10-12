@@ -105,8 +105,7 @@ namespace API
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IInstructorTypeRepository, InstructorTypeRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<ISendMailRepository, SendMailRepository>();
-
+            services.AddScoped<IEmailTokenRepository, EmailTokenRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

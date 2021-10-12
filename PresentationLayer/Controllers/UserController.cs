@@ -156,6 +156,7 @@ namespace PresentationLayer.Controllers
                 url = "user/edit";
             }
 
+            userVM.ActivationLink = Request.Scheme + "://" + Request.Host + "/Account/ActivateAccount?Token=";
             string jsonData = JsonConvert.SerializeObject(userVM);
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
 

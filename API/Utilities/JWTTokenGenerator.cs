@@ -5,8 +5,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Configuration;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
 
 namespace API.Utilities
 {

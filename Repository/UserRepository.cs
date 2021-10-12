@@ -2,8 +2,10 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using ViewModels.VM;
 
 namespace Repository
@@ -64,27 +66,33 @@ namespace Repository
                 return _myContext.Users.Where(p => p.Email == email && p.IsDeleted != true).Count() > 0;
             }
         }
+
         public bool ResetUserPassword(ResetPasswordVM resetPasswordVM)
         {
-
             using (_myContext = new MyContext())
             {
-                User user = _myContext.Users.Where(p => p.Email == resetPasswordVM.Token).FirstOrDefault();
+                User user = (from u in _myContext.Users
+                             join token in _myContext.EmailTokens
+                             on u.Id equals token.UserId
+                             where token.Token == resetPasswordVM.Token
+                             select u).FirstOrDefault();
+               
                 if (user != null)
                 {
                     user.Password = resetPasswordVM.Password;
                     _myContext.SaveChanges();
                     return true;
                 }
+
                 return false;
             }
         }
 
-        public User FindById(int id)
+        public User FindByCondition(Expression<Func<User, bool>> predicate)
         {
             using (_myContext = new MyContext())
             {
-                return _myContext.Users.Where(p => p.Id == id && p.IsDeleted != true).FirstOrDefault();
+                return _myContext.Users.Where(predicate).FirstOrDefault();
             }
         }
 

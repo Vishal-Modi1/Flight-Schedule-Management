@@ -15,12 +15,14 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly ISendMailService _sendMailService;
         private readonly RandomPasswordGenerator _randomPasswordGenerator;
+        private readonly RandomTextGenerator _randomTextGenerator;
 
         public UserController(IUserService userService, ISendMailService sendMailService)
         {
             _userService = userService;
             _sendMailService = sendMailService;
             _randomPasswordGenerator = new RandomPasswordGenerator();
+            _randomTextGenerator = new RandomTextGenerator();
         }
 
         [HttpGet]
@@ -35,17 +37,21 @@ namespace API.Controllers
         [Route("create")]
         public IActionResult Create(UserVM userVM)
         {
-            userVM.Password = _randomPasswordGenerator.Generate();
-            
-            //START Send Create Mail
-            _sendMailService.SendCreateUserMail(userVM);
-            //END Send Create Mail
+            string password = _randomPasswordGenerator.Generate();
 
-            #region Encrypt password
-            userVM.Password = userVM.Password.Encrypt();
-            #endregion 
+            userVM.Password = password.Encrypt();
             CurrentResponse response = _userService.Create(userVM);
-            
+
+            if (response.Status == System.Net.HttpStatusCode.OK)
+            {
+                string tokenString = _randomTextGenerator.Generate();
+                string token = tokenString.Encrypt().Replace("=", "-");
+
+                userVM.Password = password;
+
+                _sendMailService.NewUserAccountActivation(userVM, token);
+            }
+
             return Ok(response);
         }
 

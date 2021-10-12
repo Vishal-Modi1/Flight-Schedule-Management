@@ -1,12 +1,7 @@
 ﻿using DataModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ViewModels.VM;
 
 namespace Repository
@@ -49,6 +44,7 @@ namespace Repository
 
         public DbSet<UserSearchList> UserSearchLists { get; set; }
 
+        public DbSet<EmailToken> EmailTokens { get; set; }
     }
 
 }

@@ -1,7 +1,5 @@
 ﻿@model ViewModels.VM.UserVM
-@{
-    //List<SelectListItem> userRolesList =  new List<SelectListItem>() { new SelectListItem() { Text = Model.UserRoles. } }
-}
+
 <div class="card-body" style="margin-right:-100px">
     @using (Html.BeginForm("create", "user", FormMethod.Post, new { id = "createuser" }))
     {
@@ -30,6 +28,7 @@
             <div class="col-sm-5">
                 <!-- text input -->
                 <div class="form-group">
+
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
 
                     @if (Model.Id > 0)
@@ -40,7 +39,9 @@
                     {
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
                     }
+
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
                 </div>
             </div>
             <div class="col-sm-5 my-auto">
@@ -55,7 +56,7 @@
 
 
 
-        <div class="row">
+        <div class="row" style="height:109px;">
 
             <div class="col-sm-5 my-auto">
                 <!-- text input -->
@@ -118,39 +119,18 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-5" style="padding-top:28px">
-                <!-- text input -->
-                <div class="form-group">
-
-                    @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
-                    <input type="checkbox" name="IsSendEmailInvite" id="IsSendEmailInvite" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
-
-                    @*@Html.EditorFor(model => model.IsSendEmailInvite, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.ValidationMessageFor(model => model.IsSendEmailInvite, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-sm-5" style="padding-top:28px">
-                <!--<div class="form-group">
-                @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-6" })-->
-                @*@Html.DropDownListFor(model => model.RoleId, )*@
-                @*@Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })*@
-                <!--@Html.DropDownListFor(model => model.RoleId, new SelectList(Model.UserRoles, "Id", "Name"), "Select Role", new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-                </div>-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IsSendTextMessage, htmlAttributes: new { @class = "control-label col-md-7" })
-                    <input type="checkbox" name="IsSendTextMessageSwitch" id="IsSendTextMessageSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
-
-                    @Html.HiddenFor(model => model.IsSendTextMessage)
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
 
             <div class="col-sm-5">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.UserRoles, "Id", "Name"), "Select Role", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-5" style="padding-top:35px">
                 <div class="form-group clearfix">
                     <label class="control-label col-md-3">Gender : </label>
 
@@ -183,76 +163,96 @@
                             Female
                         </label>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5" style="padding-top:28px">
+                <!-- text input -->
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
+                    <input type="checkbox" name="IsSendEmailInviteSwitch" id="IsSendEmailInviteSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+                    @Html.HiddenFor(model => model.IsSendEmailInvite)
 
                 </div>
             </div>
 
-            @*<div class="col-sm-5">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+            <div class="col-sm-5" style="padding-top:28px">
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.IsSendTextMessage, htmlAttributes: new { @class = "control-label col-md-7" })
+                    <input type="checkbox" name="IsSendTextMessageSwitch" id="IsSendTextMessageSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
+                    @Html.HiddenFor(model => model.IsSendTextMessage)
+
+                </div>
+            </div>
         </div>
 
         <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="button" id="btnsubmit" class="btn btn-primary">Save changes</button>
-                @*<button type="submit" class="btn btn-primary btn-block">Sign In</button>*@
                 <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     }
 
-</div>
+    <div class="modal" style="display: none">
+        <div class="center">
+            <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
+        </div>
+    </div>
 
+</div>
 
 <script>
 
-    $(function () {
+        $(function () {
 
-      $('#DateofBirth').datepicker({
-            weekStart: 1,
-            daysOfWeekHighlighted: "6,0",
-            autoclose: true,
-            todayHighlight: true,
-            format: 'dd/mm/yyyy'
-        });
+          $('#DateofBirth').datepicker({
+                weekStart: 1,
+                daysOfWeekHighlighted: "6,0",
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy'
+            });
 
-        // $('#DateofBirth').datepicker("setDate", new Date());
+            // $('#DateofBirth').datepicker("setDate", new Date());
 
-        $("input[data-bootstrap-switch]").each(function () {
-            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            $("input[data-bootstrap-switch]").each(function () {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            })
+
+            if ('@Model.Id' > 0) {
+
+                $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
+                $('#IsSendEmailInviteSwitch').bootstrapSwitch('state', @Model.IsSendEmailInvite.ToString().ToLower());
+                $('#IsSendTextMessageSwitch').bootstrapSwitch('state', @Model.IsSendTextMessage.ToString().ToLower());
+                SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
+
+            }
+            //  $('#IsInstructor').val(true)
+
+            $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
+
+                SetIsInstructorValue(data);
+            });
+
+            function SetIsInstructorValue(data) {
+                if (data == false) {
+
+                    $('#instructorTypeDiv').css('display', 'none')
+                    $('#IsInstructor').val(false)
+                }
+
+                else {
+                    $('#instructorTypeDiv').css('display', 'block')
+                    $('#IsInstructor').val(true)
+                }
+            }
+
         })
-
-        if ('@Model.Id' > 0) {
-
-            $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
-            SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
-
-        }
-        //  $('#IsInstructor').val(true)
-
-        $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
-
-            SetIsInstructorValue(data);
-        });
-
-        function SetIsInstructorValue(data) {
-            if (data == false) {
-
-                $('#instructorTypeDiv').css('display', 'none')
-                $('#IsInstructor').val(false)
-            }
-
-            else {
-                $('#instructorTypeDiv').css('display', 'block')
-                $('#IsInstructor').val(true)
-            }
-        }
-
-    })
 </script>
 

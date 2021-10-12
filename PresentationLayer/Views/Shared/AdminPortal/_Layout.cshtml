@@ -32,10 +32,12 @@
                 <div class="container-fluid">
                     @RenderBody()
 
-                   
                     <div class="loader" style="display:none" id="loader">
-                        
+                        @*<div class="center">
+                            <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
+                        </div>*@
                     </div>
+
                     <style>
                         .loader {
                             position: fixed;
@@ -44,8 +46,7 @@
                             width: 100%;
                             height: 100%;
                             z-index: 9999;
-                           
-                            background: url('/img/Loader/loader.gif') 50% 50% no-repeat;
+                            background: url('https://www.aspsnippets.com/demos/loader4.gif') 50% 50% no-repeat;
                         }
                     </style>
                     @*Create Modal*@
@@ -61,7 +62,7 @@
                                 <div class="modal-body" id="create-modal-body">
                                     <p>One fine body&hellip;</p>
                                 </div>
-                                
+
                             </div>
                             <!-- /.modal-content -->
                         </div>

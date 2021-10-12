@@ -174,7 +174,8 @@
 
         //  var isInstructor = $('#IsInstructorSwitch').prop('checked');
         $('#IsInstructor').val($('#IsInstructorSwitch').prop('checked'))
-        $('#IsSendEmailInvite').val($('#IsSendEmailInvite').prop('checked'))
+        $('#IsSendEmailInvite').val($('#IsSendEmailInviteSwitch').prop('checked'))
+        $('#IsSendTextMessage').val($('#IsSendTextMessageSwitch').prop('checked'))
 
         var data = $("#createuser").serializeObject();
 

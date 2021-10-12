@@ -61,6 +61,7 @@ namespace PresentationLayer.Controllers
                     await AddCookieAsync(response.Data);
                     return RedirectToAction("Index", "Home");
                 }
+
                 ViewBag.response = response;
             }
 
@@ -72,7 +73,7 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "/Account");
+            return RedirectToAction("Login", "Account");
         }
 
         private async Task AddCookieAsync(string response)
@@ -113,8 +114,10 @@ namespace PresentationLayer.Controllers
                 if (response.Status == System.Net.HttpStatusCode.OK)
                 {
                     TempData["response"] = JsonConvert.SerializeObject(response);
-                    return RedirectToAction("Login", "/Account");
+                    return RedirectToAction("Login", "Account");
                 }
+
+                ViewBag.response = response;
             }
 
             return View(forgotPasswordVM);
@@ -122,14 +125,27 @@ namespace PresentationLayer.Controllers
 
 
         [HttpGet]
-        public IActionResult ResetPassword([FromQuery(Name = "Token")] string Token)
+        public async Task<IActionResult> ResetPasswordAsync([FromQuery(Name = "Token")] string token)
         {
-            if (string.IsNullOrEmpty(Token)) {
-                return RedirectToAction("Login", "/Account");
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Login", "Account");
             }
-            ResetPasswordVM ResetPasswordVM = new ResetPasswordVM();
-            ResetPasswordVM.Token = Token;
-            return View(ResetPasswordVM);
+
+            ResetPasswordVM resetPasswordVM = new ResetPasswordVM();
+
+            CurrentResponse response = await _httpCaller.GetAsync($"Account/validatetoken?token={token}");
+
+            if (response != null && response.Status == System.Net.HttpStatusCode.OK && Convert.ToBoolean(response.Data) == false)
+            {
+                ViewBag.response = JsonConvert.SerializeObject(Convert.ToBoolean(response.Data));
+            }
+            else
+            {
+                resetPasswordVM.Token = token;
+            }
+
+            return View(resetPasswordVM);
         }
 
         [HttpPost]
@@ -137,17 +153,39 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
+                CurrentResponse response = await _httpCaller.GetAsync($"Account/validatetoken?token={resetPasswordVM.Token}");
+
+                if (response != null && response.Status == System.Net.HttpStatusCode.OK)
+                {
+                    ViewBag.response = JsonConvert.SerializeObject(Convert.ToBoolean(response.Data));
+
+                    if (response.Data == "false")
+                    {
+                        return View(resetPasswordVM);
+                    }
+                }
+
                 string jsonData = JsonConvert.SerializeObject(resetPasswordVM);
-                var response = await _httpCaller.PostAsync("Account/resetpassword", jsonData);
+                response = await _httpCaller.PostAsync("Account/resetpassword", jsonData);
 
                 if (response != null && response.Status == System.Net.HttpStatusCode.OK && Convert.ToBoolean(response.Data) == true)
                 {
                     TempData["response"] = JsonConvert.SerializeObject(response);
-                    return RedirectToAction("Login", "/Account");
+                    return RedirectToAction("Login", "Account");
                 }
             }
 
             return View(resetPasswordVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ActivateAccountAsync(string token)
+        {
+            CurrentResponse response = await _httpCaller.GetAsync($"account/activateaccount?token={token}");
+
+            ViewBag.response = response.Data;
+
+            return View();
         }
     }
 }

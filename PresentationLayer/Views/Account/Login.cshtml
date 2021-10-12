@@ -11,7 +11,7 @@
     <title>Flight Schedule Management</title>
     <partial name="AdminPortal/_Styles" />
 </head>
-<body class="login-page" style="min-height: 322.8px; background-image: url('/img/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; ">
+<body class="login-page" style="min-height: 322.8px; background-image: url('/img/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; background-size:cover ">
    
     <div class="login-box">
         <div class="login-logo">
@@ -19,8 +19,8 @@
         <!-- /.login-logo -->
         <div class="card" style="background-color: #ffffff94;">
             <div class="card-body login-card-body" style="background: rgb(250 250 250 / 5%);">
-                <h3 class="text-center">Login</h3>
-                @using (Html.BeginForm("login", "/account", FormMethod.Post, new { id = "login" }))
+                <h3 class="text-center" style="margin-bottom:25px">Login</h3>
+                @using (Html.BeginForm("login", "account", FormMethod.Post, new { id = "login" }))
                 {
                     <div style="margin-bottom:20px">
                         <div class="input-group">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block buttonload">Sign In</button>
                         </div>
                     </div>}
 
@@ -108,10 +108,10 @@
             }
         });
 
-
-
     });
+
 </script>
+
 @if (ViewBag.response != null)
 {
 <script>

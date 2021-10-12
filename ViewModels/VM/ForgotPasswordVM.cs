@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.VM
 {
     public class ForgotPasswordVM
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "The email field is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; }
+
         public string ResetURL { get; set; }
     }
 }

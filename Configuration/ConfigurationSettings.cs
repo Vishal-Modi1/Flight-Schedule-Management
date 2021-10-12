@@ -17,7 +17,6 @@ namespace Configuration
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("configuration.json", optional: true, reloadOnChange: true)
                     .Build();
-
         }
 
         public static ConfigurationSettings Instance
@@ -61,9 +60,11 @@ namespace Configuration
         {
             get => configuration.GetValue<string>("CookieName");
         }
-        public MailSettingConfig MailSetting
+
+        public int EmailTokenExpirationDays
         {
-            get => MailSettingConfig.Instance;
+            get => configuration.GetValue<int>("EmailTokenExpirationDays");
         }
+
     }
 }

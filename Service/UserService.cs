@@ -28,7 +28,7 @@ namespace Service
 
         public CurrentResponse GetDetails(int id)
         {
-            User user = _userRepository.FindById(id);
+            User user = _userRepository.FindByCondition(p => p.Id == id && p.IsDeleted != true);
             UserVM userVM = new UserVM();
 
             if (user != null)
@@ -105,9 +105,16 @@ namespace Service
         {
             try
             {
-                bool IsUserPasswordReset = _userRepository.ResetUserPassword(resetPasswordVM);
+                bool isUserPasswordReset = _userRepository.ResetUserPassword(resetPasswordVM);
 
-                CreateResponse(IsUserPasswordReset, HttpStatusCode.OK, "Password reset successfully");
+                if (isUserPasswordReset)
+                {
+                    CreateResponse(isUserPasswordReset, HttpStatusCode.OK, "Password reset successfully");
+                }
+                else
+                {
+                    CreateResponse(isUserPasswordReset, HttpStatusCode.OK, "Something went wrong. Try again later.");
+                }
 
                 return _currentResponse;
             }
@@ -233,7 +240,7 @@ namespace Service
             userDetails.ExternalId = user.ExternalId;
             userDetails.IsSendEmailInvite = user.IsSendEmailInvite;
             userDetails.Gender = user.Gender;
-
+            userDetails.IsSendTextMessage = user.IsSendTextMessage;
 
             return userDetails;
         }

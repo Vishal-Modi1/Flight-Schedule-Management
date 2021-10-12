@@ -112,3 +112,12 @@ function stopLoading() {
 $(document).ajaxError(function (event, request, settings) {
    // alert()
 });
+
+$("form").submit(function () {
+
+    if ($(this).valid()) {
+
+        $(this).find(":submit").attr('disabled', 'disabled');
+        $(this).find(":submit").html('<i class="fa fa-spinner fa-spin fa-lg"></i>')
+    }
+});

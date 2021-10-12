@@ -1,0 +1,77 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <title>Flight Schedule Management</title>
+    <partial name="AdminPortal/_Styles" />
+</head>
+<body class="login-page" style="min-height: 322.8px; background-image: url('/img/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; background-size:cover ">
+
+    <div class="login-box">
+        <div class="login-logo">
+        </div>
+
+        <partial name="AdminPortal/_Scripts" />
+    </div>
+
+    <div class="modal fade" id="account-activate-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header btn-primary" style="height:53px;">
+                    <h5 class="info-modal-title" id="info-modal-title">Account activated</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <p> Your account has been activated. Please go to <a asp-controller="account" asp-action="login">Login</a>  </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="account-activate-fail-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger" style="height:53px">
+                    <h5 class="delete-modal-title" id="delete-modal-title">Account activation failed</h5>
+                    <button type="button" class="close closeDeleteModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your token is invalid or has been expired. Please contact to administrator. </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    if ('@ViewBag.response' == 'true')
+    {
+        $('#account-activate-modal').modal('toggle');
+    }
+    else
+    {
+        $('#account-activate-fail-modal').modal('toggle');
+    }
+
+</script>
+

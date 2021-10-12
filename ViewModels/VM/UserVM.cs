@@ -61,6 +61,8 @@ namespace ViewModels.VM
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
 
+        public string ActivationLink { get; set; }
+
         public List<UserRoleVM> UserRoles { get; set; }
         public List<InstructorTypeVM> InstructorTypes { get; set; }
         public List<CountryVM> Countries { get; set; }

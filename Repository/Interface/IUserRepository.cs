@@ -1,5 +1,7 @@
 ﻿using DataModels.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using ViewModels.VM;
 
 namespace Repository.Interface
@@ -10,7 +12,7 @@ namespace Repository.Interface
 
         bool IsEmailExist(string email);
 
-        User FindById(int id);
+        User FindByCondition(Expression<Func<User, bool>> predicate);
 
         User Edit(User user);
 

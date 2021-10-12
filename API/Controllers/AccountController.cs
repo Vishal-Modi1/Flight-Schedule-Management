@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Interface;
+using System;
 using System.Collections.Generic;
 using ViewModels.VM;
 
@@ -13,11 +14,12 @@ namespace API.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-       
+
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly ISendMailService _sendMailService;
         private readonly JWTTokenGenerator _jWTTokenGenerator;
+        private readonly RandomTextGenerator _randomTextGenerator;
 
         public AccountController(IAccountService accountService, IUserService userService, ISendMailService sendMailService)
         {
@@ -25,6 +27,7 @@ namespace API.Controllers
             _userService = userService;
             _sendMailService = sendMailService;
             _jWTTokenGenerator = new JWTTokenGenerator();
+            _randomTextGenerator = new RandomTextGenerator();
         }
 
         [HttpPost]
@@ -36,7 +39,8 @@ namespace API.Controllers
             CurrentResponse response = _accountService.GetValidUser(loginVM);//try now 
 
             UserVM user = JsonConvert.DeserializeObject<UserVM>(response.Data);
-            if (user != null) {
+            if (user != null)
+            {
                 List<string> getRoles(int RoleId)
                 {
                     List<string> roles = new List<string>();
@@ -68,7 +72,7 @@ namespace API.Controllers
                     return roles;
                 }
 
-                var accessToken = _jWTTokenGenerator.Generate(user.Email, getRoles(user.RoleId));
+                string accessToken = _jWTTokenGenerator.Generate(user.Email, getRoles(user.RoleId));
 
                 LoginResponseVM loginResponseVM = new LoginResponseVM();
 
@@ -86,6 +90,7 @@ namespace API.Controllers
 
                 return Ok(response);
             }
+
             return Ok(response);
         }
 
@@ -95,14 +100,16 @@ namespace API.Controllers
         public IActionResult ForgotPassword(ForgotPasswordVM forgotPasswordVM)
         {
             CurrentResponse response = new CurrentResponse();
-           
+
             if (ModelState.IsValid)
             {
-                var encryptMail = forgotPasswordVM.Email.Encrypt().Replace("=","-");
-                if (!string.IsNullOrEmpty(encryptMail))
+                string tokenString = _randomTextGenerator.Generate();
+                string token = tokenString.Encrypt().Replace("=", "-");
+
+                if (!string.IsNullOrEmpty(token))
                 {
-                    var url = forgotPasswordVM.ResetURL + encryptMail;
-                    response = _sendMailService.PasswordReset(forgotPasswordVM.Email, url);
+                    var url = forgotPasswordVM.ResetURL + token;
+                    response = _sendMailService.PasswordReset(forgotPasswordVM.Email, url, token);
                     return Ok(response);
                 }
             }
@@ -116,10 +123,10 @@ namespace API.Controllers
         public IActionResult ResetPassword(ResetPasswordVM model)
         {
             CurrentResponse response = new CurrentResponse();
-           
+
             if (ModelState.IsValid)
             {
-                model.Token = model.Token.Replace("-", "=").Decrypt();
+                model.Token = model.Token;
                 model.Password = model.Password.Encrypt();
                 if (!string.IsNullOrEmpty(model.Token))
                 {
@@ -127,6 +134,30 @@ namespace API.Controllers
                     return Ok(response);
                 }
             }
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("validatetoken")]
+        [AllowAnonymous]
+        public IActionResult ValidateToken(string token)
+        {
+            CurrentResponse response = new CurrentResponse();
+
+            response = _accountService.IsValidToken(token);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("activateaccount")]
+        [AllowAnonymous]
+        public IActionResult ActivateAccount(string token)
+        {
+            CurrentResponse response = new CurrentResponse();
+
+            response = _accountService.ActivateAccount(token);
 
             return Ok(response);
         }
