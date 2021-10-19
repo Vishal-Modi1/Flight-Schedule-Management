@@ -85,6 +85,7 @@ namespace PresentationLayer.Controllers
                   new Claim(ClaimTypes.Name, loginResponse.FirstName),
                   new Claim(ClaimTypes.Email, loginResponse.Email),
                   new Claim("AcessToken", loginResponse.AccessToken),
+                  new Claim("Id", loginResponse.Id.ToString()),
              };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");

@@ -45,7 +45,6 @@ namespace Service
             return _currentResponse;
         }
 
-
         public CurrentResponse Create(UserVM userVM)
         {
             try

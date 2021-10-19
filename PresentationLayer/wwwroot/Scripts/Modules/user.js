@@ -196,22 +196,10 @@
 
             },
             error: function (data) {
-                //$('#create-modal-body').html(data.responseText)
-
-                //$('#IsInstructorSwitch').bootstrapSwitch('state', isInstructor);
-
-                //if (isInstructor == true) {
-
-                //    $('#instructorTypeDiv').css('display', 'block')
-                //    $('#IsInstructor').val(true)
-                //}
-
-                //else {
-                //    $('#instructorTypeDiv').css('display', 'none')
-                //    $('#IsInstructor').val(false)
-                //}
+                
             },
-            complete: function () {
+            complete: function ()
+            {
                 enableForm('createuser')
                 stopLoading();
             }

@@ -85,7 +85,8 @@ namespace API.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Phone = user.Phone,
-                    RoleId = user.RoleId
+                    RoleId = user.RoleId,
+                    Id = user.Id
                 });
 
                 return Ok(response);

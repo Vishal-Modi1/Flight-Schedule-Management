@@ -34,8 +34,8 @@
 
                     <div class="loader" style="display:none" id="loader">
                         @*<div class="center">
-                            <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
-                        </div>*@
+                <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
+            </div>*@
                     </div>
 
                     <style>
@@ -49,7 +49,8 @@
                             background: url('https://www.aspsnippets.com/demos/loader4.gif') 50% 50% no-repeat;
                         }
                     </style>
-                    @*Create Modal*@
+
+                    @*Full length Create Modal*@
                     <div class="modal fade" id="create-modal">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -62,11 +63,27 @@
                                 <div class="modal-body" id="create-modal-body">
                                     <p>One fine body&hellip;</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Create Modal*@
+                    <div class="modal fade" id="create-small-modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="create-small-modal-title">Large Modal</h4>
+                                    <button type="button" class="close closeSmallModal" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                              
+                                <div class="modal-body" id="create-small-body">
+                                 
+                                </div>
 
                             </div>
-                            <!-- /.modal-content -->
                         </div>
-                        <!-- /.modal-dialog -->
                     </div>
 
                     @*Delete Modal*@
@@ -127,7 +144,9 @@
         <partial name="AdminPortal/_Footer" />
     </div>
     <partial name="AdminPortal/_Scripts" />
+
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>
 

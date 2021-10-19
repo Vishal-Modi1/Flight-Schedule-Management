@@ -28,6 +28,30 @@ function openCreateModal(title, ajaxURL, fnCallBackAfterLoad) {
     });
 }
 
+function openSmallModal(title, ajaxURL, fnCallBackAfterLoad) {
+
+    $('#create-small-modal').modal('toggle')
+    $('#create-small-modal-title').text(title)
+
+    startLoading();
+
+    $.ajax({
+        url: ajaxURL,
+        type: 'GET',
+        success: function (data) {
+
+            $('#create-small-body').html(data)
+
+            fnCallBackAfterLoad();
+            //InjectClientsideValidation();
+
+        },
+        complete: function () {
+            stopLoading();
+        }
+    });
+}
+
 function InjectClientsideValidation() {
     $("form").removeData("validator");
     $("form").removeData("unobtrusiveValidation");
@@ -55,6 +79,12 @@ $(document).on('click', '.closeModal', function () {
     closeCreateModal();
 })
 
+$(document).on('click', '.closeSmallModal', function () {
+
+    closeSmallModal();
+
+})
+
 $(document).on('click', '.closeDeleteModal', function () {
 
     closeDeleteModal();
@@ -62,6 +92,10 @@ $(document).on('click', '.closeDeleteModal', function () {
 
 function closeCreateModal() {
     $('#create-modal').modal('toggle')
+}
+
+function closeSmallModal() {
+    $('#create-small-modal').modal('toggle')
 }
 
 function closeDeleteModal() {
@@ -113,11 +147,49 @@ $(document).ajaxError(function (event, request, settings) {
    // alert()
 });
 
-$("form").submit(function () {
+$("form").submit(function ()
+{
 
-    if ($(this).valid()) {
+    if ($(this).valid())
+    {
 
         $(this).find(":submit").attr('disabled', 'disabled');
         $(this).find(":submit").html('<i class="fa fa-spinner fa-spin fa-lg"></i>')
     }
+
+});
+
+$('#btnChangePassword').on('click', function () {
+
+    openSmallModal('Change Password', '/myaccount/changepassword')
+
+    //var data = $("#changePassword").serializeObject();
+
+    //disableForm('changePassword');
+    //startLoading();
+
+    //$.ajax({
+    //    url: "/myaccount/changepassword",
+    //    type: "POST",
+    //    data: data,
+    //    contentType: 'application/x-www-form-urlencoded',
+    //    dataType: "json",
+    //    success: function (data)
+    //    {
+
+    //        closeCreateModal();
+    //        toastr.success(data.message)
+    //        refreshTable()
+
+    //    },
+    //    error: function (data) {
+            
+    //    },
+    //    complete: function ()
+    //    {
+    //        enableForm('createuser')
+    //        stopLoading();
+    //    }
+    //});
+
 });

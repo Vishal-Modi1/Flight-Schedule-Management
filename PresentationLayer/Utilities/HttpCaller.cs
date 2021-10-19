@@ -35,7 +35,7 @@ namespace PresentationLayer.Utilities
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
                     _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken());
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetClaimValue("AcessToken"));
 
                     HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(apiURL);
                     CurrentResponse  response = JsonConvert.DeserializeObject<CurrentResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
@@ -60,7 +60,7 @@ namespace PresentationLayer.Utilities
                     _httpClient.BaseAddress = new Uri(apiURL);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
 
-                    _httpClient.DefaultRequestHeaders.Authorization =  new AuthenticationHeaderValue("Bearer", GetToken());
+                    _httpClient.DefaultRequestHeaders.Authorization =  new AuthenticationHeaderValue("Bearer", GetClaimValue("AcessToken"));
 
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                     HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(apiURL, content);
@@ -75,11 +75,11 @@ namespace PresentationLayer.Utilities
             }
         }
 
-        public string GetToken()
+        public string GetClaimValue(string claimType)
         {
             ClaimsPrincipal cp = _httpContext.User;
 
-            string token = cp.Claims.Where(c => c.Type == "AcessToken")
+            string token = cp.Claims.Where(c => c.Type == claimType)
                                .Select(c => c.Value).SingleOrDefault();
 
             return token;
