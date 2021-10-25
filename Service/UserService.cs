@@ -205,6 +205,8 @@ namespace Service
             user.ExternalId = userVM.ExternalId;
             user.IsSendEmailInvite = userVM.IsSendEmailInvite;
             user.IsSendTextMessage = userVM.IsSendTextMessage;
+            user.CreatedBy = userVM.CreatedBy;
+            user.UpdatedBy = userVM.UpdatedBy;
 
             user.Gender = userVM.Gender;
 

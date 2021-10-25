@@ -5,25 +5,30 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Configuration;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace API.Utilities
 {
     public class JWTTokenGenerator
     {
         private readonly ConfigurationSettings _configurationSettings;
+        private readonly HttpContext _httpContext;
 
-        public JWTTokenGenerator()
+        public JWTTokenGenerator(HttpContext httpContext)
         {
             _configurationSettings = ConfigurationSettings.Instance;
+            _httpContext = httpContext;
         }
 
-        public string Generate(string username, List<string> roles)
+        public string Generate(int id, string username, List<string> roles)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, username)
+                new Claim(ClaimTypes.NameIdentifier, username),
+                new Claim("Id", id.ToString()),
             };
 
             roles.ForEach(role =>
@@ -47,6 +52,16 @@ namespace API.Utilities
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GetClaimValue(string claimType)
+        {
+            ClaimsPrincipal cp = _httpContext.User;
+
+            string claimValue = cp.Claims.Where(c => c.Type == claimType)
+                               .Select(c => c.Value).SingleOrDefault();
+
+            return claimValue;
         }
     }
 }

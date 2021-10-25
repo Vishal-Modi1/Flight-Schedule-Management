@@ -47,6 +47,11 @@ namespace Repository
         public DbSet<EmailToken> EmailTokens { get; set; }
 
         public DbSet<InstructorTypeVM> InstructorTypeVM { get; set; }
+
+        public DbSet<AirCraft> AirCrafts { get; set; }
+
+        public DbSet<AirCraftVM> AirCraftVM { get; set; }
+
     }
 
 }

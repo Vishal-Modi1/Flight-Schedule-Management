@@ -1,16 +1,14 @@
 ﻿@using ViewModels.VM
 
-@{ 
-    
-    Menus menuList = new Menus();
+@{ Menus menuList = new Menus();
 
-    List<MenuItem> menuItems = new List<MenuItem>();
-    menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
-    menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
-    menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
-    menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
-    
-}
+                List<MenuItem> menuItems = new List<MenuItem>();
+                menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
+                menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
+                menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
+                menuItems.Add(new MenuItem { Controller = "Aircraft", Action = "Index", DisplayName = "Air Craft", FavIconStyle = "fas fa-plane nav-icon" });
+                menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
+    }
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -56,32 +54,32 @@
             <i class="@(menuItem.FavIconStyle)"></i>
             <p>@menuItem.DisplayName</p>
         </a>
-    </li> }
-                    else
-                    {
-    <li class="nav-item">
-        <a href="#" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == menuItem.Action && ViewContext.RouteData.Values["Controller"].ToString() == menuItem.Controller ? "active" : "")">
-            <i class="@(menuItem.FavIconStyle)"></i>
-            <p>
-                @(menuItem.DisplayName)
-                <i class="fas fa-angle-left right"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            @foreach (var submenu in menuItem.MenuItems)
-            {
+    </li>
+ }
+else
+{
+<li class="nav-item">
+    <a href="#" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == menuItem.Action && ViewContext.RouteData.Values["Controller"].ToString() == menuItem.Controller ? "active" : "")">
+        <i class="@(menuItem.FavIconStyle)"></i>
+        <p>
+            @(menuItem.DisplayName)
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        @foreach (var submenu in menuItem.MenuItems)
+        {
 <li class="nav-item">
     <a href="@Url.Action(submenu.Action, submenu.Controller)" class="nav-link">
         <i class="@(submenu.FavIconStyle)"></i>
         <p>@(submenu.DisplayName)</p>
     </a>
+</li>}
+    </ul>
 </li>
 }
-        </ul>
-    </li>        
-    }
 
-                }
+            }
 
             </ul>
         </nav>

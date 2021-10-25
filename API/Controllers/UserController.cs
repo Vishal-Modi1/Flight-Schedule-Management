@@ -1,7 +1,9 @@
 ﻿using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
+using System;
 using ViewModels.VM;
 
 namespace API.Controllers
@@ -16,13 +18,15 @@ namespace API.Controllers
         private readonly ISendMailService _sendMailService;
         private readonly RandomPasswordGenerator _randomPasswordGenerator;
         private readonly RandomTextGenerator _randomTextGenerator;
+        private readonly JWTTokenGenerator _jWTTokenGenerator;
 
-        public UserController(IUserService userService, ISendMailService sendMailService)
+        public UserController(IUserService userService, ISendMailService sendMailService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _sendMailService = sendMailService;
             _randomPasswordGenerator = new RandomPasswordGenerator();
             _randomTextGenerator = new RandomTextGenerator();
+            _jWTTokenGenerator = new JWTTokenGenerator(httpContextAccessor.HttpContext);
         }
 
         [HttpGet]
@@ -38,6 +42,8 @@ namespace API.Controllers
         public IActionResult Create(UserVM userVM)
         {
             string password = _randomPasswordGenerator.Generate();
+
+            userVM.CreatedBy = userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
 
             userVM.Password = password.Encrypt();
             CurrentResponse response = _userService.Create(userVM);
@@ -59,6 +65,8 @@ namespace API.Controllers
         [Route("edit")]
         public IActionResult Edit(UserVM userVM)
         {
+            userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+
             CurrentResponse response = _userService.Edit(userVM);
             return Ok(response);
         }

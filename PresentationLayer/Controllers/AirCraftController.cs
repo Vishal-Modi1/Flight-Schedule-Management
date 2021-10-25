@@ -10,11 +10,11 @@ using ViewModels.VM;
 
 namespace PresentationLayer.Controllers
 {
-    public class InstructorTypeController : Controller
+    public class AirCraftController : Controller
     {
         private readonly HttpCaller _httpCaller;
 
-        public InstructorTypeController(IHttpContextAccessor httpContextAccessor)
+        public AirCraftController(IHttpContextAccessor httpContextAccessor)
         {
             _httpCaller = new HttpCaller(httpContextAccessor.HttpContext);
         }
@@ -31,22 +31,8 @@ namespace PresentationLayer.Controllers
 
         public async Task<IActionResult> EditAsync(int id)
         {
-            InstructorTypeVM instructorTypeVM = await GetDetailsAsync(id);
-            return PartialView("Create", instructorTypeVM);
-        }
-
-        private async Task<InstructorTypeVM> GetDetailsAsync(int id)
-        {
-            var response = await _httpCaller.GetAsync($"instructortype/getDetails?id={id}");
-
-            InstructorTypeVM instructorTypeVM = new InstructorTypeVM();
-
-            if (response.Status == System.Net.HttpStatusCode.OK)
-            {
-                instructorTypeVM = JsonConvert.DeserializeObject<InstructorTypeVM>(response.Data);
-            }
-
-            return instructorTypeVM;
+            AirCraftVM airCraftVM = await GetDetailsAsync(id);
+            return PartialView("Create", airCraftVM);
         }
 
         [HttpGet]
@@ -111,6 +97,20 @@ namespace PresentationLayer.Controllers
                 data = instructorTypeList
             });
 
+        }
+
+        private async Task<AirCraftVM> GetDetailsAsync(int id)
+        {
+            var response = await _httpCaller.GetAsync($"aircraft/getDetails?id={id}");
+
+            AirCraftVM airCraftVM = new AirCraftVM();
+
+            if (response.Status == System.Net.HttpStatusCode.OK)
+            {
+                airCraftVM = JsonConvert.DeserializeObject<AirCraftVM>(response.Data);
+            }
+
+            return airCraftVM;
         }
     }
 }

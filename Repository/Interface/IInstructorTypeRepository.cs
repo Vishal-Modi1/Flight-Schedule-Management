@@ -17,6 +17,7 @@ namespace Repository.Interface
         InstructorType Edit(InstructorType instructorType);
 
         InstructorType FindByCondition(Expression<Func<InstructorType, bool>> predicate);
+
         void Delete(int id);
     }
 }

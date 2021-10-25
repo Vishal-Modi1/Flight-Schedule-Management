@@ -1,5 +1,6 @@
 ﻿using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Interface;
@@ -21,12 +22,13 @@ namespace API.Controllers
         private readonly JWTTokenGenerator _jWTTokenGenerator;
         private readonly RandomTextGenerator _randomTextGenerator;
 
-        public AccountController(IAccountService accountService, IUserService userService, ISendMailService sendMailService)
+        public AccountController(IAccountService accountService, IUserService userService,
+            ISendMailService sendMailService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _userService = userService;
             _sendMailService = sendMailService;
-            _jWTTokenGenerator = new JWTTokenGenerator();
+            _jWTTokenGenerator = new JWTTokenGenerator(httpContextAccessor.HttpContext);
             _randomTextGenerator = new RandomTextGenerator();
         }
 
@@ -72,7 +74,7 @@ namespace API.Controllers
                     return roles;
                 }
 
-                string accessToken = _jWTTokenGenerator.Generate(user.Email, getRoles(user.RoleId));
+                string accessToken = _jWTTokenGenerator.Generate(user.Id, user.Email, getRoles(user.RoleId));
 
                 LoginResponseVM loginResponseVM = new LoginResponseVM();
 

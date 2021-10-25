@@ -2,6 +2,7 @@
 using Repository.Interface;
 using Service.Interface;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using ViewModels.VM;
 
@@ -77,9 +78,9 @@ namespace Service
         {
             try
             {
-                var data = _instructorTypeRepository.List(datatableParams);
+                List<InstructorTypeVM> instructorTypeList = _instructorTypeRepository.List(datatableParams);
 
-                CreateResponse(data, HttpStatusCode.OK, "");
+                CreateResponse(instructorTypeList, HttpStatusCode.OK, "");
 
                 return _currentResponse;
             }
