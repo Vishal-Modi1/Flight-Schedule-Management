@@ -9,5 +9,6 @@ namespace Service.Interface
         CurrentResponse Edit(AirCraftVM airCraftVM);
         CurrentResponse GetDetails(int id);
         CurrentResponse Delete(int id);
+
     }
 }

@@ -10,10 +10,20 @@ namespace Service
     public class AircraftService : BaseService, IAirCraftService
     {
         private readonly IAirCraftRepository _airCraftRepository;
+        private readonly IAircraftCategoryRepository _aircraftCategoryRepository;
+        private readonly IAircraftClassRepository _aircraftClassRepository;
+        private readonly IAircraftMakeRepository _aircraftMakeRepository;
+        private readonly IAircraftModelRepository _aircraftModelRepository;
 
-        public AircraftService(IAirCraftRepository airCraftRepository)
+        public AircraftService(IAirCraftRepository airCraftRepository, IAircraftCategoryRepository aircraftCategoryRepository,
+                               IAircraftClassRepository aircraftClassRepository, IAircraftMakeRepository aircraftMakeRepository,
+                               IAircraftModelRepository aircraftModelRepository )
         {
             _airCraftRepository = airCraftRepository;
+            _aircraftCategoryRepository = aircraftCategoryRepository;
+            _aircraftClassRepository = aircraftClassRepository;
+            _aircraftMakeRepository = aircraftMakeRepository;
+            _aircraftModelRepository = aircraftModelRepository;
         }
 
         public CurrentResponse Create(AirCraftVM airCraftVM)
@@ -46,7 +56,7 @@ namespace Service
 
         private bool IsAirCraftExist(AirCraftVM airCraftVM)
         {
-            AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.Name == airCraftVM.Name && p.Id != airCraftVM.Id);
+            AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.TailNo == airCraftVM.TailNo && p.Id != airCraftVM.Id);
 
             if (airCraft == null)
             {
@@ -76,7 +86,7 @@ namespace Service
 
         public CurrentResponse Edit(AirCraftVM airCraftVM)
         {
-            AirCraft airCraft= new AirCraft() { Id = airCraftVM.Id, Name = airCraftVM.Name };
+            AirCraft airCraft= new AirCraft() { Id = airCraftVM.Id, TailNo = airCraftVM.TailNo };
 
             try
             {
@@ -112,6 +122,11 @@ namespace Service
             {
                 airCraftVM = ToBusinessObject(airCraft);
             }
+
+            airCraftVM.AircraftCategoryList = _aircraftCategoryRepository.List();
+            airCraftVM.AircraftClassList = _aircraftClassRepository.List();
+            airCraftVM.AircraftMakeList = _aircraftMakeRepository.List();
+            airCraftVM.AircraftModelList = _aircraftModelRepository.List();
 
             CreateResponse(airCraftVM, HttpStatusCode.OK, "");
 

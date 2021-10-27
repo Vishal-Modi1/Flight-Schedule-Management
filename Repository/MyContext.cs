@@ -42,7 +42,7 @@ namespace Repository
 
         public DbSet<Country> Countries { get; set; }
 
-        public DbSet<UserSearchList> UserSearchLists { get; set; }
+        public DbSet<UserSearchList> UserSearchList { get; set; }
 
         public DbSet<EmailToken> EmailTokens { get; set; }
 
@@ -51,6 +51,14 @@ namespace Repository
         public DbSet<AirCraft> AirCrafts { get; set; }
 
         public DbSet<AirCraftVM> AirCraftVM { get; set; }
+
+        public DbSet<AircraftMake> AircraftMakes { get; set; }
+
+        public DbSet<AircraftModel> AircraftModels { get; set; }
+
+        public DbSet<AircraftCategory> AircraftCategories { get; set; }
+
+        public DbSet<AircraftClass> AircraftClasses { get; set; }
 
     }
 

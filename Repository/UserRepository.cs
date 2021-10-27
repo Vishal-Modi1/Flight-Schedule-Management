@@ -1,5 +1,4 @@
 ﻿using DataModels.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System;
@@ -104,7 +103,7 @@ namespace Repository
                 List<UserSearchList> list;
                 string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
 
-                list = _myContext.UserSearchLists.FromSqlRaw<UserSearchList>(sql).ToList();
+                list = _myContext.UserSearchList.FromSqlRaw<UserSearchList>(sql).ToList();
                
                 return list;
 

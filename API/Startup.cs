@@ -103,6 +103,10 @@ namespace API
             services.AddScoped<ISendMailService, SendMailService>();
             services.AddScoped<IMyAccountService, MyAccountService>();
             services.AddScoped<IInstructorTypeService, InstructorTypeService>();
+            services.AddScoped<IAircraftMakeService, AircraftMakeService>();
+            services.AddScoped<IAircraftModelService, AircraftModelService>();
+            services.AddScoped<IAircraftCategoryService, AircraftCategoryService>();
+            services.AddScoped<IAircraftClassService, AircraftClassService>();
 
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
@@ -112,6 +116,10 @@ namespace API
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IEmailTokenRepository, EmailTokenRepository>();
             services.AddScoped<IMyAccountRepository, MyAccountRepository>();
+            services.AddScoped<IAircraftMakeRepository, AircraftMakeRepository>();
+            services.AddScoped<IAircraftModelRepository, AircraftModelRepository>();
+            services.AddScoped<IAircraftCategoryRepository, AircraftCategoryRepository>();
+            services.AddScoped<IAircraftClassRepository, AircraftClassRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
