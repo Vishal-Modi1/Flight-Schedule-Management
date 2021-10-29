@@ -24,6 +24,7 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 _myContext.AircraftModels.Add(aircraftModel);
+                _myContext.SaveChanges();
 
                 return aircraftModel;
             }

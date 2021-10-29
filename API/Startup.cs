@@ -1,10 +1,12 @@
 using Configuration;
+using DataModels.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -14,6 +16,7 @@ using Service;
 using Service.Interface;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 
@@ -107,6 +110,7 @@ namespace API
             services.AddScoped<IAircraftModelService, AircraftModelService>();
             services.AddScoped<IAircraftCategoryService, AircraftCategoryService>();
             services.AddScoped<IAircraftClassService, AircraftClassService>();
+            services.AddScoped<IAircraftService, AircraftService>();
 
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
@@ -120,6 +124,7 @@ namespace API
             services.AddScoped<IAircraftModelRepository, AircraftModelRepository>();
             services.AddScoped<IAircraftCategoryRepository, AircraftCategoryRepository>();
             services.AddScoped<IAircraftClassRepository, AircraftClassRepository>();
+            services.AddScoped<IAircraftRepository, AircraftRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,6 +136,21 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), UploadDirectory.RootDirectory)),
+                RequestPath = $"/{UploadDirectory.RootDirectory}"
+            });
+            //Enable directory browsing
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                            Path.Combine(Directory.GetCurrentDirectory(), UploadDirectory.RootDirectory)),
+                RequestPath = $"/{UploadDirectory.RootDirectory}"
+            });
+
 
             app.UseHttpsRedirection();
 

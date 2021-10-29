@@ -2,6 +2,7 @@
 using Repository.Interface;
 using Service.Interface;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using ViewModels.VM;
 
@@ -56,7 +57,19 @@ namespace Service
 
         public CurrentResponse List()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<AircraftModel> aircraftModelList = _aircraftModelRepository.List();
+                CreateResponse(aircraftModelList, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
         }
     }
 }

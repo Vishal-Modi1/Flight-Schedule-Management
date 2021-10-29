@@ -24,6 +24,7 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 _myContext.AircraftMakes.Add(aircraftMake);
+                _myContext.SaveChanges();
 
                 return aircraftMake;
             }

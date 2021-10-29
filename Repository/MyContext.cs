@@ -50,7 +50,7 @@ namespace Repository
 
         public DbSet<AirCraft> AirCrafts { get; set; }
 
-        public DbSet<AirCraftVM> AirCraftVM { get; set; }
+        //public DbSet<AirCraftVM> AirCraftVM { get; set; }
 
         public DbSet<AircraftMake> AircraftMakes { get; set; }
 
@@ -59,6 +59,8 @@ namespace Repository
         public DbSet<AircraftCategory> AircraftCategories { get; set; }
 
         public DbSet<AircraftClass> AircraftClasses { get; set; }
+
+        public DbSet<FlightSimulatorClass> FlightSimulatorClasses { get; set; }
 
     }
 

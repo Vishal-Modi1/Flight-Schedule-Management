@@ -13,8 +13,12 @@ namespace ViewModels.VM
         [Display(Name = "Tail No")]
         public string TailNo { get; set; }
 
-        [Display(Name = "Image")]
         public string ImageName { get; set; }
+
+        public string ImagePath { get; set; }
+
+        [Display(Name = "Aircraft Image")]
+        public string File { get; set; }
         public string Year { get; set; }
 
         [Required]
@@ -30,9 +34,12 @@ namespace ViewModels.VM
         public int AircraftCategoryId { get; set; }
 
         [Display(Name = "Class")]
-        public int AircraftClassId { get; set; }
+        public Nullable<int> AircraftClassId { get; set; }
 
-        [Display(Name = "No of Engines")]
+        [Display(Name = "Flight Simulator")]
+        public Nullable<int> FlightSimulatorClassId { get; set; }
+
+        [Display(Name = "Engines")]
         public int NoofEngines { get; set; }
 
         [Display(Name = "Engines have Propellers")]
@@ -63,6 +70,9 @@ namespace ViewModels.VM
         public List<AircraftModel> AircraftModelList { get; set; }
         public List<AircraftCategory> AircraftCategoryList { get; set; }
         public List<AircraftClass> AircraftClassList { get; set; }
+        public List<FlightSimulatorClass> FlightSimulatorClassList { get; set; }
+
+        public int TotalRecords { get; set; }
 
     }
 }

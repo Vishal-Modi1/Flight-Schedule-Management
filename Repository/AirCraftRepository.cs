@@ -9,7 +9,7 @@ using ViewModels.VM;
 
 namespace Repository
 {
-    public class AirCraftRepository : IAirCraftRepository
+    public class AircraftRepository : IAircraftRepository
     {
         private MyContext _myContext;
 
@@ -46,7 +46,19 @@ namespace Repository
 
                 if (existingAirCraft != null)
                 {
-                    //  existingAirCraft.Name = instructorType.Name;
+                    existingAirCraft.TailNo = airCraft.TailNo;
+                    existingAirCraft.ImageName = airCraft.ImageName;
+                    existingAirCraft.Year = airCraft.Year;
+                    existingAirCraft.AircraftMakeId = airCraft.AircraftMakeId;
+                    existingAirCraft.AircraftModelId = airCraft.AircraftModelId;
+                    existingAirCraft.AircraftCategoryId = airCraft.AircraftCategoryId;
+                    existingAirCraft.AircraftClassId = airCraft.AircraftClassId;
+                    existingAirCraft.FlightSimulatorClassId = airCraft.FlightSimulatorClassId;
+                    existingAirCraft.NoofEngines = airCraft.NoofEngines;
+                    existingAirCraft.IsEngineshavePropellers = airCraft.IsEngineshavePropellers;
+                    existingAirCraft.IsEnginesareTurbines = airCraft.IsEnginesareTurbines;
+                    existingAirCraft.TrackOilandFuel = airCraft.TrackOilandFuel;
+                    existingAirCraft.IsIdentifyMeterMismatch = airCraft.IsIdentifyMeterMismatch;
                 }
 
                 _myContext.SaveChanges();
@@ -63,20 +75,47 @@ namespace Repository
             }
         }
 
-        public List<AirCraftVM> List(DatatableParams datatableParams)
+        public List<AirCraft> List(DatatableParams datatableParams)
         {
             using (_myContext = new MyContext())
             {
-                int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
-                List<AirCraftVM> list;
+                //int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
 
-                string sql = $"EXEC dbo.GetAirCraftList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
 
-                list = _myContext.AirCraftVM.FromSqlRaw<AirCraftVM>(sql).ToList();
+                //string sql = $"EXEC dbo.GetAirCraftList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
+
+                // list = _myContext.AirCraftVM.FromSqlRaw<AirCraftVM>(sql).ToList();
+
+                List<AirCraft> list =  _myContext.AirCrafts.Where(p=>p.IsActive == true && p.IsDeleted == false).ToList(); 
 
                 return list;
             }
         }
 
+        public List<FlightSimulatorClass> FlightSimulatorClassList()
+        {
+            using (_myContext = new MyContext())
+            {
+                return _myContext.FlightSimulatorClasses.ToList();
+            }
+        }
+
+        public bool UpdateImageName(int id, string imageName)
+        {
+            using (_myContext = new MyContext())
+            {
+                AirCraft existingAirCraft = _myContext.AirCrafts.Where(p => p.Id == id).FirstOrDefault();
+
+                if (existingAirCraft != null)
+                {
+                    existingAirCraft.ImageName = imageName;
+                    _myContext.SaveChanges();
+
+                    return true;
+                }
+
+                return false ;
+            }
+        }
     }
 }

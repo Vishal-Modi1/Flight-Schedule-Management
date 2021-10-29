@@ -11,7 +11,8 @@ namespace DataModels.Models
         public int AircraftMakeId { get; set; }
         public int AircraftModelId { get; set; }
         public int AircraftCategoryId { get; set; }
-        public int AircraftClassId { get; set; }
+        public Nullable<int> AircraftClassId { get; set; }
+        public Nullable<int> FlightSimulatorClassId { get; set; }
         public int NoofEngines { get; set; }
         public bool IsEngineshavePropellers { get; set; }
         public bool IsEnginesareTurbines { get; set; }

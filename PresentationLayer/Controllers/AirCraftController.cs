@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataModels.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -13,10 +17,12 @@ namespace PresentationLayer.Controllers
     public class AirCraftController : Controller
     {
         private readonly HttpCaller _httpCaller;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AirCraftController(IHttpContextAccessor httpContextAccessor)
+        public AirCraftController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
         {
             _httpCaller = new HttpCaller(httpContextAccessor.HttpContext);
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -24,43 +30,50 @@ namespace PresentationLayer.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            return View();
+            AirCraftVM airCraftVM = await GetDetailsAsync(0);
+
+            return PartialView(airCraftVM);
         }
 
         public async Task<IActionResult> EditAsync(int id)
         {
             AirCraftVM airCraftVM = await GetDetailsAsync(id);
+
             return PartialView("Create", airCraftVM);
         }
 
         [HttpGet]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            string url = $"instructortype/delete?id={id}";
+            string url = $"aircraft/delete?id={id}";
             CurrentResponse response = await _httpCaller.GetAsync(url);
 
             return Json(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(InstructorTypeVM instructorTypeVM)
+        public async Task<IActionResult> CreateAsync(AirCraftVM airCraftVM)
         {
             if (!ModelState.IsValid)
             {
-                return PartialView(instructorTypeVM);
+                return PartialView(airCraftVM);
             }
 
-            string url = "instructortype/create";
+            string url = "aircraft/create";
 
-            if (instructorTypeVM.Id > 0)
+            if (airCraftVM.Id > 0)
             {
-                url = "instructortype/edit";
+                url = "aircraft/edit";
             }
 
-            string jsonData = JsonConvert.SerializeObject(instructorTypeVM);
+            string jsonData = JsonConvert.SerializeObject(airCraftVM);
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
+
+            AirCraftVM aircraft = JsonConvert.DeserializeObject<AirCraftVM>(response.Data);
+
+            TempData["id"] = aircraft.Id;
 
             return Json(response);
         }
@@ -72,30 +85,32 @@ namespace PresentationLayer.Controllers
 
             DatatableParams datatableParams = new DatatableParams();
 
-            var draw = query["draw"].FirstOrDefault();
-            datatableParams.Start = Convert.ToInt32(query["start"]);
-            datatableParams.Length = Convert.ToInt32(query["length"]);
-            datatableParams.SearchText = query["search[value]"];
+            //var draw = query["draw"].FirstOrDefault();
+            //datatableParams.Start = Convert.ToInt32(query["start"]);
+            //datatableParams.Length = Convert.ToInt32(query["length"]);
+            //datatableParams.SearchText = query["search[value]"];
 
-            datatableParams.SortOrderColumn = "Name";
+            //datatableParams.SortOrderColumn = "Name";
 
-            datatableParams.OrderType = query["order[0][dir]"].ToString();
+            //datatableParams.OrderType = query["order[0][dir]"].ToString();
 
-            string url = "instructortype/list";
+            string url = "aircraft/list";
 
             string jsonData = JsonConvert.SerializeObject(datatableParams);
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
-            List<InstructorTypeVM> instructorTypeList = JsonConvert.DeserializeObject<List<InstructorTypeVM>>(response.Data);
+            List<AirCraftVM> aircraftList = JsonConvert.DeserializeObject<List<AirCraftVM>>(response.Data);
 
-            int recordsTotal = instructorTypeList.Count() > 0 ? instructorTypeList[0].TotalRecords : 0;
+            //int recordsTotal = aircraftList.Count() > 0 ? aircraftList[0].TotalRecords : 0;
 
-            return Json(new
-            {
-                draw = draw,
-                recordsFiltered = recordsTotal,
-                recordsTotal = recordsTotal,
-                data = instructorTypeList
-            });
+            //return Json(new
+            //{
+            //    draw = draw,
+            //    recordsFiltered = recordsTotal,
+            //    recordsTotal = recordsTotal,
+            //    data = aircraftList
+            //});
+
+            return PartialView("list", aircraftList);
 
         }
 
@@ -112,5 +127,99 @@ namespace PresentationLayer.Controllers
 
             return airCraftVM;
         }
+
+        public async Task<IActionResult> UploadFileAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return Content("file not selected");
+
+            byte[] data;
+
+            using (var br = new BinaryReader(file.OpenReadStream()))
+                data = br.ReadBytes((int)file.OpenReadStream().Length);
+
+            ByteArrayContent bytes = new ByteArrayContent(data);
+
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { bytes, "file", TempData["id"].ToString() }
+            };
+
+            CurrentResponse response = await _httpCaller.PostFileAsync($"aircraft/uploadfile", multiContent);
+
+            return Ok(response);
+        }
+
+        #region Aircraft Make
+
+        public async Task<IActionResult> ListMakeAsync()
+        {
+            CurrentResponse response = await _httpCaller.GetAsync($"aircraft/makelist");
+
+            List<AircraftMake> aircraftMakeList = JsonConvert.DeserializeObject<List<AircraftMake>>(response.Data);
+
+            return PartialView("_aircraftMakeDropdown", aircraftMakeList);
+        }
+
+        public IActionResult CreateMake()
+        {
+            return PartialView("createmake");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMakeAsync(AircraftMake aircraftMake)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(aircraftMake);
+            }
+
+            string url = "aircraft/createmake";
+
+            string jsonData = JsonConvert.SerializeObject(aircraftMake);
+            CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
+
+            aircraftMake = JsonConvert.DeserializeObject<AircraftMake>(response.Data);
+
+            return Json(response);
+        }
+
+        #endregion
+
+        #region Aircraft Model
+
+        public async Task<IActionResult> ListModelAsync()
+        {
+            CurrentResponse response = await _httpCaller.GetAsync($"aircraft/modellist");
+
+            List<AircraftModel> aircraftModelList = JsonConvert.DeserializeObject<List<AircraftModel>>(response.Data);
+
+            return PartialView("_aircraftModelDropdown", aircraftModelList);
+        }
+
+        public IActionResult CreateModel()
+        {
+            return PartialView("createmodel");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateModelAsync(AircraftModel aircraftModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(aircraftModel);
+            }
+
+            string url = "aircraft/createmodel";
+
+            string jsonData = JsonConvert.SerializeObject(aircraftModel);
+            CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
+
+            aircraftModel = JsonConvert.DeserializeObject<AircraftModel>(response.Data);
+
+            return Json(response);
+        }
+
+        #endregion
     }
 }

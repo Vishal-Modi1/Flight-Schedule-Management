@@ -1,0 +1,235 @@
+﻿@model ViewModels.VM.AirCraftVM
+@{
+    Layout = null;
+
+    ViewData["makeId"] = Model.AircraftMakeId;
+    ViewData["modelId"] = Model.AircraftModelId;
+
+    List<SelectListItem> aircraftCategoryList = new List<SelectListItem>();
+    List<SelectListItem> aircraftClassList = new List<SelectListItem>();
+    List<SelectListItem> flightSimulatorList = new List<SelectListItem>();
+
+    aircraftCategoryList.Add(new SelectListItem { Text = "Select category", Value = "" });
+    aircraftClassList.Add(new SelectListItem { Text = "Select class", Value = "" });
+    flightSimulatorList.Add(new SelectListItem { Text = "Select flight simulator", Value = "" });
+
+    aircraftCategoryList.AddRange(Model.AircraftCategoryList.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = false
+        };
+    }));
+
+    aircraftClassList.AddRange(Model.AircraftClassList.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = false
+        };
+    }));
+
+    flightSimulatorList.AddRange(Model.FlightSimulatorClassList.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = false
+        };
+    }));
+}
+
+<div class="card-body" style="margin-right:-100px">
+    <form asp-action="create" asp-controller="airCraft" method="post" id="aircraftForm">
+
+        @if (Model != null)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+
+        <div class="row">
+            <div class="col-sm-5">
+                <!-- text input -->
+                <div class="form-group">
+                    <div style="float:left">
+                        <label asp-for="TailNo" class="control-label col-md-11"></label>
+                        <input type="text" asp-for="TailNo" class="form-control col-md-11" placeholder="Please enter tail no" />
+                        <span asp-validation-for="TailNo" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Year" class="control-label col-md-3"></label>
+                        <input type="text" asp-for="Year" class="form-control col-md-3" placeholder="Please enter tail no" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group">
+
+                    <label class="control-label col-md-8" for="File">Aircraft Image</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" accept="image/png, image/jpeg" class="custom-file-input" asp-for="File">
+                            <label class="custom-file-label" for="File">Upload Image</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group" id="divAirCraftMake">
+
+                   <partial name="_aircraftMakeDropdown" model="Model.AircraftMakeList"  view-data="ViewData" />
+
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group" id="divAirCraftModel">
+
+                    <partial name="_aircraftModelDropdown" model="Model.AircraftModelList" view-data="ViewData" />
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+
+                <div class="form-group">
+
+                    <label class="control-label col-md-12" asp-for="AircraftCategoryId">Category</label>
+                    <select class="form-control" asp-for="AircraftCategoryId" asp-items="aircraftCategoryList"></select>
+
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+
+                <div class="form-group">
+
+                    <div style="float:left;display:none" id="divairCraftClass">
+
+                        <label class="control-label col-md-11" asp-for="AircraftClassId">Class</label>
+                        <select class="form-control col-md-11" asp-for="AircraftClassId" asp-items="aircraftClassList"></select>
+
+                    </div>
+
+                    <div style="float:left;display:none" id="divairflightSimulatorClass">
+
+                        <label class="control-label col-md-11" asp-for="FlightSimulatorClassId">Flight Simulator</label>
+                        <select class="form-control col-md-11" asp-for="FlightSimulatorClassId" asp-items="flightSimulatorList"></select>
+
+                    </div>
+
+                    <div style="display:none" id="divnoofEngines">
+
+                        <label class="control-label col-md-4" asp-for="NoofEngines">Engines</label>
+                        <select class="form-control col-md-4" asp-for="NoofEngines">
+
+                            <option selected="selected">0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+
+                        </select>
+
+                        <span class="text-danger field-validation-valid" data-valmsg-for="NoofEngines" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top:12px">
+            <div class="col-sm-5">
+
+                <div class="form-group">
+
+                    <label class="control-label col-md-7" for="TrackOilandFuelSwitch">Track Oil and Fuel</label>
+                    <input type="checkbox" name="TrackOilandFuelSwitch" id="TrackOilandFuelSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+                    <input type="hidden" asp-for="TrackOilandFuel" />
+
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group">
+
+                    <label class="control-label col-md-7" for="IsIdentifyMeterMismatchSwitch">Identify Meter Mismatch</label>
+                    <input type="checkbox" name="IsIdentifyMeterMismatchSwitch" id="IsIdentifyMeterMismatchSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+                    <input type="hidden" asp-for="IsIdentifyMeterMismatch" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-5" id="divenginePropellers" style="display:none">
+                <div class="form-group">
+
+                    <label class="control-label col-md-7" for="IsEngineshavePropellersSwitch">Engines have Propellers</label>
+                    <input type="checkbox" name="IsEngineshavePropellersSwitch" id="IsEngineshavePropellersSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+                    <input type="hidden" asp-for="IsEngineshavePropellers" />
+
+                </div>
+            </div>
+
+            <div class="col-sm-5" id="divengineTurbines" style="display:none">
+
+                <div class="form-group">
+
+                    <label class="control-label col-md-7" for="IsEnginesareTurbinesSwitch">Engines are Turbines</label>
+                    <input type="checkbox" name="IsEnginesareTurbinesSwitch" id="IsEnginesareTurbinesSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
+                    <input type="hidden" asp-for="IsEnginesareTurbines" />
+
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btnsubmit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+
+
+    $(function () {
+
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+
+
+        if ('0' > 0) {
+
+            $('#IsEnginesareTurbinesSwitch').bootstrapSwitch('state', false);
+            $('#IsEngineshavePropellersSwitch').bootstrapSwitch('state', false);
+            $('#IsIdentifyMeterMismatchSwitch').bootstrapSwitch('state', false);
+            $('#TrackOilandFuelSwitch').bootstrapSwitch('state', false);
+            //SetIsInstructorValue();
+        }
+    })
+</script>
