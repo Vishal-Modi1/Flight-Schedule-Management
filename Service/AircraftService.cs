@@ -193,7 +193,7 @@ namespace Service
 
             airCraft.Id = airCraftVM.Id;
             airCraft.TailNo = airCraftVM.TailNo;
-            airCraft.ImageName = airCraftVM.ImageName;
+
             airCraft.Year = airCraftVM.Year;
             airCraft.AircraftMakeId = airCraftVM.AircraftMakeId;
             airCraft.AircraftModelId = airCraftVM.AircraftModelId;
@@ -222,11 +222,11 @@ namespace Service
             return airCraft;
         }
 
-        public CurrentResponse List(DatatableParams datatableParams)
+        public CurrentResponse List(AircraftFilterVM aircraftFilterVM)
         {
             try
             {
-                List<AirCraft> airCraftList = _airCraftRepository.List(datatableParams);
+                List<AirCraft> airCraftList = _airCraftRepository.List(aircraftFilterVM);
                 List<AirCraftVM> airCraftVMList = ToBusinessObjectList(airCraftList);
 
                 CreateResponse(airCraftVMList, HttpStatusCode.OK, "");

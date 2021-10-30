@@ -37,15 +37,38 @@
     //    ]
     //});
 
+    $(document).on('click', '#btnSearchAircraft', function () {
+
+        $('#txtAircraftSearch').val('');
+        $('#ddlStatus').val('true')
+        LoadAircrafts();
+
+    });
+
+    $(document).on('input', '#txtAircraftSearch', function () {
+
+        LoadAircrafts();
+    });
+
+    $(document).on('change', '#ddlStatus', function () {
+
+        LoadAircrafts();
+    });
 
     function LoadAircrafts() {
 
         startLoading();
 
+        var data =
+        {
+            TailNo: $('#txtAircraftSearch').val(),
+            IsActive: $('#ddlStatus').val()
+        }
+
         $.ajax({
             url: "/aircraft/List",
-            type: "GET",
-           
+            type: "POST",
+            data: data,
             success: function (htmlResponse) {
 
                 $('#aircraftList').html(htmlResponse)
@@ -109,6 +132,10 @@
                 AircraftClassId:
                 {
                     required: true
+                },
+                FlightSimulatorClassId:
+                {
+                    required: true
                 }
             },
             messages: {
@@ -126,6 +153,10 @@
                 },
                 AircraftClassId: {
                     required: "Please select aircraft class"
+                },
+                FlightSimulatorClassId:
+                {
+                    required: "Please select simulator class"
                 }
             },
 
@@ -148,6 +179,11 @@
 
         RemoveValidation()
         if (!$("#aircraftForm").valid()) {
+
+            if ($('#AircraftClassId-error').length > 0) {
+                $('#AircraftClassId-error').css('display', 'inline-block')
+            }
+
             return false;
         }
 
@@ -171,16 +207,17 @@
 
                 if (data.status == 200) {
 
-                    UploadImage(data.message);
-                    LoadAircrafts()
-
-                    closeCreateModal();
+                    if ($('#File').val() != '') {
+                        UploadImage(data.message);
+                    }
+                    else {
+                        LoadAircrafts()
+                        closeCreateModal();
+                    }
                 }
                 else {
                     toastr.error(data.message)
                 }
-
-               
 
             },
             error: function (data) {
@@ -354,12 +391,8 @@
             error: function (data) {
 
                 toastr.error(data.message)
-
-
             },
             complete: function () {
-
-
                 enableForm('aircraftModelForm')
                 stopLoading();
             }
@@ -367,6 +400,7 @@
     });
 
     function RefreshAircraftModelDropdown() {
+
         $.ajax({
             url: "/aircraft/listmodel",
             type: "GET",
@@ -508,6 +542,7 @@
 
                     toastr.success(message)
                     LoadAircrafts()
+                    closeCreateModal();
                 }
                 else {
                     toastr.error(data.message)

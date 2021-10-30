@@ -11,7 +11,7 @@ namespace Repository.Interface
 
         AirCraft Create(AirCraft airCraft);
 
-        List<AirCraft> List(DatatableParams datatableParams);
+        List<AirCraft> List(AircraftFilterVM aircraftFilterVM);
 
         AirCraft Edit(AirCraft airCraft);
 

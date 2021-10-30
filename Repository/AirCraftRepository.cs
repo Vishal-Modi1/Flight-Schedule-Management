@@ -47,7 +47,6 @@ namespace Repository
                 if (existingAirCraft != null)
                 {
                     existingAirCraft.TailNo = airCraft.TailNo;
-                    existingAirCraft.ImageName = airCraft.ImageName;
                     existingAirCraft.Year = airCraft.Year;
                     existingAirCraft.AircraftMakeId = airCraft.AircraftMakeId;
                     existingAirCraft.AircraftModelId = airCraft.AircraftModelId;
@@ -75,7 +74,7 @@ namespace Repository
             }
         }
 
-        public List<AirCraft> List(DatatableParams datatableParams)
+        public List<AirCraft> List(AircraftFilterVM aircraftFilterVM)
         {
             using (_myContext = new MyContext())
             {
@@ -86,9 +85,18 @@ namespace Repository
 
                 // list = _myContext.AirCraftVM.FromSqlRaw<AirCraftVM>(sql).ToList();
 
-                List<AirCraft> list =  _myContext.AirCrafts.Where(p=>p.IsActive == true && p.IsDeleted == false).ToList(); 
+                List<AirCraft> airCraftList = new List<AirCraft>();
 
-                return list;
+                if (!string.IsNullOrWhiteSpace(aircraftFilterVM.TailNo))
+                {
+                    airCraftList = _myContext.AirCrafts.Where(p => p.IsActive == aircraftFilterVM.IsActive && p.IsDeleted == false && p.TailNo.Contains(aircraftFilterVM.TailNo)).ToList();
+                }
+                else
+                {
+                    airCraftList = _myContext.AirCrafts.Where(p => p.IsActive == aircraftFilterVM.IsActive && p.IsDeleted == false).ToList();
+                }
+
+                return airCraftList;
             }
         }
 

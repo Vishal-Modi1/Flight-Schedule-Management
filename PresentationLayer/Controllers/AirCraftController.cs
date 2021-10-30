@@ -78,12 +78,12 @@ namespace PresentationLayer.Controllers
             return Json(response);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> ListAsync()
+        [HttpPost]
+        public async Task<ActionResult> ListAsync(AircraftFilterVM aircraftFilterVM)
         {
-            IQueryCollection query = HttpContext.Request.Query;
+            //IQueryCollection query = HttpContext.Request.Query;
 
-            DatatableParams datatableParams = new DatatableParams();
+       //     DatatableParams datatableParams = new DatatableParams();
 
             //var draw = query["draw"].FirstOrDefault();
             //datatableParams.Start = Convert.ToInt32(query["start"]);
@@ -96,7 +96,7 @@ namespace PresentationLayer.Controllers
 
             string url = "aircraft/list";
 
-            string jsonData = JsonConvert.SerializeObject(datatableParams);
+            string jsonData = JsonConvert.SerializeObject(aircraftFilterVM);
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
             List<AirCraftVM> aircraftList = JsonConvert.DeserializeObject<List<AirCraftVM>>(response.Data);
 

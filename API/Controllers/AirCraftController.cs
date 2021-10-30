@@ -35,9 +35,9 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("list")]
-        public IActionResult List(DatatableParams datatableParams)
+        public IActionResult List(AircraftFilterVM aircraftFilterVM)
         {
-            CurrentResponse response = _airCraftService.List(datatableParams);
+            CurrentResponse response = _airCraftService.List(aircraftFilterVM);
 
             return Ok(response);
         }

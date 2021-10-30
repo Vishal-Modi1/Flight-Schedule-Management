@@ -62,8 +62,17 @@
                         <span asp-validation-for="TailNo" class="text-danger"></span>
                     </div>
                     <div>
-                        <label asp-for="Year" class="control-label col-md-3"></label>
-                        <input type="text" asp-for="Year" class="form-control col-md-3" placeholder="Please enter tail no" />
+                        <label asp-for="Year" class="control-label col-md-3" style="margin-left:15px"></label>
+                        <select asp-for="Year" class="form-control col-md-3" style="margin-left:250px" placeholder="Year">
+
+                            <option value="">Year  </option>
+
+                            @for (int year = 1980; year <= 2021; year++)
+                            {
+                                <option value="@year">@year </option>
+                            }
+
+                        </select>
                     </div>
                 </div>
             </div>
@@ -87,7 +96,7 @@
             <div class="col-sm-5">
                 <div class="form-group" id="divAirCraftMake">
 
-                   <partial name="_aircraftMakeDropdown" model="Model.AircraftMakeList"  view-data="ViewData" />
+                    <partial name="_aircraftMakeDropdown" model="Model.AircraftMakeList" view-data="ViewData" />
 
                 </div>
             </div>
@@ -132,8 +141,8 @@
 
                     <div style="display:none" id="divnoofEngines">
 
-                        <label class="control-label col-md-4" asp-for="NoofEngines">Engines</label>
-                        <select class="form-control col-md-4" asp-for="NoofEngines">
+                        <label class="control-label col-md-3" asp-for="NoofEngines">Engines</label>
+                        <select class="form-control col-md-3" asp-for="NoofEngines">
 
                             <option selected="selected">0</option>
                             <option>1</option>

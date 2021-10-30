@@ -5,7 +5,7 @@ namespace Service.Interface
     public interface IAircraftService
     {
         CurrentResponse Create(AirCraftVM airCraftVM);
-        CurrentResponse List(DatatableParams datatableParams);
+        CurrentResponse List(AircraftFilterVM aircraftFilterVM);
         CurrentResponse Edit(AirCraftVM airCraftVM);
         CurrentResponse GetDetails(int id);
         CurrentResponse Delete(int id);
