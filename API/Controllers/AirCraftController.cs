@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -17,18 +17,20 @@ namespace API.Controllers
     public class AirCraftController : ControllerBase
     {
         private readonly IAircraftService _airCraftService;
+        private readonly IAircraftEquipementTimeService _aircraftEquipementTimeService;
         private readonly IAircraftMakeService _aircraftMakeService;
         private readonly IAircraftModelService _aircraftModelService;
         private readonly JWTTokenGenerator _jWTTokenGenerator;
         private readonly FileUploader _fileUploader;
 
         public AirCraftController(IAircraftService airCraftService, IAircraftMakeService aircraftMakeService,
-            IAircraftModelService aircraftModelService,
+            IAircraftModelService aircraftModelService, IAircraftEquipementTimeService aircraftEquipementTimeService,
             IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
         {
             _airCraftService = airCraftService;
             _aircraftMakeService = aircraftMakeService;
             _aircraftModelService = aircraftModelService;
+            _aircraftEquipementTimeService = aircraftEquipementTimeService;
             _jWTTokenGenerator = new JWTTokenGenerator(httpContextAccessor.HttpContext);
             _fileUploader = new FileUploader(webHostEnvironment);
         }
@@ -146,6 +148,21 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        #endregion
+
+        #region Aircraft Equipment
+        [HttpPost]
+        [Route("createaircraftequipment")]
+        public IActionResult CreateAircraftEquipment(List<AircraftEquipmentTimeVM> aircraftEquipmentTimeVM)
+        {
+            int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            CurrentResponse response = new CurrentResponse();
+            aircraftEquipmentTimeVM.ForEach(item => {
+                item.CreatedBy = createdBy;
+                response = _aircraftEquipementTimeService.Create(item); 
+            });
+            return Ok(response);
+        }
         #endregion
     }
 }

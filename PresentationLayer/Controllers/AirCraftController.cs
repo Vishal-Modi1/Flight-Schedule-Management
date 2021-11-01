@@ -73,6 +73,16 @@ namespace PresentationLayer.Controllers
 
             AirCraftVM aircraft = JsonConvert.DeserializeObject<AirCraftVM>(response.Data);
 
+            //Need to confirm this logic with client
+            if (aircraft.Id > 0)
+            {
+                string equipment_url = "aircraft/createaircraftequipment";
+                airCraftVM.AircraftEquipmentTimesList.ForEach(z => z.AircraftId = aircraft.Id);
+
+                string equipment_jsonData = JsonConvert.SerializeObject(airCraftVM.AircraftEquipmentTimesList);
+                CurrentResponse equipment_response = await _httpCaller.PostAsync(equipment_url, equipment_jsonData);
+            }
+
             TempData["id"] = aircraft.Id;
 
             return Json(response);
@@ -111,20 +121,17 @@ namespace PresentationLayer.Controllers
             //});
 
             return PartialView("list", aircraftList);
-
         }
 
         private async Task<AirCraftVM> GetDetailsAsync(int id)
         {
             var response = await _httpCaller.GetAsync($"aircraft/getDetails?id={id}");
-
             AirCraftVM airCraftVM = new AirCraftVM();
 
             if (response.Status == System.Net.HttpStatusCode.OK)
             {
                 airCraftVM = JsonConvert.DeserializeObject<AirCraftVM>(response.Data);
             }
-
             return airCraftVM;
         }
 
@@ -223,13 +230,12 @@ namespace PresentationLayer.Controllers
         #endregion
 
         #region AirCraftEquipmentTime
-        public async Task<IActionResult> AircraftEquipmentTimesListFormAsync()
+        public  IActionResult AircraftEquipmentTimesListForm(int noOfEngines,int noOfPropellers)
         {
-            //CurrentResponse response = await _httpCaller.GetAsync($"aircraft/modellist");
-
-            //List<AircraftModel> aircraftModelList = JsonConvert.DeserializeObject<List<AircraftModel>>(response.Data);
-
-            return PartialView("_aircraftEquipmentTimesListForm", new {  });
+            AirCraftVM airCraftVM = new AirCraftVM();
+            airCraftVM.NoofEngines = noOfEngines;
+            airCraftVM.NoOfPropellers = noOfPropellers;
+            return PartialView("_aircraftEquipmentTimesListForm", airCraftVM);
         }
 
         #endregion

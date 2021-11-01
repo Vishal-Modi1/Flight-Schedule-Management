@@ -38,7 +38,6 @@ namespace API.Controllers
         public IActionResult Login([FromBody] LoginVM loginVM)
         {
             loginVM.Password = loginVM.Password.Encrypt();
-            var dec = "VGVzdDE=".Decrypt();
             CurrentResponse response = _accountService.GetValidUser(loginVM);//try now 
 
             UserVM user = JsonConvert.DeserializeObject<UserVM>(response.Data);

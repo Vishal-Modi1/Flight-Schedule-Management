@@ -56,7 +56,6 @@
     });
 
     function LoadAircrafts() {
-
         startLoading();
 
         var data =
@@ -94,9 +93,9 @@
         showConfirmButton: false,
         timer: 3000
     });
+    
 
     $('#createAircraft').on('click', function () {
-
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
 
@@ -173,21 +172,50 @@
                 $(element).removeClass('is-invalid');
             }
         });
+        $('input[name="IsEngineshavePropellersSwitch"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            console.log(state); // true | false
+            if (state) {
+                $('#divNoOfPropellers').show();
+            } else {
+                $('#divNoOfPropellers').hide();
+            }
+        });
     }
     $(document).on('click', '#btnNext', function () {
         if (!$("#aircraftForm").valid()) {
-
             if ($('#AircraftClassId-error').length > 0) {
                 $('#AircraftClassId-error').css('display', 'inline-block')
             }
             return false;
         } else {
-            stepper.next()
+            var noOfEngine = $("#NoofEngines").val();
+            var noOfPropellers = $("#NoOfPropellers").val();
+            setAirCreaftEquipmentTime(noOfEngine, noOfPropellers);
+            stepper.next();
         }
     });
 
-    $(document).on('click', '#btnsubmit, #btnNext', function () {
+    function setAirCreaftEquipmentTime(noOfEngine, noOfPropellers) {
+        $.ajax({
+            url: "/aircraft/aircraftequipmenttimeslistform?noOfEngines=" + noOfEngine + "&noOfPropellers=" + noOfPropellers,
+            type: "GET",
+            success: function (data) {
 
+                $('#div_aircraftEquipmentTimesListForm').html(data);
+
+            },
+            error: function (data) {
+
+                toastr.error('Error while loading model data')
+            },
+            complete: function () {
+
+                stopLoading();
+            }
+        });
+    }
+
+    $(document).on('click', '#btnsubmit', function () {
         RemoveValidation()
         if (!$("#aircraftForm").valid()) {
 
@@ -411,7 +439,6 @@
     });
 
     function RefreshAircraftModelDropdown() {
-
         $.ajax({
             url: "/aircraft/listmodel",
             type: "GET",
@@ -433,29 +460,7 @@
             }
         });
     }
-    function RefreshAircraftEquipmentTimesListForm() {
-
-        $.ajax({
-            url: "/aircraft/aircraftEquipmentTimesListFormAsync",
-            type: "POST",
-            success: function (data) {
-
-                toastr.success('model added successfully')
-
-                $('#div_aircraftEquipmentTimesListForm').html(data);
-            },
-            error: function (data) {
-
-                toastr.error('Error while loading model list')
-            },
-            complete: function () {
-
-                closeSmallModal();
-                enableForm('aircraftModelForm')
-                stopLoading();
-            }
-        });
-    }
+  
     $(document).on('change', '#AircraftModelId', function () {
 
         if ($(this).find(":selected").text() == "+ Add New") {
@@ -501,6 +506,7 @@
             $('#divairModule').css('display', 'block')
             $('#divairCraftClass').css('display', 'block')
             $('#divenginePropellers').css('display', 'block')
+            $('#divNoOfPropellers').css('display', 'block')
             $('#divengineTurbines').css('display', 'block')
         }
         else {
@@ -508,6 +514,7 @@
             $('#divairModule').css('display', 'none')
             $('#divairCraftClass').css('display', 'none')
             $('#divenginePropellers').css('display', 'none')
+            $('#divNoOfPropellers').css('display', 'none')
             $('#divengineTurbines').css('display', 'none')
 
             if ($(this).find(":selected").text() == "Helicopter/Rotorcraft") {

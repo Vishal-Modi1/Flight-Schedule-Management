@@ -83,10 +83,8 @@ namespace Service
             aircraftEquipmentTime.EquipmentName = aircraftEquipmentTimeVM.EquipmentName;
             aircraftEquipmentTime.Hours = aircraftEquipmentTimeVM.Hours;
             aircraftEquipmentTime.AircraftId = aircraftEquipmentTimeVM.AircraftId;
-            aircraftEquipmentTime.IsDeleted = true;
 
             aircraftEquipmentTime.CreatedBy = aircraftEquipmentTimeVM.CreatedBy;
-            aircraftEquipmentTime.UpdatedBy = aircraftEquipmentTimeVM.UpdatedBy;
 
             if (aircraftEquipmentTimeVM.Id == 0)
             {
@@ -94,6 +92,7 @@ namespace Service
             }
             else
             {
+                aircraftEquipmentTime.UpdatedBy = aircraftEquipmentTimeVM.UpdatedBy;
                 aircraftEquipmentTime.UpdatedOn = DateTime.UtcNow;
             }
 

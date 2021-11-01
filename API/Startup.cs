@@ -110,6 +110,7 @@ namespace API
             services.AddScoped<IAircraftModelService, AircraftModelService>();
             services.AddScoped<IAircraftCategoryService, AircraftCategoryService>();
             services.AddScoped<IAircraftClassService, AircraftClassService>();
+            services.AddScoped<IAircraftEquipementTimeService, AircraftEquipementTimeService>();
             services.AddScoped<IAircraftService, AircraftService>();
 
             //Repositories
@@ -124,6 +125,7 @@ namespace API
             services.AddScoped<IAircraftModelRepository, AircraftModelRepository>();
             services.AddScoped<IAircraftCategoryRepository, AircraftCategoryRepository>();
             services.AddScoped<IAircraftClassRepository, AircraftClassRepository>();
+            services.AddScoped<IAircraftEquipmentTimeRepository, AircraftEquipmentTimeRepository>();
             services.AddScoped<IAircraftRepository, AircraftRepository>();
         }
 

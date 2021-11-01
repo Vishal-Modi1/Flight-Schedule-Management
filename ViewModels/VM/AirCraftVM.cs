@@ -41,6 +41,9 @@ namespace ViewModels.VM
 
         [Display(Name = "Engines")]
         public int NoofEngines { get; set; }
+        
+        [Display(Name = "No of Propellers")]
+        public int NoOfPropellers { get; set; }
 
         [Display(Name = "Engines have Propellers")]
         public bool IsEngineshavePropellers { get; set; }
@@ -71,7 +74,6 @@ namespace ViewModels.VM
         public List<AircraftCategory> AircraftCategoryList { get; set; }
         public List<AircraftClass> AircraftClassList { get; set; }
         public List<FlightSimulatorClass> FlightSimulatorClassList { get; set; }
-        public List<AircraftEquipmentTime> AircraftEquipmentTimesEngineList { get; set; }
         public List<AircraftEquipmentTime> AircraftEquipmentTimesList { get; set; }
 
         public int TotalRecords { get; set; }
