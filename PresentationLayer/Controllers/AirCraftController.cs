@@ -221,5 +221,17 @@ namespace PresentationLayer.Controllers
         }
 
         #endregion
+
+        #region AirCraftEquipmentTime
+        public async Task<IActionResult> AircraftEquipmentTimesListFormAsync()
+        {
+            //CurrentResponse response = await _httpCaller.GetAsync($"aircraft/modellist");
+
+            //List<AircraftModel> aircraftModelList = JsonConvert.DeserializeObject<List<AircraftModel>>(response.Data);
+
+            return PartialView("_aircraftEquipmentTimesListForm", new {  });
+        }
+
+        #endregion
     }
 }

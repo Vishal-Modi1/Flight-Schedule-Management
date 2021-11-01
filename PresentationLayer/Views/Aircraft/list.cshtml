@@ -1,24 +1,25 @@
-﻿@using ViewModels.VM; 
+﻿@using ViewModels.VM;
 @model List<AirCraftVM>
 @{
     Layout = null;
 }
 
 @{
-
-    foreach (AirCraftVM airCraftVM in Model)
-    {
-
-        <div class="card" style="width: 18rem;float:left;margin-left:14px">
-            <a href="javascript:void(0)" class="btnedit" data-id="@airCraftVM.Id" style="cursor: pointer">
-                <img src="@airCraftVM.ImagePath" class="card-img-top" style="height:12rem">
-                <div class="card-body" style="border-top:solid;border-color:black;">
-                    <h5 class="card-title">@airCraftVM.TailNo</h5>
+    <div class="row">
+        @foreach (AirCraftVM airCraftVM in Model)
+        {
+            <div class="col-6 col-md-3 col-lg-3 col-xl-3">
+                <div class="card">
+                    <a href="javascript:void(0)" class="btnedit" data-id="@airCraftVM.Id" style="cursor: pointer">
+                        <img src="@airCraftVM.ImagePath" class="card-img-top" style="height:12rem">
+                        <div class="card-body" style="border-top:solid;border-color:black;">
+                            <h5 class="card-title">@airCraftVM.TailNo</h5>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-
-    }
+            </div>
+        }
+    </div>
 }
 
 

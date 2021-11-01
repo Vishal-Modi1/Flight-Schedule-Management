@@ -55,6 +55,8 @@ namespace Repository
         public DbSet<AircraftMake> AircraftMakes { get; set; }
 
         public DbSet<AircraftModel> AircraftModels { get; set; }
+        
+        public DbSet<AircraftEquipmentTime> AircraftEquipmentTimes { get; set; }
 
         public DbSet<AircraftCategory> AircraftCategories { get; set; }
 

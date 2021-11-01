@@ -8,14 +8,6 @@
     <None Remove="configuration.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="configuration.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
  
   <ItemGroup>
 	 

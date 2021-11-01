@@ -174,8 +174,19 @@
             }
         });
     }
+    $(document).on('click', '#btnNext', function () {
+        if (!$("#aircraftForm").valid()) {
 
-    $(document).on('click', '#btnsubmit', function () {
+            if ($('#AircraftClassId-error').length > 0) {
+                $('#AircraftClassId-error').css('display', 'inline-block')
+            }
+            return false;
+        } else {
+            stepper.next()
+        }
+    });
+
+    $(document).on('click', '#btnsubmit, #btnNext', function () {
 
         RemoveValidation()
         if (!$("#aircraftForm").valid()) {
@@ -422,7 +433,29 @@
             }
         });
     }
+    function RefreshAircraftEquipmentTimesListForm() {
 
+        $.ajax({
+            url: "/aircraft/aircraftEquipmentTimesListFormAsync",
+            type: "POST",
+            success: function (data) {
+
+                toastr.success('model added successfully')
+
+                $('#div_aircraftEquipmentTimesListForm').html(data);
+            },
+            error: function (data) {
+
+                toastr.error('Error while loading model list')
+            },
+            complete: function () {
+
+                closeSmallModal();
+                enableForm('aircraftModelForm')
+                stopLoading();
+            }
+        });
+    }
     $(document).on('change', '#AircraftModelId', function () {
 
         if ($(this).find(":selected").text() == "+ Add New") {
@@ -465,12 +498,14 @@
 
         if ($(this).find(":selected").text() == "Airplane") {
 
+            $('#divairModule').css('display', 'block')
             $('#divairCraftClass').css('display', 'block')
             $('#divenginePropellers').css('display', 'block')
             $('#divengineTurbines').css('display', 'block')
         }
         else {
 
+            $('#divairModule').css('display', 'none')
             $('#divairCraftClass').css('display', 'none')
             $('#divenginePropellers').css('display', 'none')
             $('#divengineTurbines').css('display', 'none')
@@ -483,9 +518,12 @@
         }
 
         if ($(this).find(":selected").text() == "Flight Simulator") {
+            $('#divairModule').css('display', 'block')
             $('#divairflightSimulatorClass').css('display', 'block')
+
         }
         else {
+            $('#divairModule').css('display', 'none')
             $('#divairflightSimulatorClass').css('display', 'none')
         }
 

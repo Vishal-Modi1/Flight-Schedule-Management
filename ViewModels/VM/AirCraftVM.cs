@@ -71,6 +71,8 @@ namespace ViewModels.VM
         public List<AircraftCategory> AircraftCategoryList { get; set; }
         public List<AircraftClass> AircraftClassList { get; set; }
         public List<FlightSimulatorClass> FlightSimulatorClassList { get; set; }
+        public List<AircraftEquipmentTime> AircraftEquipmentTimesEngineList { get; set; }
+        public List<AircraftEquipmentTime> AircraftEquipmentTimesList { get; set; }
 
         public int TotalRecords { get; set; }
 
