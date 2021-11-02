@@ -2,45 +2,63 @@
 @model ViewModels.VM.AirCraftVM
 @{
     Layout = null;
-    var noOfEngine = Model.NoofEngines;
+    int noofEngine = Model.NoofEngines;
     Model.AircraftEquipmentTimesList = new List<AircraftEquipmentTime>();
 
-    for (int i = 0; i < noOfEngine; i++)
+    for (int index_noofEngine = 0; index_noofEngine < noofEngine; index_noofEngine++)
     {
         Model.AircraftEquipmentTimesList.Add(new AircraftEquipmentTime
         {
-            EquipmentName = string.Empty
+            EquipmentName = "Engine " + (index_noofEngine + 1)
         });
     }
-    var noOfPropellers = Model.NoOfPropellers;
-    for (int i = 0; i < noOfPropellers; i++)
+    int noofPropellers = Model.NoOfPropellers;
+    for (int index_noofPropellers = noofEngine; index_noofPropellers < noofPropellers + noofEngine; index_noofPropellers++)
     {
         Model.AircraftEquipmentTimesList.Add(new AircraftEquipmentTime
         {
-            EquipmentName = string.Empty
+            EquipmentName = "Propeller " + (index_noofPropellers + 1 - noofEngine)
         });
     }
-
+    int airFrameId = noofPropellers + noofEngine;
+    Model.AircraftEquipmentTimesList.Add(new AircraftEquipmentTime
+    {
+        EquipmentName = "Air Frame"
+    });
 }
+@Html.HiddenFor(m => m.AircraftEquipmentTimesList[airFrameId].Id)
+@Html.HiddenFor(m => m.AircraftEquipmentTimesList[airFrameId].AircraftId)
 
-
-@for (int i = 0; i < noOfEngine; i++)
+<div class="col-6">
+    <div class="form-group">
+        @Html.LabelFor(m => m.AircraftEquipmentTimesList[airFrameId].EquipmentName, "Air Frame", new { htmlAttributes = new { @class = "control-label" } })
+        @Html.EditorFor(m => m.AircraftEquipmentTimesList[airFrameId].EquipmentName, new { htmlAttributes = new { placeholder = "Air Frame", @class = "form-control", @required = "required" } })
+        @Html.ValidationMessageFor(m => m.AircraftEquipmentTimesList[airFrameId].EquipmentName)
+    </div>
+</div>
+<div class="col-6">
+    <div class="form-group">
+        @Html.LabelFor(m => m.AircraftEquipmentTimesList[airFrameId].Hours, new { htmlAttributes = new { @class = "control-label" } })
+        @Html.EditorFor(m => m.AircraftEquipmentTimesList[airFrameId].Hours, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+        @Html.ValidationMessageFor(m => m.AircraftEquipmentTimesList[airFrameId].Hours)
+    </div>
+</div>
+<div class="col-12">
+    <hr />
+</div>
+@for (int i = 0; i < noofEngine; i++)
 {
     @Html.HiddenFor(m => m.AircraftEquipmentTimesList[i].Id)
     @Html.HiddenFor(m => m.AircraftEquipmentTimesList[i].AircraftId)
-    <div class="col-4">
+
+    <div class="col-6">
         <div class="form-group">
-            <label for="">Engine @(i+1)</label>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, "Equipment Name" + (i + 1), new { htmlAttributes = new { @class = "control-label" } })
+            @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, "Engine " + (i + 1), new { htmlAttributes = new { @class = "control-label" } })
             @Html.EditorFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, new { htmlAttributes = new { placeholder = "Enter Equipment Name " + (i + 1), @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(m => m.AircraftEquipmentTimesList[i].EquipmentName)
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <div class="form-group">
             @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].Hours, new { htmlAttributes = new { @class = "control-label" } })
             @Html.EditorFor(m => m.AircraftEquipmentTimesList[i].Hours, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
@@ -48,29 +66,25 @@
         </div>
     </div>
 }
-@if (noOfPropellers > 0)
+@if (noofPropellers > 0)
 {
     <div class="col-12">
         <hr />
     </div>
 }
-@for (int i = noOfEngine; i < (noOfPropellers + noOfEngine); i++)
+@for (int i = noofEngine; i < (noofPropellers + noofEngine); i++)
 {
     @Html.HiddenFor(m => m.AircraftEquipmentTimesList[i].Id)
     @Html.HiddenFor(m => m.AircraftEquipmentTimesList[i].AircraftId)
-    <div class="col-4">
+
+    <div class="col-6">
         <div class="form-group">
-            <label for="">Propeller @(i + 1 - noOfEngine)</label>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, "Equipment Name " + (i + 1 - noOfEngine), new { htmlAttributes = new { @class = "control-label" } })
-            @Html.EditorFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, new { htmlAttributes = new { placeholder = "Enter Equipment Name " + (i + 1 - noOfEngine), @class = "form-control", @required = "required" } })
+            @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, "Propeller " + (i + 1 - noofEngine), new { htmlAttributes = new { @class = "control-label" } })
+            @Html.EditorFor(m => m.AircraftEquipmentTimesList[i].EquipmentName, new { htmlAttributes = new { placeholder = "Enter Equipment Name " + (i + 1 - noofEngine), @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(m => m.AircraftEquipmentTimesList[i].EquipmentName)
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <div class="form-group">
             @Html.LabelFor(m => m.AircraftEquipmentTimesList[i].Hours, new { htmlAttributes = new { @class = "control-label" } })
             @Html.EditorFor(m => m.AircraftEquipmentTimesList[i].Hours, new { htmlAttributes = new { @class = "form-control", @required = "required" } })

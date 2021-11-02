@@ -174,6 +174,7 @@
         });
         $('input[name="IsEngineshavePropellersSwitch"]').on('switchChange.bootstrapSwitch', function (event, state) {
             console.log(state); // true | false
+            $("#NoOfPropellers").val(0);
             if (state) {
                 $('#divNoOfPropellers').show();
             } else {
