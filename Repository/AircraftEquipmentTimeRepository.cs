@@ -62,5 +62,13 @@ namespace Repository
                 return _myContext.AircraftEquipmentTimes.Where(predicate).FirstOrDefault();
             }
         }
+
+        public List<AircraftEquipmentTime> FindListByCondition(Expression<Func<AircraftEquipmentTime, bool>> predicate)
+        {
+            using (_myContext = new MyContext())
+            {
+                return _myContext.AircraftEquipmentTimes.Where(predicate).ToList();
+            }
+        }
     }
 }
