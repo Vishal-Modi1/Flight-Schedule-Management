@@ -1,0 +1,204 @@
+﻿@model ViewModels.VM.AirCraftVM
+<style>
+    .profile-user-img {
+        width: 100%;
+    }
+</style>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@(Model.AircraftModelList.Where(x => x.Id == Model.AircraftModelId).FirstOrDefault().Name) Aircraft Details</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@(Url.Action("index","home"))">Home</a></li>
+                    <li class="breadcrumb-item active">Aircraft Details</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-bordered" src="@(Model.ImagePath)" alt="User profile picture">
+                        </div>
+
+                        <h2 class="profile-username text-center">@(Model.AircraftModelList.Where(x => x.Id == Model.AircraftModelId).FirstOrDefault().Name)</h2>
+
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>Tail No</b> <a class="float-right"><h5>@(Model.TailNo)</h5></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Year</b> <a class="float-right"><h5>@(Model.Year)</h5></a>
+                            </li>
+                            @if (Model.AircraftMakeList.Where(x => x.Id == Model.AircraftMakeId).Count() > 0)
+                            {
+                                <li class="list-group-item">
+                                    <b>Make</b> <a class="float-right"><h5>@(Model.AircraftMakeList.Where(x => x.Id == Model.AircraftMakeId).FirstOrDefault().Name)</h5></a>
+                                </li>
+                            }
+
+                            @if (Model.AircraftModelList.Where(x => x.Id == Model.AircraftModelId).Count() > 0)
+                            {
+                                <li class="list-group-item">
+                                    <b>Model</b> <a class="float-right"><h5>@(Model.AircraftModelList.Where(x => x.Id == Model.AircraftModelId).FirstOrDefault().Name)</h5></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">About Aircraft</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <strong><i class="fas fa-cogs mr-1"></i> Turbines</strong>
+                        <p class="text-muted">
+                            Turbines <strong>@(Model.IsEnginesareTurbines == true?"Available": "Not Available")</strong>
+                        </p>
+
+                        <hr>
+
+                        <strong><i class="fas fa-fan mr-1"></i> Propellers</strong>
+                        <p class="text-muted">
+                            Propellers <strong>@(Model.IsEngineshavePropellers == true?"Available": "Not Available")</strong>
+                        </p>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#aircrafttimes" data-toggle="tab">Aircraft Times</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#descriptions" data-toggle="tab">Descriptions</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#equipments" data-toggle="tab">Equipments</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#specs" data-toggle="tab">Specs</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="aircrafttimes">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Equipment Name</th>
+                                            <th>Hours</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Air Frame")).Count() > 0)
+                                        {
+                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Air Frame")).ToList())
+                                            {
+                                                <tr>
+                                                    <td>Total @(item.EquipmentName)</td>
+                                                    <td><h4><span class="badge bg-success">@(item.Hours) Hours</span></h4></td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Engine")).Count() > 0)
+                                        {
+                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Engine")).ToList())
+                                            {
+                                                <tr>
+                                                    <td>@(item.EquipmentName)</td>
+                                                    <td><h4><span class="badge bg-primary">@(item.Hours) Hours</span></h4></td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Propeller")).Count() > 0)
+                                        {
+                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Propeller")).ToList())
+                                            {
+                                                <tr>
+                                                    <td>@(item.EquipmentName)</td>
+                                                    <td><h4><span class="badge bg-secondary">@(item.Hours) Hours</span></h4></td>
+
+                                                </tr>
+                                            }
+                                        }
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="descriptions">
+                                <div>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" asp-for="TailNo"></label>
+                                            <div class="col-sm-10">
+                                                <label class="col-form-label" id="TailNo">@(Model.TailNo)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" asp-for="Year"></label>
+                                            <div class="col-sm-10">
+                                                <label class="col-form-label" id="TailNo">@(Model.Year)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" asp-for="AircraftMakeId"></label>
+                                            <div class="col-sm-10">
+                                                <label class="col-form-label" id="TailNo">@(Model.AircraftMakeList.Where(x => x.Id == Model.AircraftMakeId).FirstOrDefault().Name)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" asp-for="AircraftModelId"></label>
+                                            <div class="col-sm-10">
+                                                <label class="col-form-label" id="TailNo">@(Model.AircraftModelList.Where(x => x.Id == Model.AircraftModelId).FirstOrDefault().Name)</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="tab-pane" id="equipments">
+                                <div>
+                                    <h4>Equipments</h4>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="specs">
+                                <div>
+                                    <h4>Specs</h4>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

@@ -19,6 +19,7 @@ namespace ViewModels.VM
 
         [Display(Name = "Aircraft Image")]
         public string File { get; set; }
+        [Display(Name = "year")]
         public string Year { get; set; }
 
         [Required]

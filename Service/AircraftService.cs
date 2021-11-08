@@ -15,16 +15,18 @@ namespace Service
         private readonly IAircraftClassRepository _aircraftClassRepository;
         private readonly IAircraftMakeRepository _aircraftMakeRepository;
         private readonly IAircraftModelRepository _aircraftModelRepository;
+        private readonly IAircraftEquipmentTimeRepository _aircraftEquipmentTimeRepository;
 
         public AircraftService(IAircraftRepository airCraftRepository, IAircraftCategoryRepository aircraftCategoryRepository,
                                IAircraftClassRepository aircraftClassRepository, IAircraftMakeRepository aircraftMakeRepository,
-                               IAircraftModelRepository aircraftModelRepository)
+                               IAircraftModelRepository aircraftModelRepository, IAircraftEquipmentTimeRepository aircraftEquipmentTimeRepository)
         {
             _airCraftRepository = airCraftRepository;
             _aircraftCategoryRepository = aircraftCategoryRepository;
             _aircraftClassRepository = aircraftClassRepository;
             _aircraftMakeRepository = aircraftMakeRepository;
             _aircraftModelRepository = aircraftModelRepository;
+            _aircraftEquipmentTimeRepository = aircraftEquipmentTimeRepository;
         }
 
         public CurrentResponse Create(AirCraftVM airCraftVM)
@@ -128,6 +130,7 @@ namespace Service
             airCraftVM.AircraftClassList = _aircraftClassRepository.List();
             airCraftVM.AircraftMakeList = _aircraftMakeRepository.List();
             airCraftVM.AircraftModelList = _aircraftModelRepository.List();
+            airCraftVM.AircraftEquipmentTimesList = _aircraftEquipmentTimeRepository.FindListByCondition(p => p.AircraftId == id);
             airCraftVM.FlightSimulatorClassList = _airCraftRepository.FlightSimulatorClassList();
 
             CreateResponse(airCraftVM, HttpStatusCode.OK, "");

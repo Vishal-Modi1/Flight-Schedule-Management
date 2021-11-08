@@ -99,11 +99,11 @@
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
 
-    $(document).on('click', '.btnedit', function () {
+    //$(document).on('click', '.btnedit', function () {
 
-        var id = $(this).attr('data-id');
-        openCreateModal('Edit Aircraft', '/aircraft/edit?id=' + id, ValidateAircraftForm)
-    });
+    //    var id = $(this).attr('data-id');
+    //    openCreateModal('Edit Aircraft', '/aircraft/edit?id=' + id, ValidateAircraftForm)
+    //});
 
     $(document).on('click', '.btndelete', function () {
 
@@ -175,13 +175,20 @@
         $('input[name="IsEngineshavePropellersSwitch"]').on('switchChange.bootstrapSwitch', function (event, state) {
             console.log(state); // true | false
             $("#NoOfPropellers").val(0);
+            
             if (state) {
                 $('#divNoOfPropellers').show();
             } else {
                 $('#divNoOfPropellers').hide();
             }
         });
+        
     }
+    $(document).on('change', '#AircraftClassId', function () {
+        if ($("#AircraftClassId option:selected").text().toLowerCase().includes("single")) {
+            $("#NoofEngines").val(1);
+        }
+    });
     $(document).on('click', '#btnNext', function () {
         if (!$("#aircraftForm").valid()) {
             if ($('#AircraftClassId-error').length > 0) {
@@ -553,6 +560,7 @@
         if (((aircraftClass == "Single Engine Land (ASEL)" || aircraftClass == "Single Engine Sea (ASES)"
             || $('#AircraftClassId').val() == '') && $('#AircraftClassId').is(":visible") == true)) {
             $('#divnoofEngines').css('display', 'none')
+
         }
         else {
             $('#divnoofEngines').css('display', 'block')
