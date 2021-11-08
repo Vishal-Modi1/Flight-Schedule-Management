@@ -41,7 +41,8 @@ namespace PresentationLayer.Controllers
         {
             AirCraftVM airCraftVM = await GetDetailsAsync(id);
 
-            return PartialView("Create", airCraftVM);
+            //return PartialView("Create", airCraftVM);
+            return View("Edit", airCraftVM);
         }
 
         [HttpGet]

@@ -99,11 +99,11 @@
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
 
-    $(document).on('click', '.btnedit', function () {
+    //$(document).on('click', '.btnedit', function () {
 
-        var id = $(this).attr('data-id');
-        openCreateModal('Edit Aircraft', '/aircraft/edit?id=' + id, ValidateAircraftForm)
-    });
+    //    var id = $(this).attr('data-id');
+    //    openCreateModal('Edit Aircraft', '/aircraft/edit?id=' + id, ValidateAircraftForm)
+    //});
 
     $(document).on('click', '.btndelete', function () {
 
