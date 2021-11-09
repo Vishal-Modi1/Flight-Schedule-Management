@@ -10,5 +10,6 @@ namespace Service.Interface
         CurrentResponse GetDetails(int id);
         CurrentResponse Delete(int id);
         CurrentResponse UpdateImageName(int id, string imageName);
+        CurrentResponse IsAirCraftExist(AirCraftVM airCraftVM);
     }
 }

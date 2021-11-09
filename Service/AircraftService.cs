@@ -35,17 +35,17 @@ namespace Service
 
             try
             {
-                bool isAirCraftExist = IsAirCraftExist(airCraftVM);
+                //bool isAirCraftExist = IsAirCraftExist(airCraftVM);
 
-                if (isAirCraftExist)
-                {
-                    CreateResponse(airCraft, HttpStatusCode.Ambiguous, "Aircraft is already exist");
-                }
-                else
-                {
-                    airCraft = _airCraftRepository.Create(airCraft);
-                    CreateResponse(airCraft, HttpStatusCode.OK, "Aircraft added successfully");
-                }
+                //if (isAirCraftExist)
+                //{
+                //    CreateResponse(airCraft, HttpStatusCode.Ambiguous, "Aircraft is already exist");
+                //}
+                //else
+                //{
+                airCraft = _airCraftRepository.Create(airCraft);
+                CreateResponse(airCraft, HttpStatusCode.OK, "Aircraft added successfully");
+                //   }
 
                 return _currentResponse;
             }
@@ -57,16 +57,42 @@ namespace Service
             }
         }
 
-        private bool IsAirCraftExist(AirCraftVM airCraftVM)
-        {
-            AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.TailNo == airCraftVM.TailNo && p.Id != airCraftVM.Id);
+        //private bool IsAirCraftExist(AirCraftVM airCraftVM)
+        //{
+        //    AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.TailNo == airCraftVM.TailNo && p.Id != airCraftVM.Id);
 
-            if (airCraft == null)
+        //    if (airCraft == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+
+        public CurrentResponse IsAirCraftExist(AirCraftVM airCraftVM)
+        {
+            try
             {
-                return false;
+                AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.TailNo == airCraftVM.TailNo && p.Id != airCraftVM.Id);
+
+                if (airCraft != null)
+                {
+                    CreateResponse(null, HttpStatusCode.Ambiguous, "Aircraft is already exist");
+                }
+                else
+                {
+                    CreateResponse(null, HttpStatusCode.OK, "");
+                }
+
+                return _currentResponse;
             }
 
-            return true;
+            catch (Exception exc)
+            {
+                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
         }
 
         public CurrentResponse Delete(int id)
@@ -93,18 +119,18 @@ namespace Service
 
             try
             {
-                bool isInstructorTypeExist = IsAirCraftExist(airCraftVM);
+                //bool isInstructorTypeExist = IsAirCraftExist(airCraftVM);
 
-                if (isInstructorTypeExist)
-                {
-                    CreateResponse(airCraft, HttpStatusCode.Ambiguous, "Aircraft is already exist");
-                }
+                //if (isInstructorTypeExist)
+                //{
+                //    CreateResponse(airCraft, HttpStatusCode.Ambiguous, "Aircraft is already exist");
+                //}
 
-                else
-                {
-                    airCraft = _airCraftRepository.Edit(airCraft);
-                    CreateResponse(airCraft, HttpStatusCode.OK, "Aircraft updated successfully");
-                }
+                //else
+                //{
+                airCraft = _airCraftRepository.Edit(airCraft);
+                CreateResponse(airCraft, HttpStatusCode.OK, "Aircraft updated successfully");
+                //}
 
                 return _currentResponse;
             }

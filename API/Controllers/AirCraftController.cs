@@ -73,7 +73,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("Delete")]
+        [Route("delete")]
         public IActionResult Delete(int id)
         {
             CurrentResponse response = _airCraftService.Delete(id);
@@ -82,7 +82,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("UploadFile")]
+        [Route("uploadfile")]
         public async Task<IActionResult> UploadFileAsync()
         {
             if (!Request.HasFormContentType)
@@ -102,6 +102,15 @@ namespace API.Controllers
             {
                 response = _airCraftService.UpdateImageName(Convert.ToInt32(form.Files[0].FileName), fileName);
             }
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("isaircraftexist")]
+        public IActionResult IsAirCraftExist(AirCraftVM airCraftVM)
+        {
+            CurrentResponse response = _airCraftService.IsAirCraftExist(airCraftVM);
 
             return Ok(response);
         }

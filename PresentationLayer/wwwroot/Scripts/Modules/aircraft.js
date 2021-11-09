@@ -190,20 +190,63 @@
         }
     });
     $(document).on('click', '#btnNext', function () {
+
         if (!$("#aircraftForm").valid()) {
             if ($('#AircraftClassId-error').length > 0) {
                 $('#AircraftClassId-error').css('display', 'inline-block')
             }
             return false;
         } else {
-            var noOfEngine = $("#NoofEngines").val();
-            var noOfPropellers = $("#NoOfPropellers").val();
-            setAirCreaftEquipmentTime(noOfEngine, noOfPropellers);
-            stepper.next();
+
+            var isNameExist = IsNameExist();
         }
     });
 
+    function IsNameExist() {
+
+        startLoading();
+
+        var airCraftVM =
+        {
+            TailNo: $('#TailNo').val(),
+            Id: $('#Id').val()
+        }
+
+        $.ajax({
+            url: "/aircraft/isaircraftexist",
+            type: "POST",
+            data: airCraftVM,
+            success: function (data) {
+
+                if (data.status == 200) {
+                    var noOfEngine = $("#NoofEngines").val();
+                    var noOfPropellers = $("#NoOfPropellers").val();
+                    setAirCreaftEquipmentTime(noOfEngine, noOfPropellers);
+                    stepper.next();
+                }
+                else {
+
+                   toastr.error(data.message)
+
+                }
+
+            },
+            error: function (data) {
+
+                toastr.error('Error while loading model data')
+            },
+            complete: function () {
+
+                stopLoading();
+            }
+        });
+
+    }
+
     function setAirCreaftEquipmentTime(noOfEngine, noOfPropellers) {
+
+        startLoading();
+
         $.ajax({
             url: "/aircraft/aircraftequipmenttimeslistform?noOfEngines=" + noOfEngine + "&noOfPropellers=" + noOfPropellers,
             type: "GET",

@@ -158,6 +158,17 @@ namespace PresentationLayer.Controllers
             return Ok(response);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> IsAircraftExistAsync(AirCraftVM airCraftVM)
+        {
+            string url = "aircraft/isaircraftexist";
+
+            string jsonData = JsonConvert.SerializeObject(airCraftVM);
+            CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
+
+            return Json(response);
+        }
+
         #region Aircraft Make
 
         public async Task<IActionResult> ListMakeAsync()
