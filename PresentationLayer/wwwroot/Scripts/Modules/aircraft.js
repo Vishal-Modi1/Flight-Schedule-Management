@@ -218,7 +218,8 @@
             data: airCraftVM,
             success: function (data) {
 
-                if (data.status == 200) {
+                if (data.status == 200)
+                {
                     var noOfEngine = $("#NoofEngines").val();
                     var noOfPropellers = $("#NoOfPropellers").val();
                     setAirCreaftEquipmentTime(noOfEngine, noOfPropellers);
@@ -594,6 +595,18 @@
 
         ManageNoofEngineDropdown()
     })
+
+    $(document).on('click', '#airCraftImage', function(){
+
+        $('#imageUploader').trigger('click');
+
+    });
+
+    $("#imageUploader").on('change', function () {
+
+        alert()
+
+    });
 
     function ManageNoofEngineDropdown() {
 
