@@ -63,3 +63,37 @@ ExpireOn Datetime,
 UserId int,
 CONSTRAINT FK_User_EmailConfirmation Foreign Key (UserId) References Users(Id),
 )
+
+ 
+--drop table [dbo].[Status]
+CREATE TABLE [dbo].[Status](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+ CONSTRAINT [PK_Status] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+
+INSERT INTO [dbo].[Status] ([Name],[IsActive])
+VALUES('Installed',1),('Repaired',1),('Removed',1)
+
+--drop table [dbo].[Classification]
+ CREATE TABLE [dbo].[Classification](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+ CONSTRAINT [PK_Classification] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+INSERT INTO [dbo].[Classification]([Name],[IsActive])
+VALUES('Aircraft',1),('Engine',1),('Propeller',1),('Appliance',1),('Avionics',1)

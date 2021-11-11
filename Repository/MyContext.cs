@@ -62,6 +62,10 @@ namespace Repository
 
         public DbSet<AircraftClass> AircraftClasses { get; set; }
 
+        public DbSet<Status> Statuses { get; set; }
+
+        public DbSet<Classification> Classifications { get; set; }
+
         public DbSet<FlightSimulatorClass> FlightSimulatorClasses { get; set; }
 
     }

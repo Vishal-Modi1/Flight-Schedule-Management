@@ -1,3 +1,4 @@
+using API.CustomServicesExtensions;
 using Configuration;
 using DataModels.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -101,32 +102,10 @@ namespace API
             services.AddHttpContextAccessor();
 
             //Services
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<ISendMailService, SendMailService>();
-            services.AddScoped<IMyAccountService, MyAccountService>();
-            services.AddScoped<IInstructorTypeService, InstructorTypeService>();
-            services.AddScoped<IAircraftMakeService, AircraftMakeService>();
-            services.AddScoped<IAircraftModelService, AircraftModelService>();
-            services.AddScoped<IAircraftCategoryService, AircraftCategoryService>();
-            services.AddScoped<IAircraftClassService, AircraftClassService>();
-            services.AddScoped<IAircraftEquipementTimeService, AircraftEquipementTimeService>();
-            services.AddScoped<IAircraftService, AircraftService>();
+            services.AddCustomServices();
 
             //Repositories
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-            services.AddScoped<IInstructorTypeRepository, InstructorTypeRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IEmailTokenRepository, EmailTokenRepository>();
-            services.AddScoped<IMyAccountRepository, MyAccountRepository>();
-            services.AddScoped<IAircraftMakeRepository, AircraftMakeRepository>();
-            services.AddScoped<IAircraftModelRepository, AircraftModelRepository>();
-            services.AddScoped<IAircraftCategoryRepository, AircraftCategoryRepository>();
-            services.AddScoped<IAircraftClassRepository, AircraftClassRepository>();
-            services.AddScoped<IAircraftEquipmentTimeRepository, AircraftEquipmentTimeRepository>();
-            services.AddScoped<IAircraftRepository, AircraftRepository>();
+            services.AddCustomRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
