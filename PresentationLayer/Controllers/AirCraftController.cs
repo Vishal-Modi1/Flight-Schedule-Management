@@ -40,8 +40,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> EditAsync(int id)
         {
             AirCraftVM airCraftVM = await GetDetailsAsync(id);
-
-            //return PartialView("Create", airCraftVM);
+            airCraftVM.AirCraftEquipmentList = new List<AirCraftEquipment>();
+            airCraftVM.AirCraftEquipmentList = await GetAirCraftEquipmentListAsync(id);
             return View("Edit", airCraftVM);
         }
 
@@ -94,7 +94,7 @@ namespace PresentationLayer.Controllers
         {
             //IQueryCollection query = HttpContext.Request.Query;
 
-       //     DatatableParams datatableParams = new DatatableParams();
+            //     DatatableParams datatableParams = new DatatableParams();
 
             //var draw = query["draw"].FirstOrDefault();
             //datatableParams.Start = Convert.ToInt32(query["start"]);
@@ -135,7 +135,28 @@ namespace PresentationLayer.Controllers
             }
             return airCraftVM;
         }
+        private async Task<List<StatusVM>> GetStatusListAsync()
+        {
+            var response = await _httpCaller.GetAsync($"status/list");
+            List<StatusVM> statusVMList = new List<StatusVM>();
 
+            if (response.Status == System.Net.HttpStatusCode.OK)
+            {
+                statusVMList = JsonConvert.DeserializeObject<List<StatusVM>>(response.Data);
+            }
+            return statusVMList;
+        }
+        private async Task<List<ClassificationVM>> GetClassificationListAsync()
+        {
+            var response = await _httpCaller.GetAsync($"classification/list");
+            List<ClassificationVM> ClassificationVMList = new List<ClassificationVM>();
+
+            if (response.Status == System.Net.HttpStatusCode.OK)
+            {
+                ClassificationVMList = JsonConvert.DeserializeObject<List<ClassificationVM>>(response.Data);
+            }
+            return ClassificationVMList;
+        }
         public async Task<IActionResult> UploadFileAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -242,7 +263,7 @@ namespace PresentationLayer.Controllers
         #endregion
 
         #region AirCraftEquipmentTime
-        public  IActionResult AircraftEquipmentTimesListForm(int noOfEngines,int noOfPropellers)
+        public IActionResult AircraftEquipmentTimesListForm(int noOfEngines, int noOfPropellers)
         {
             AirCraftVM airCraftVM = new AirCraftVM();
             airCraftVM.NoofEngines = noOfEngines;
@@ -251,5 +272,61 @@ namespace PresentationLayer.Controllers
         }
 
         #endregion
+        #region AirCraftEquipment
+        [HttpGet]
+        public async Task<IActionResult> AddUpdateEquipment(int id = 0)
+        {
+            AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
+            airCraftEquipmentsVM.statusList = new List<StatusVM>();
+            airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
+            if (id > 0) {
+                airCraftEquipmentsVM = await GetAirCraftEquipmentAsync(id);
+            }
+            airCraftEquipmentsVM.statusList = await GetStatusListAsync();
+            airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
+            return PartialView("_aircraftAddEquipment", airCraftEquipmentsVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUpdateEquipmentAsync(AirCraftEquipmentsVM airCraftEquipmentsVM)
+        {
+            if (ModelState.IsValid)
+            {
+                string url;
+                if (airCraftEquipmentsVM.Id > 0)
+                {
+                    url = "aircraftequipment/edit";
+                }
+                else {
+                    url = "aircraftequipment/create";
+                }
+
+                string jsonData = JsonConvert.SerializeObject(airCraftEquipmentsVM);
+                CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
+                if (response.Status == System.Net.HttpStatusCode.OK)
+                {
+                    return View("index");
+                }
+            }
+            airCraftEquipmentsVM.statusList = new List<StatusVM>();
+            airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
+            airCraftEquipmentsVM.statusList = await GetStatusListAsync();
+            airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
+            return View("index");
+        }
+        #endregion
+
+        private async Task<List<AirCraftEquipment>> GetAirCraftEquipmentListAsync(int id)
+        {
+            string url = "aircraftequipment/list?airCraftId=" + Convert.ToString(id);
+            CurrentResponse response = await _httpCaller.GetAsync(url);
+            return JsonConvert.DeserializeObject<List<AirCraftEquipment>>(response.Data);
+        }
+        private async Task<AirCraftEquipmentsVM> GetAirCraftEquipmentAsync(int id)
+        {
+            string url = "aircraftequipment/fetchbyid?id=" + Convert.ToString(id);
+            CurrentResponse response = await _httpCaller.GetAsync(url);
+            return JsonConvert.DeserializeObject<AirCraftEquipmentsVM>(response.Data);
+        }
     }
 }

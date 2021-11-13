@@ -3,10 +3,6 @@ using Repository;
 using Repository.Interface;
 using Service;
 using Service.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.CustomServicesExtensions
 {
@@ -26,7 +22,10 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IAircraftEquipementTimeService, AircraftEquipementTimeService>();
             services.AddScoped<IAircraftService, AircraftService>();
             services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IClassificationService, ClassificationService>();
+            services.AddScoped<IAirCraftEquipmentService, AirCraftEquipmentService>();
         }
+
         public static void AddCustomRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
@@ -43,6 +42,8 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IAircraftEquipmentTimeRepository, AircraftEquipmentTimeRepository>();
             services.AddScoped<IAircraftRepository, AircraftRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IClassificationRepository, ClassificationRepository>();
+            services.AddScoped<IAirCraftEquipmentRepository, AirCraftEquipmentRepository>();
         }
     }
 }

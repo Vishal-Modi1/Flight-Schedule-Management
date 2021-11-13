@@ -2,96 +2,124 @@
 @{
     Layout = null;
 }
-
-<form asp-action="create" asp-controller="airCraft" method="post" id="aircraftForm">
+@Html.AntiForgeryToken()
+<form asp-action="AddUpdateEquipment" asp-controller="airCraft" method="post">
     <div class="row">
+        <input type="hidden" asp-for="Id" class="form-control" placeholder="Please Item">
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="StatusId"></label>
-                <input type="text" asp-for="StatusId" class="form-control" placeholder="Please enter tail no">
+                <select asp-for="StatusId" class="form-control"
+                        asp-items="@(new SelectList(Model.statusList, nameof(ViewModels.VM.StatusVM.Id), nameof(ViewModels.VM.StatusVM.Name)))">
+                    <option>Please select one</option>
+                </select>
+
                 <span asp-validation-for="StatusId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="Item"></label>
+                <input type="text" asp-for="Item" class="form-control" placeholder="Please Item">
+                <span asp-validation-for="Item" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="ClassificationId"></label>
+                <select asp-for="ClassificationId" class="form-control"
+                        asp-items="@(new SelectList(Model.classificationList, nameof(ViewModels.VM.ClassificationVM.Id), nameof(ViewModels.VM.ClassificationVM.Name)))">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="ClassificationId" class="text-danger"></span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="Make"></label>
+                <input type="text" asp-for="Make" class="form-control" placeholder="Please enter Make">
+                <span asp-validation-for="Make" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="Model"></label>
+                <input type="text" asp-for="Model" class="form-control" placeholder="Please enter Model">
+                <span asp-validation-for="Model" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="Manufacturer"></label>
+                <input type="text" asp-for="Manufacturer" class="form-control" placeholder="Please enter Manufacturer">
+                <span asp-validation-for="Manufacturer" class="text-danger"></span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="PartNumber"></label>
+                <input type="text" asp-for="PartNumber" class="form-control" placeholder="Please enter Part Number">
+                <span asp-validation-for="PartNumber" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="SerialNumber"></label>
+                <input type="text" asp-for="SerialNumber" class="form-control" placeholder="Please enter Serial Number">
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="ManufacturerDate"></label>
+                <input type="date" asp-for="ManufacturerDate" class="form-control">
+                <span asp-validation-for="ManufacturerDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label asp-for="AircraftTTInstall"></label>
+                <input type="text" asp-for="AircraftTTInstall" class="form-control" placeholder="Please enter Aircraft TT at Install">
+                <span asp-validation-for="AircraftTTInstall" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label asp-for="PartTTInstall"></label>
+                <input type="text" asp-for="PartTTInstall" class="form-control" placeholder="Please enter Part TT at Install">
+                <span asp-validation-for="PartTTInstall" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label asp-for="LogEntryDate"></label>
+                <input type="date" asp-for="LogEntryDate" class="form-control" placeholder="Please enter Log Entry Date">
+                <span asp-validation-for="LogEntryDate" class="text-danger"></span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label asp-for="Notes"></label>
+                <textarea type="text" asp-for="Notes" class="form-control" placeholder="Please enter Notes"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
         </div>
-
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
     </div>
 </form>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>

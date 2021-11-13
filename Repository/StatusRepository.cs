@@ -15,7 +15,10 @@ namespace Repository
  
         public List<Status> List()
         {
-            return _myContext.Statuses.Where(c=> c.IsActive == true).ToList();
+            using (_myContext = new MyContext())
+            {
+                return _myContext.Statuses.Where(c=> c.IsActive == true).ToList();
+            }
         }
     }
 }

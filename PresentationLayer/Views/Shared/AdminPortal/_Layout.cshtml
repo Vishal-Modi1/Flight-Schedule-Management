@@ -33,9 +33,7 @@
                     @RenderBody()
 
                     <div class="loader" style="display:none" id="loader">
-                        @*<div class="center">
-                <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
-            </div>*@
+                        <div class="loading-bull"></div>
                     </div>
 
                     <style>
@@ -46,6 +44,9 @@
                             width: 100%;
                             height: 100%;
                             z-index: 9999;
+                            background: url('https://www.aspsnippets.com/demos/loader4.gif') 50% 50% no-repeat;
+                        }
+                        .loading-bull {
                             background: url('https://www.aspsnippets.com/demos/loader4.gif') 50% 50% no-repeat;
                         }
                     </style>

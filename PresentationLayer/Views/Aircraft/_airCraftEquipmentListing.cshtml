@@ -1,0 +1,20 @@
+﻿@model List<DataModels.Models.AirCraftEquipment>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.Item)</td>
+                    <td>
+                        <button type="button" id="btnEditAirCraftEquipment" data-edird="@(item.Id)" class="btn btn-primary float-right">Edit</button>
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>

@@ -184,9 +184,17 @@
 
                             <div class="tab-pane" id="equipments">
                                 <div>
-                                    <h4>Equipments</h4>
-                                    <div>
-                                        <partial name="_aircraftAddEquipment" />
+                                    
+                                    <div class="row card-footer">
+                                        <div class="col">
+                                            <h4>Equipment List</h4>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" id="btnAddNewEquipment" class="btn btn-primary float-right">Add new</button>
+                                        </div>
+                                    </div>
+                                    <div id="divAirCraftEquipmentListing">
+                                        <partial name="_airCraftEquipmentListing" model="Model.AirCraftEquipmentList" />
                                     </div>
                                 </div>
                             </div>

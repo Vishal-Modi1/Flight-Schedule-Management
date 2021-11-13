@@ -98,6 +98,14 @@
     $('#createAircraft').on('click', function () {
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
+    $('#btnAddNewEquipment').on('click', function () {
+        openCreateModal('Add new Equipment', '/aircraft/addupdateequipment', ValidateAircraftForm)
+    });
+    $('#btnEditAirCraftEquipment').on('click', function () {
+        debugger
+        var id = $('#btnEditAirCraftEquipment').data('edird');
+        openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id , ValidateAircraftForm)
+    });
 
     //$(document).on('click', '.btnedit', function () {
 

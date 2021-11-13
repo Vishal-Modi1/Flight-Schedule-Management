@@ -15,7 +15,10 @@ namespace Repository
  
         public List<Classification> List()
         {
+            using (_myContext = new MyContext())
+            {
             return _myContext.Classifications.Where(c=> c.IsActive == true).ToList();
+            }
         }
     }
 }

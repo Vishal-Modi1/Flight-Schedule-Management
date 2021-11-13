@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
+using ViewModels.VM;
 
 namespace API.Controllers
 {
@@ -16,5 +17,15 @@ namespace API.Controllers
         {
             _classificationService = classificationService;
         }
+        
+        [HttpGet]
+        [Route("list")]
+        public IActionResult List()
+        {
+            CurrentResponse response = _classificationService.List();
+
+            return Ok(response);
+        }
+
     }
 }
