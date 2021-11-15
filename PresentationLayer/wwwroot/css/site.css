@@ -142,11 +142,11 @@ body {
 }
 
 .cal-loader__plane {
-    fill: #001992;
+    fill: #1c8dff;
 }
 
 .cal-loader__path {
-    stroke: #1c8dff;
+    stroke: #001992;
     animation: 1.4s ease-in-out infinite loader-path;
 }
 
