@@ -197,6 +197,6 @@ $('#btnChangePassword').on('click', function () {
 
 function loadDatatables() {
     setTimeout(function () {
-        $(".static-dataTable").DataTable({ "responsive": true, "lengthChange": false, "autoWidth": true })
+        $(".static-dataTable").DataTable({ "responsive": true, "lengthChange": false, "autoWidth": false })
     },800)
 }

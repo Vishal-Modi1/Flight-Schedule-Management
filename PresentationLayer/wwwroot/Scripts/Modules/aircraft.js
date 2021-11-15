@@ -98,16 +98,15 @@
     $('#createAircraft').on('click', function () {
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
+    $(document).on('click', '#updateAircraft', function () {
+        var craftId = $(this).attr('data-craftid');
+        openCreateModal('Update Aircraft', '/aircraft/updateAircraft?aircraftAsync=' + craftId , ValidateAircraftForm)
+    });
     $('#btnAddNewEquipment').on('click', function () {
         var aircraftId = this.data('craftid');
         openCreateModal('Add new Equipment', '/aircraft/addupdateequipment?aircraftId=' + aircraftId, ValidateAircraftForm)
-    });
-    //function openEditPopup(id, aircraftId) {
-    //    openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId);
-    //}
- 
+    }); 
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
-        
         var id = $(this).attr('data-edird');
         var aircraftId = $(this).attr('data-craftid');
         openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId);
@@ -205,8 +204,16 @@
             }
             return false;
         } else {
-
-            var isNameExist = IsNameExist();
+            debugger
+            var popupaircraftid = $(".popupaircraftid").val();
+            if (parseInt(popupaircraftid) > 0) {
+                var noOfEngine = $("#NoofEngines").val();
+                var noOfPropellers = $("#NoOfPropellers").val();
+                setAirCreaftEquipmentTime(noOfEngine, noOfPropellers,true);
+                stepper.next();
+            } else {
+                var isNameExist = IsNameExist();
+            }
         }
     });
 
@@ -252,27 +259,48 @@
 
     }
 
-    function setAirCreaftEquipmentTime(noOfEngine, noOfPropellers) {
+    function setAirCreaftEquipmentTime(noOfEngine, noOfPropellers,isEdit = false) {
 
         startLoading();
+        if (isEdit == false) {
 
-        $.ajax({
-            url: "/aircraft/aircraftequipmenttimeslistform?noOfEngines=" + noOfEngine + "&noOfPropellers=" + noOfPropellers,
-            type: "GET",
-            success: function (data) {
+            $.ajax({
+                url: "/aircraft/aircraftequipmenttimeslistform?noOfEngines=" + noOfEngine + "&noOfPropellers=" + noOfPropellers,
+                type: "GET",
+                success: function (data) {
 
-                $('#div_aircraftEquipmentTimesListForm').html(data);
+                    $('#div_aircraftEquipmentTimesListForm').html(data);
 
-            },
-            error: function (data) {
+                },
+                error: function (data) {
 
-                toastr.error('Error while loading model data')
-            },
-            complete: function () {
+                    toastr.error('Error while loading model data')
+                },
+                complete: function () {
 
-                stopLoading();
-            }
-        });
+                    stopLoading();
+                }
+            });
+        } else {
+
+            $.ajax({
+                url: "/aircraft/aircraftequipmenttimeslistform?noOfEngines=" + noOfEngine + "&noOfPropellers=" + noOfPropellers,
+                type: "GET",
+                success: function (data) {
+
+                    $('#div_aircraftEquipmentTimesListForm').html(data);
+
+                },
+                error: function (data) {
+
+                    toastr.error('Error while loading model data')
+                },
+                complete: function () {
+
+                    stopLoading();
+                }
+            });
+        }
     }
 
     $(document).on('click', '#btnsubmit', function () {

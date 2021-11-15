@@ -36,7 +36,12 @@ namespace PresentationLayer.Controllers
 
             return PartialView(airCraftVM);
         }
+        public async Task<IActionResult> UpdateAircraftAsync(int aircraftAsync = 0)
+        {
+            AirCraftVM airCraftVM = await GetDetailsAsync(aircraftAsync);
 
+            return PartialView("Create",airCraftVM);
+        }
         public async Task<IActionResult> EditAsync(int id)
         {
             AirCraftVM airCraftVM = await GetDetailsAsync(id);
