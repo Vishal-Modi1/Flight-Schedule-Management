@@ -305,7 +305,7 @@ namespace PresentationLayer.Controllers
                 CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
                 if (response.Status == System.Net.HttpStatusCode.OK)
                 {
-                    return View("index");
+                    return View("Edit", airCraftEquipmentsVM.Id);
                 }
             }
             airCraftEquipmentsVM.statusList = new List<StatusVM>();

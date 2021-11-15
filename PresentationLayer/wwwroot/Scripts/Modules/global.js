@@ -6,7 +6,7 @@
 });
 
 function openCreateModal(title, ajaxURL, fnCallBackAfterLoad) {
-
+    debugger
     $('#create-modal').modal('toggle')
     $('#create-modal-title').text(title)
 
