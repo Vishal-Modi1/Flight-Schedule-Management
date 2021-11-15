@@ -5,7 +5,8 @@
 @Html.AntiForgeryToken()
 <form asp-action="AddUpdateEquipment" asp-controller="airCraft" method="post" id="formAddUpdateEquipment">
     <div class="row">
-        <input type="hidden" asp-for="Id" class="form-control" placeholder="Please Item">
+        <input type="hidden" asp-for="Id" value="@(Model.Id)" >
+        <input type="hidden" asp-for="AirCraftId" value="@(Model.AirCraftId)" >
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="StatusId"></label>

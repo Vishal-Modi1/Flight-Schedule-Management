@@ -99,18 +99,19 @@
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
     $('#btnAddNewEquipment').on('click', function () {
-        openCreateModal('Add new Equipment', '/aircraft/addupdateequipment', ValidateAircraftForm)
+        var aircraftId = this.data('craftid');
+        openCreateModal('Add new Equipment', '/aircraft/addupdateequipment?aircraftId=' + aircraftId, ValidateAircraftForm)
     });
-    $('#btnEditAirCraftEquipment').on('click', function () {
-        var id = $('#btnEditAirCraftEquipment').data('edird');
-        openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id , ValidateAircraftForm)
+    //function openEditPopup(id, aircraftId) {
+    //    openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId);
+    //}
+ 
+    $(document).on('click', '.btnEditAirCraftEquipment', function () {
+        
+        var id = $(this).attr('data-edird');
+        var aircraftId = $(this).attr('data-craftid');
+        openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId);
     });
-
-    //$(document).on('click', '.btnedit', function () {
-
-    //    var id = $(this).attr('data-id');
-    //    openCreateModal('Edit Aircraft', '/aircraft/edit?id=' + id, ValidateAircraftForm)
-    //});
 
     $(document).on('click', '.btndelete', function () {
 
@@ -351,10 +352,10 @@
             }
         })
     })
-    $('#btnAddUpdateEquipmentSubmit').on('click', function () {
+    $(document).on('click', '#btnAddUpdateEquipmentSubmit', function () {  
 
         var data = $("#formAddUpdateEquipment").serializeObject();
-
+        
         disableForm('formAddUpdateEquipment');
         startLoading();
 

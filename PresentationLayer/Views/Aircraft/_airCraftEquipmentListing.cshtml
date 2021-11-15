@@ -1,29 +1,33 @@
 ﻿@model List<DataModels.Models.AirCraftEquipment>
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th><label>Item</label></th>
-            <th><label>Make</label></th>
-            <th><label>Model</label></th>
-            <th><label>Part Number</label></th>
-            <th><label>Serial Number</label></th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@(item.Item)</td>
-                <td>@(item.Make)</td>
-                <td>@(item.Model)</td>
-                <td>@(item.PartNumber)</td>
-                <td>@(item.SerialNumber)</td> 
-                <td>
-                    <button type="button" id="btnEditAirCraftEquipment" data-edird="@(item.Id)" class="btn btn-primary btn-sm float-right">Edit</button>
-                </td>
-            </tr>
+    <div class="row">
+        <div class="col-sm-12 m-2">
+            <table class="table table-bordered table-striped dataTable dtr-inline collapsed static-dataTable" id="tbllistaircraftequipment">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Part Number</th>
+                        <th>Serial Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(item.Item)</td>
+                            <td>@(item.Make)</td>
+                            <td>@(item.Model)</td>
+                            <td>@(item.PartNumber)</td>
+                            <td>@(item.SerialNumber)</td>
+                            <td>
+                                <button type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" class="btn btn-primary btn-sm float-right btnEditAirCraftEquipment">Edit</button>
+                            </td>
+                        </tr>
 
-        }
-    </tbody>
-</table>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

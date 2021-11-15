@@ -126,6 +126,7 @@ namespace Service
             AirCraftEquipment aircraftEquipment = new AirCraftEquipment();
 
             aircraftEquipment.Id = airCraftEquipmentsVM.Id;
+            aircraftEquipment.AirCraftId = airCraftEquipmentsVM.AirCraftId;
             aircraftEquipment.StatusId = airCraftEquipmentsVM.StatusId;
             aircraftEquipment.ClassificationId = airCraftEquipmentsVM.ClassificationId;
             aircraftEquipment.AircraftTTInstall = airCraftEquipmentsVM.AircraftTTInstall;
@@ -159,6 +160,7 @@ namespace Service
         {
             AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
             airCraftEquipmentsVM.Id = airCraftEquipment.Id;
+            airCraftEquipmentsVM.AirCraftId = airCraftEquipment.AirCraftId;
             airCraftEquipmentsVM.StatusId = airCraftEquipment.StatusId;
             airCraftEquipmentsVM.ClassificationId = airCraftEquipment.ClassificationId;
             airCraftEquipmentsVM.AircraftTTInstall = airCraftEquipment.AircraftTTInstall;

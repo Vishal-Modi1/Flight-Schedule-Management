@@ -274,9 +274,11 @@ namespace PresentationLayer.Controllers
         #endregion
         #region AirCraftEquipment
         [HttpGet]
-        public async Task<IActionResult> AddUpdateEquipment(int id = 0)
+        public async Task<IActionResult> AddUpdateEquipment(int id = 0,int aircraftId=0)
         {
             AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
+            airCraftEquipmentsVM.AirCraftId = aircraftId;
+            airCraftEquipmentsVM.Id = id;
             airCraftEquipmentsVM.statusList = new List<StatusVM>();
             airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
             if (id > 0) {
@@ -312,14 +314,14 @@ namespace PresentationLayer.Controllers
                 CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
                 if (response.Status == System.Net.HttpStatusCode.OK)
                 {
-                    return View("Edit", airCraftEquipmentsVM.Id);
+                    return Json(response);
                 }
             }
             airCraftEquipmentsVM.statusList = new List<StatusVM>();
             airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
-            return View("Edit", airCraftEquipmentsVM.Id);
+            return RedirectToAction("Edit", airCraftEquipmentsVM.Id);
         }
         #endregion
 

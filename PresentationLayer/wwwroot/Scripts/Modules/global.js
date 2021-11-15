@@ -6,7 +6,7 @@
 });
 
 function openCreateModal(title, ajaxURL, fnCallBackAfterLoad) {
-    debugger
+    $('#create-modal').modal({ backdrop: 'static', keyboard: false });
     $('#create-modal').modal('toggle')
     $('#create-modal-title').text(title)
 
@@ -17,9 +17,10 @@ function openCreateModal(title, ajaxURL, fnCallBackAfterLoad) {
         type: 'GET',
         success: function (data) {
             $('#create-modal-body').html(data)
-            fnCallBackAfterLoad();
+            if (fnCallBackAfterLoad) {
+                fnCallBackAfterLoad();
+            }
             //InjectClientsideValidation();
-
         },
         complete: function () {
             stopLoading();
@@ -119,7 +120,7 @@ function closeInfoModal() {
 
 function openInfoModal(title, content, id) {
 
-    debugger
+    
     $('#info-modal').modal('toggle')
     $('#info-modal-title').text(title)
 
@@ -193,3 +194,9 @@ $('#btnChangePassword').on('click', function () {
     //});
 
 });
+
+function loadDatatables() {
+    setTimeout(function () {
+        $(".static-dataTable").DataTable({ "responsive": true, "lengthChange": false, "autoWidth": true })
+    },800)
+}
