@@ -351,7 +351,59 @@
             }
         })
     })
+    $('#btnAddUpdateEquipmentSubmit').on('click', function () {
 
+        var data = $("#formAddUpdateEquipment").serializeObject();
+
+        disableForm('formAddUpdateEquipment');
+        startLoading();
+
+        $.ajax({
+            url: "/aircraft/addupdateequipment",
+            type: "POST",
+            data: data,
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function (data) {
+
+                if (data.status == 200) {
+                    closeCreateModal();
+                    RefreshEquipmentListing();
+                }
+                else {
+                    toastr.error(data.message)
+                }
+
+            },
+            error: function (data) {
+
+                toastr.error(data.message)
+
+            },
+            complete: function () {
+
+                enableForm('formAddUpdateEquipment')
+                stopLoading();
+            }
+        });
+    })
+    function RefreshEquipmentListing() {
+        startLoading();
+        var airCraftId = parseInt($("#AirCraftId").val());
+        $.ajax({
+            url: "/aircraft/AirCraftEquipmentListing?id=" + airCraftId,
+            type: "GET",
+            success: function (data) {
+                $('#divAirCraftEquipmentListing').html(data);
+            },
+            error: function (data) {
+                toastr.error('Error while loading model list')
+            },
+            complete: function () {
+            stopLoading();
+            }
+        });
+    }
     $(document).on('click', '#btnAircraftMakeSubmit', function () {
 
         if (!$("#aircraftMakeForm").valid()) {

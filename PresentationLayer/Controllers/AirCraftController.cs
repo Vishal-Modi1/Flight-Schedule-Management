@@ -286,6 +286,13 @@ namespace PresentationLayer.Controllers
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
             return PartialView("_aircraftAddEquipment", airCraftEquipmentsVM);
         }
+        [HttpGet]
+        public async Task<IActionResult> AirCraftEquipmentListing(int id = 0)
+        {
+            List<AirCraftEquipment> airCraftEquipment = new List<AirCraftEquipment>();
+            airCraftEquipment = await GetAirCraftEquipmentListAsync(id);
+            return PartialView("_airCraftEquipmentListing", airCraftEquipment);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUpdateEquipmentAsync(AirCraftEquipmentsVM airCraftEquipmentsVM)
@@ -312,7 +319,7 @@ namespace PresentationLayer.Controllers
             airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
-            return View("index");
+            return View("Edit", airCraftEquipmentsVM.Id);
         }
         #endregion
 
