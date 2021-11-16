@@ -102,10 +102,11 @@
         var craftId = $(this).attr('data-craftid');
         openCreateModal('Update Aircraft', '/aircraft/updateAircraft?aircraftAsync=' + craftId , ValidateAircraftForm)
     });
-    $('#btnAddNewEquipment').on('click', function () {
+    $(document).on('click', '#btnAddNewEquipment', function () {
         var aircraftId = this.data('craftid');
         openCreateModal('Add new Equipment', '/aircraft/addupdateequipment?aircraftId=' + aircraftId, ValidateAircraftForm)
-    }); 
+    });
+     
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
         var id = $(this).attr('data-edird');
         var aircraftId = $(this).attr('data-craftid');
