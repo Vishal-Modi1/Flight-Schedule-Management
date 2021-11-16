@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.VM;
 
@@ -165,6 +166,9 @@ namespace API.Controllers
         public IActionResult CreateAircraftEquipment(List<AircraftEquipmentTimeVM> aircraftEquipmentTimeVM)
         {
             int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            if (aircraftEquipmentTimeVM.Count > 0) {
+                _aircraftEquipementTimeService.DeleteAllEquipmentTimeByAirCraftId(aircraftEquipmentTimeVM.FirstOrDefault().AircraftId);
+            }
             CurrentResponse response = new CurrentResponse();
             aircraftEquipmentTimeVM.ForEach(item => {
                 item.CreatedBy = createdBy;
