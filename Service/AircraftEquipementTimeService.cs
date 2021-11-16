@@ -99,5 +99,17 @@ namespace Service
             return aircraftEquipmentTime;
         }
 
+        public bool DeleteAllEquipmentTimeByAirCraftId(int AirCraftId)
+        {
+            try
+            {
+                _aircraftEquipementTimeRepository.DeleteEquipmentTimes(AirCraftId);
+                return true;
+            }
+            catch (Exception exc)
+            {
+                return false;   
+            }
+        }
     }
 }

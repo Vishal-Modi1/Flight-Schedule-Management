@@ -55,6 +55,20 @@ namespace Repository
             }
         }
 
+        public void DeleteEquipmentTimes(int airCraftId)
+        {
+            using (_myContext = new MyContext())
+            {
+                List<AircraftEquipmentTime> aircraftEquipmentTimes = _myContext.AircraftEquipmentTimes.Where(p => p.AircraftId == airCraftId).ToList();
+
+                foreach(var aircraftEquipmentTime in aircraftEquipmentTimes)
+                {
+                    _myContext.AircraftEquipmentTimes.Remove(aircraftEquipmentTime);
+                }
+                _myContext.SaveChanges();
+            }
+        }
+
         public AircraftEquipmentTime FindByCondition(Expression<Func<AircraftEquipmentTime, bool>> predicate)
         {
             using (_myContext = new MyContext())
