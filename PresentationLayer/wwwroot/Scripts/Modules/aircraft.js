@@ -98,15 +98,17 @@
     $('#createAircraft').on('click', function () {
         openCreateModal('Create Aircraft', '/aircraft/create', ValidateAircraftForm)
     });
+
     $(document).on('click', '#updateAircraft', function () {
         var craftId = $(this).attr('data-craftid');
         openCreateModal('Update Aircraft', '/aircraft/updateAircraft?aircraftAsync=' + craftId , ValidateAircraftForm)
     });
+
     $(document).on('click', '#btnAddNewEquipment', function () {
-        var aircraftId = this.data('craftid');
+        var aircraftId = $(this).attr('data-craftid');
         openCreateModal('Add new Equipment', '/aircraft/addupdateequipment?aircraftId=' + aircraftId, ValidateAircraftForm)
     });
-     
+
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
         var id = $(this).attr('data-edird');
         var aircraftId = $(this).attr('data-craftid');
@@ -121,7 +123,15 @@
     });
 
     function ValidateAircraftForm() {
-
+        var popupaircraftid = $(".popupaircraftid").val();
+        if (parseInt(popupaircraftid) > 0) {
+            var noOfEngine = $("#NoofEngines").val();
+            $('#NoofEngines').val(noOfEngine).change();
+            var noOfPropellers = $("#NoOfPropellers").val();
+            $('#NoOfPropellers').val(noOfPropellers).change();
+            var aircraftCategoryId = $("#AircraftCategoryId").val();
+            $('#AircraftCategoryId').val(aircraftCategoryId).change();
+        }  
         $('#aircraftForm').validate({
             rules: {
                 TailNo: {
@@ -205,7 +215,6 @@
             }
             return false;
         } else {
-            debugger
             var popupaircraftid = $(".popupaircraftid").val();
             if (parseInt(popupaircraftid) > 0) {
                 var noOfEngine = $("#NoofEngines").val();

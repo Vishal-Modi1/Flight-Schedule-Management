@@ -4,25 +4,25 @@
             <table class="table table-bordered table-striped dataTable dtr-inline collapsed static-dataTable" id="tbllistaircraftequipment">
                 <thead>
                     <tr>
-                        <th>Item</th>
-                        <th>Make</th>
-                        <th>Model</th>
-                        <th>Part Number</th>
-                        <th>Serial Number</th>
-                        <th>Action</th>
+                        <th class="text-center">Item</th>
+                        <th class="text-center">Make</th>
+                        <th class="text-center">Model</th>
+                        <th class="text-center">Part Number</th>
+                        <th class="text-center">Serial Number</th>
+                        <th class="text-center" >Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@(item.Item)</td>
-                            <td>@(item.Make)</td>
-                            <td>@(item.Model)</td>
-                            <td>@(item.PartNumber)</td>
-                            <td>@(item.SerialNumber)</td>
-                            <td>
-                                <button type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" class="btn btn-primary btn-sm float-right btnEditAirCraftEquipment">Edit</button>
+                            <td class="text-center">@(item.Item)</td>
+                            <td class="text-center">@(item.Make)</td>
+                            <td class="text-center">@(item.Model)</td>
+                            <td class="text-right">@(item.PartNumber)</td>
+                            <td class="text-right">@(item.SerialNumber)</td>
+                            <td class="text-center">
+                                <button type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" class="btn btn-primary btn-sm btnEditAirCraftEquipment">Edit</button>
                             </td>
                         </tr>
 
