@@ -127,8 +127,8 @@
         if (parseInt(popupaircraftid) > 0) {
             var noOfEngine = $("#NoofEngines").val();
             $('#NoofEngines').val(noOfEngine).change();
-            var noOfPropellers = $("#NoOfPropellers").val();
-            $('#NoOfPropellers').val(noOfPropellers).change();
+            var noOfPropellers = $("#NoofPropellers").val();
+            $('#NoofPropellers').val(noOfPropellers).change();
             var aircraftCategoryId = $("#AircraftCategoryId").val();
             $('#AircraftCategoryId').val(aircraftCategoryId).change();
         }  
@@ -192,12 +192,12 @@
         });
         $('input[name="IsEngineshavePropellersSwitch"]').on('switchChange.bootstrapSwitch', function (event, state) {
             console.log(state); // true | false
-            $("#NoOfPropellers").val(0);
+            $("#NoofPropellers").val(0);
             
             if (state) {
-                $('#divNoOfPropellers').show();
+                $('#divNoofPropellers').show();
             } else {
-                $('#divNoOfPropellers').hide();
+                $('#divNoofPropellers').hide();
             }
         });
         
@@ -218,7 +218,7 @@
             var popupaircraftid = $(".popupaircraftid").val();
             if (parseInt(popupaircraftid) > 0) {
                 var noOfEngine = $("#NoofEngines").val();
-                var noOfPropellers = $("#NoOfPropellers").val();
+                var noOfPropellers = $("#NoofPropellers").val();
                 setAirCreaftEquipmentTime(noOfEngine, noOfPropellers,true);
                 stepper.next();
             } else {
@@ -246,7 +246,7 @@
                 if (data.status == 200)
                 {
                     var noOfEngine = $("#NoofEngines").val();
-                    var noOfPropellers = $("#NoOfPropellers").val();
+                    var noOfPropellers = $("#NoofPropellers").val();
                     setAirCreaftEquipmentTime(noOfEngine, noOfPropellers);
                     stepper.next();
                 }
@@ -656,7 +656,7 @@
             $('#divairModule').css('display', 'block')
             $('#divairCraftClass').css('display', 'block')
             $('#divenginePropellers').css('display', 'block')
-            $('#divNoOfPropellers').css('display', 'block')
+            $('#divNoofPropellers').css('display', 'block')
             $('#divengineTurbines').css('display', 'block')
         }
         else {
@@ -664,7 +664,7 @@
             $('#divairModule').css('display', 'none')
             $('#divairCraftClass').css('display', 'none')
             $('#divenginePropellers').css('display', 'none')
-            $('#divNoOfPropellers').css('display', 'none')
+            $('#divNoofPropellers').css('display', 'none')
             $('#divengineTurbines').css('display', 'none')
 
             if ($(this).find(":selected").text() == "Helicopter/Rotorcraft") {

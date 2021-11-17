@@ -272,7 +272,7 @@ namespace PresentationLayer.Controllers
         {
             AirCraftVM airCraftVM = new AirCraftVM();
             airCraftVM.NoofEngines = noOfEngines;
-            airCraftVM.NoOfPropellers = noOfPropellers;
+            airCraftVM.NoofPropellers = noOfPropellers;
             return PartialView("_aircraftEquipmentTimesListForm", airCraftVM);
         }
 

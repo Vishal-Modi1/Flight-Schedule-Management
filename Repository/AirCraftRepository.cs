@@ -54,6 +54,7 @@ namespace Repository
                     existingAirCraft.AircraftClassId = airCraft.AircraftClassId;
                     existingAirCraft.FlightSimulatorClassId = airCraft.FlightSimulatorClassId;
                     existingAirCraft.NoofEngines = airCraft.NoofEngines;
+                    existingAirCraft.NoofPropellers = airCraft.NoofPropellers;
                     existingAirCraft.IsEngineshavePropellers = airCraft.IsEngineshavePropellers;
                     existingAirCraft.IsEnginesareTurbines = airCraft.IsEnginesareTurbines;
                     existingAirCraft.TrackOilandFuel = airCraft.TrackOilandFuel;

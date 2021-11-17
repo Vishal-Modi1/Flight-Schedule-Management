@@ -65,6 +65,95 @@ CONSTRAINT FK_User_EmailConfirmation Foreign Key (UserId) References Users(Id),
 )
 
  
+--drop table [dbo].[Aircrafts]
+CREATE TABLE [dbo].[Aircrafts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ImageName] [varchar](200) NULL,
+	[TailNo] [varchar](30) NOT NULL,
+	[Year] [varchar](4) NULL,
+	[AircraftMakeId] [int] NOT NULL,
+	[AircraftModelId] [int] NOT NULL,
+	[AircraftCategoryId] [int] NOT NULL,
+	[AircraftClassId] [int] NULL,
+	[FlightSimulatorClassId] [int] NULL,
+	[NoofEngines] [int] NULL,
+	[NoofPropellers] [int] NULL,
+	[IsEngineshavePropellers] [bit] NOT NULL,
+	[IsEnginesareTurbines] [bit] NOT NULL,
+	[TrackOilandFuel] [bit] NOT NULL,
+	[IsIdentifyMeterMismatch] [bit] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[CreatedOn] [datetime] NULL,
+	[CreatedBy] [int] NULL,
+	[UpdatedOn] [datetime] NULL,
+	[UpdatedBy] [int] NULL,
+	[DeletedOn] [datetime] NULL,
+	[DeletedBy] [int] NULL,
+ CONSTRAINT [PK__Aircraft__3214EC07B0337CE8] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF_Aircrafts_NoofPropellers]  DEFAULT ((0)) FOR [NoofPropellers]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__IsEng__38996AB5]  DEFAULT ((0)) FOR [IsEngineshavePropellers]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__IsEng__398D8EEE]  DEFAULT ((0)) FOR [IsEnginesareTurbines]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__Track__3A81B327]  DEFAULT ((0)) FOR [TrackOilandFuel]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__IsIde__3B75D760]  DEFAULT ((0)) FOR [IsIdentifyMeterMismatch]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__IsAct__3C69FB99]  DEFAULT ((0)) FOR [IsActive]
+GO
+
+ALTER TABLE [dbo].[Aircrafts] ADD  CONSTRAINT [DF__Aircrafts__IsDel__3D5E1FD2]  DEFAULT ((0)) FOR [IsDeleted]
+GO
+
+ALTER TABLE [dbo].[Aircrafts]  WITH CHECK ADD  CONSTRAINT [FK_AircraftCategory_Aircraft] FOREIGN KEY([AircraftCategoryId])
+REFERENCES [dbo].[AircraftCategories] ([Id])
+GO
+
+ALTER TABLE [dbo].[Aircrafts] CHECK CONSTRAINT [FK_AircraftCategory_Aircraft]
+GO
+
+ALTER TABLE [dbo].[Aircrafts]  WITH CHECK ADD  CONSTRAINT [FK_AircraftClass_Aircraft] FOREIGN KEY([AircraftClassId])
+REFERENCES [dbo].[AircraftClasses] ([Id])
+GO
+
+ALTER TABLE [dbo].[Aircrafts] CHECK CONSTRAINT [FK_AircraftClass_Aircraft]
+GO
+
+ALTER TABLE [dbo].[Aircrafts]  WITH CHECK ADD  CONSTRAINT [FK_AircraftMake_Aircraft] FOREIGN KEY([AircraftMakeId])
+REFERENCES [dbo].[AircraftMakes] ([Id])
+GO
+
+ALTER TABLE [dbo].[Aircrafts] CHECK CONSTRAINT [FK_AircraftMake_Aircraft]
+GO
+
+ALTER TABLE [dbo].[Aircrafts]  WITH CHECK ADD  CONSTRAINT [FK_AircraftModel_Aircraft] FOREIGN KEY([AircraftModelId])
+REFERENCES [dbo].[AircraftModels] ([Id])
+GO
+
+ALTER TABLE [dbo].[Aircrafts] CHECK CONSTRAINT [FK_AircraftModel_Aircraft]
+GO
+
+ALTER TABLE [dbo].[Aircrafts]  WITH CHECK ADD  CONSTRAINT [FK_FlightSimulatorClass_Aircraft] FOREIGN KEY([FlightSimulatorClassId])
+REFERENCES [dbo].[FlightSimulatorClasses] ([Id])
+GO
+
+ALTER TABLE [dbo].[Aircrafts] CHECK CONSTRAINT [FK_FlightSimulatorClass_Aircraft]
+GO
+
+
 --drop table [dbo].[Statuses]
 CREATE TABLE [dbo].[Statuses](
 	[Id] [int] IDENTITY(1,1) NOT NULL,

@@ -185,6 +185,7 @@ namespace Service
             airCraftVM.AircraftClassId = airCraft.AircraftClassId;
             airCraftVM.FlightSimulatorClassId = airCraft.FlightSimulatorClassId;
             airCraftVM.NoofEngines = airCraft.NoofEngines;
+            airCraftVM.NoofPropellers = airCraft.NoofPropellers;
             airCraftVM.IsEngineshavePropellers = airCraft.IsEngineshavePropellers;
             airCraftVM.IsEnginesareTurbines = airCraft.IsEnginesareTurbines;
             airCraftVM.TrackOilandFuel = airCraft.TrackOilandFuel;
@@ -230,6 +231,7 @@ namespace Service
             airCraft.AircraftClassId = airCraftVM.AircraftClassId;
             airCraft.FlightSimulatorClassId = airCraftVM.FlightSimulatorClassId;
             airCraft.NoofEngines = airCraftVM.NoofEngines;
+            airCraft.NoofPropellers = airCraftVM.NoofPropellers;
             airCraft.IsEngineshavePropellers = airCraftVM.IsEngineshavePropellers;
             airCraft.IsEnginesareTurbines = airCraftVM.IsEnginesareTurbines;
             airCraft.TrackOilandFuel = airCraftVM.TrackOilandFuel;
