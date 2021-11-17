@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using PresentationLayer.Filters;
 using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using ViewModels.VM;
 
 namespace PresentationLayer.Controllers
 {
+    [TypeFilter(typeof(CustomAuthorization))]
+    [Authorize]
     public class InstructorTypeController : Controller
     {
         private readonly HttpCaller _httpCaller;

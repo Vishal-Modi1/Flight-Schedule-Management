@@ -14,7 +14,7 @@ namespace DataModels.Models
         public Nullable<int> AircraftClassId { get; set; }
         public Nullable<int> FlightSimulatorClassId { get; set; }
         public int NoofEngines { get; set; }
-        public int NoofPropellers { get; set; }
+        public int? NoofPropellers { get; set; }
         public bool IsEngineshavePropellers { get; set; }
         public bool IsEnginesareTurbines { get; set; }
         public bool TrackOilandFuel { get; set; }

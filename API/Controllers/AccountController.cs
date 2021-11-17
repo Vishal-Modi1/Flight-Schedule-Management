@@ -21,15 +21,17 @@ namespace API.Controllers
         private readonly ISendMailService _sendMailService;
         private readonly JWTTokenGenerator _jWTTokenGenerator;
         private readonly RandomTextGenerator _randomTextGenerator;
+        private readonly IUserRolePermissionService _userRolePermissionService;
 
-        public AccountController(IAccountService accountService, IUserService userService,
-            ISendMailService sendMailService, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IAccountService accountService, IUserRolePermissionService userRolePermissionService,
+            IUserService userService, ISendMailService sendMailService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _userService = userService;
             _sendMailService = sendMailService;
             _jWTTokenGenerator = new JWTTokenGenerator(httpContextAccessor.HttpContext);
             _randomTextGenerator = new RandomTextGenerator();
+            _userRolePermissionService = userRolePermissionService;
         }
 
         [HttpPost]
@@ -43,6 +45,9 @@ namespace API.Controllers
             UserVM user = JsonConvert.DeserializeObject<UserVM>(response.Data);
             if (user != null)
             {
+                response = _userRolePermissionService.GetByRoleId(user.RoleId);
+                List<UserRolePermissionVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(response.Data);
+
                 List<string> getRoles(int RoleId)
                 {
                     List<string> roles = new List<string>();
@@ -76,8 +81,6 @@ namespace API.Controllers
 
                 string accessToken = _jWTTokenGenerator.Generate(user.Id, user.Email, getRoles(user.RoleId));
 
-                LoginResponseVM loginResponseVM = new LoginResponseVM();
-
                 response.Data = JsonConvert.SerializeObject(new LoginResponseVM
                 {
                     AccessToken = accessToken,
@@ -88,7 +91,8 @@ namespace API.Controllers
                     LastName = user.LastName,
                     Phone = user.Phone,
                     RoleId = user.RoleId,
-                    Id = user.Id
+                    Id = user.Id,
+                    UserPermissionList = userRolePermissionsList
                 });
 
                 return Ok(response);

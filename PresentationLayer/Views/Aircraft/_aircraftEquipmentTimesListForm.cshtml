@@ -12,7 +12,7 @@
             EquipmentName = "Engine " + (index_noofEngine + 1)
         });
     }
-    int noofPropellers = Model.NoofPropellers;
+    int noofPropellers = Model.NoofPropellers.GetValueOrDefault();
     for (int index_noofPropellers = noofEngine; index_noofPropellers < noofPropellers + noofEngine; index_noofPropellers++)
     {
         Model.AircraftEquipmentTimesList.Add(new AircraftEquipmentTime

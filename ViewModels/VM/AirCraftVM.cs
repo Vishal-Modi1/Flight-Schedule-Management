@@ -44,7 +44,7 @@ namespace ViewModels.VM
         public int NoofEngines { get; set; }
         
         [Display(Name = "No of Propellers")]
-        public int NoofPropellers { get; set; }
+        public int? NoofPropellers { get; set; }
 
         [Display(Name = "Engines have Propellers")]
         public bool IsEngineshavePropellers { get; set; }

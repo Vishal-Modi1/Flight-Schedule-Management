@@ -246,6 +246,8 @@ namespace Service
             return userDetails;
         }
 
+        #endregion
+
         public CurrentResponse Delete(int id)
         {
             try
@@ -291,7 +293,6 @@ namespace Service
             }
         }
 
-        #endregion
 
     }
 }

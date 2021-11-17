@@ -1,0 +1,44 @@
+﻿<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Manage Permissions</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="card">
+
+    <div class="card-body">
+        <table id="userRolePermissionList" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User Role</th>
+                    <th>Module Name</th>
+                    <th data-orderable="false">Can Create</th>
+                    <th data-orderable="false">Can Edit</th>
+                    <th data-orderable="false">Can View</th>
+                    <th data-orderable="false">Can Delete</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>User Role</th>
+                    <th>Module Name</th>
+                    <th>Can Create</th>
+                    <th>Can Edit</th>
+                    <th>Can View</th>
+                    <th>Can Delete</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/Modules/userRolePermission.js"></script>
+}

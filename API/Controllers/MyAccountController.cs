@@ -8,6 +8,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MyAccountController : ControllerBase
     {
         private readonly IMyAccountService _myAccountService;

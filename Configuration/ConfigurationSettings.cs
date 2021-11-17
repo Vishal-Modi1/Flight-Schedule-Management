@@ -66,5 +66,10 @@ namespace Configuration
             get => configuration.GetValue<int>("EmailTokenExpirationDays");
         }
 
+        public MailSettingConfig MailSetting
+        {
+            get => MailSettingConfig.Instance;
+        }
+
     }
 }

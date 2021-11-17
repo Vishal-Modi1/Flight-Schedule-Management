@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ViewModels.VM
 {
@@ -15,5 +16,6 @@ namespace ViewModels.VM
         public string ExternalId { get; set; }
         public Nullable<System.DateTime> DateofBirth { get; set; }
         public string Gender { get; set; }
+        public List<UserRolePermissionVM> UserPermissionList { get; set; }
     }
 }

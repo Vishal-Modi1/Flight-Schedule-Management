@@ -64,7 +64,6 @@ UserId int,
 CONSTRAINT FK_User_EmailConfirmation Foreign Key (UserId) References Users(Id),
 )
 
- 
 --drop table [dbo].[Aircrafts]
 CREATE TABLE [dbo].[Aircrafts](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -235,3 +234,49 @@ GO
 
 ALTER TABLE [dbo].[AirCraftEquipments] CHECK CONSTRAINT [FK_AirCraftEquipments_Statuses]
 GO
+
+
+Create Table UserRolePermissions
+(
+Id int primary key Identity (1,1),
+RoleId int,
+ModuleName varchar(100),
+CanCreate bit not null default(0),
+CanUpdate bit not null default(0),
+CanView bit not null default(0),
+CanDelete bit not null default(0),
+CONSTRAINT FK_UserRole_UserRolePermission Foreign Key (RoleId) References UserRoles(Id),
+)
+Go
+
+
+select * from UserRolePermissions
+INSERT INTO UserRolePermissions Values(1,'User',1,1,1,1)
+INSERT INTO UserRolePermissions Values(1,'InstructorType',1,1,1,1)
+INSERT INTO UserRolePermissions Values(1,'Aircraft',1,1,1,1)
+INSERT INTO UserRolePermissions Values(1,'UserRolePermission',1,1,1,1)
+
+INSERT INTO UserRolePermissions Values(2,'User',0,0,0,0)
+INSERT INTO UserRolePermissions Values(2,'InstructorType',0,0,0,0)
+INSERT INTO UserRolePermissions Values(2,'Aircraft',0,0,0,0)
+INSERT INTO UserRolePermissions Values(2,'UserRolePermission',0,0,0,0)
+
+INSERT INTO UserRolePermissions Values(3,'User',0,0,0,0)
+INSERT INTO UserRolePermissions Values(3,'InstructorType',0,0,0,0)
+INSERT INTO UserRolePermissions Values(3,'Aircraft',0,0,0,0)
+INSERT INTO UserRolePermissions Values(3,'UserRolePermission',0,0,0,0)
+
+INSERT INTO UserRolePermissions Values(4,'User',0,0,0,0)
+INSERT INTO UserRolePermissions Values(4,'InstructorType',0,0,0,0)
+INSERT INTO UserRolePermissions Values(4,'Aircraft',0,0,0,0)
+INSERT INTO UserRolePermissions Values(4,'UserRolePermission',0,0,0,0)
+
+INSERT INTO UserRolePermissions Values(5,'User',0,0,0,0)
+INSERT INTO UserRolePermissions Values(5,'InstructorType',0,0,0,0)
+INSERT INTO UserRolePermissions Values(5,'Aircraft',0,0,0,0)
+INSERT INTO UserRolePermissions Values(5,'UserRolePermission',0,0,0,0)
+
+INSERT INTO UserRolePermissions Values(6,'User',0,0,0,0)
+INSERT INTO UserRolePermissions Values(6,'InstructorType',0,0,0,0)
+INSERT INTO UserRolePermissions Values(6,'Aircraft',0,0,0,0)
+INSERT INTO UserRolePermissions Values(6,'UserRolePermission',0,0,0,0)

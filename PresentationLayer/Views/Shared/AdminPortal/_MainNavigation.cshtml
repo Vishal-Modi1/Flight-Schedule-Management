@@ -2,12 +2,13 @@
 
 @{ Menus menuList = new Menus();
 
-                List<MenuItem> menuItems = new List<MenuItem>();
-                menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
-                menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
-                menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
-                menuItems.Add(new MenuItem { Controller = "Aircraft", Action = "Index", DisplayName = "Air Craft", FavIconStyle = "fas fa-plane nav-icon" });
-                menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
+    List<MenuItem> menuItems = new List<MenuItem>();
+    menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
+    menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
+    menuItems.Add(new MenuItem { Controller = "UserRolePermission", Action = "Index", DisplayName = "User Role Permission", FavIconStyle = "fa fa-key nav-icon", });
+    menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
+    menuItems.Add(new MenuItem { Controller = "Aircraft", Action = "Index", DisplayName = "AirCraft", FavIconStyle = "fas fa-plane nav-icon" });
+    menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
     }
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">

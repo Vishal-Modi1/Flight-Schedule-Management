@@ -24,6 +24,7 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IClassificationService, ClassificationService>();
             services.AddScoped<IAirCraftEquipmentService, AirCraftEquipmentService>();
+            services.AddScoped<IUserRolePermissionService, UserRolePermissionService>();
         }
 
         public static void AddCustomRepositories(this IServiceCollection services)
@@ -44,6 +45,7 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IClassificationRepository, ClassificationRepository>();
             services.AddScoped<IAirCraftEquipmentRepository, AirCraftEquipmentRepository>();
+            services.AddScoped<IUserRolePermissionRepository, UserRolePermissionRepository>();
         }
     }
 }

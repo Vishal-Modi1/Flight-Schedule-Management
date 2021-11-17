@@ -67,6 +67,7 @@ namespace Repository
 
         public DbSet<FlightSimulatorClass> FlightSimulatorClasses { get; set; }
 
+        public DbSet<UserRolePermission> UserRolePermissions { get; set; }
     }
 
 }

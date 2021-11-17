@@ -86,6 +86,7 @@ namespace PresentationLayer.Controllers
                   new Claim(ClaimTypes.Email, loginResponse.Email),
                   new Claim("AcessToken", loginResponse.AccessToken),
                   new Claim("Id", loginResponse.Id.ToString()),
+                  new Claim("Permissions", JsonConvert.SerializeObject(loginResponse.UserPermissionList))
              };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");

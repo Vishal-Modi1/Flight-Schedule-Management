@@ -1,6 +1,7 @@
 ﻿using API.Utilities;
 using DataModels.Constants;
 using DataModels.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AirCraftController : ControllerBase
     {
         private readonly IAircraftService _airCraftService;
