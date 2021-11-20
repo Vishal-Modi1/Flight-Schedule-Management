@@ -348,8 +348,16 @@
                         UploadImage(data.message);
                     }
                     else {
-                        LoadAircrafts()
-                        closeCreateModal();
+
+                        if (document.getElementById('IsEdit') == null) {
+                            LoadAircrafts()
+                            closeCreateModal();
+
+                        } else {
+                            //After Edit reload page data
+                            RefreshAircraftEdit();
+                            closeCreateModal();
+                        }
                     }
                 }
                 else {
@@ -510,6 +518,35 @@
         });
     }
 
+    function RefreshAircraftEdit() {
+
+        var airCraftId = parseInt($("#AirCraftId").val());
+
+        if (!isNaN(parseInt(airCraftId))) {
+
+            airCraftId = parseInt(airCraftId);
+
+            $.ajax({
+                url: "/aircraft/editpartial/" + airCraftId,
+                type: "GET",
+                success: function (data) {
+
+                    toastr.success('details updated successfully')
+
+                    $('.air-craft-edit-container').html(data);
+                },
+                error: function (data) {
+
+                    toastr.error('Error while loading updated data')
+
+                },
+                complete: function () {
+
+                    stopLoading();
+                }
+            });
+        }
+    }
     $(document).on('change', '#AircraftMakeId', function () {
 
         if ($(this).find(":selected").text() == "+ Add New") {

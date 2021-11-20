@@ -53,7 +53,13 @@ namespace PresentationLayer.Controllers
             airCraftVM.AirCraftEquipmentList = await GetAirCraftEquipmentListAsync(id);
             return View("Edit", airCraftVM);
         }
-
+        public async Task<IActionResult> EditPartialAsync(int id)
+        {
+            AirCraftVM airCraftVM = await GetDetailsAsync(id);
+            airCraftVM.AirCraftEquipmentList = new List<AirCraftEquipment>();
+            airCraftVM.AirCraftEquipmentList = await GetAirCraftEquipmentListAsync(id);
+            return PartialView("_edit", airCraftVM);
+        }
         [HttpGet]
         public async Task<ActionResult> DeleteAsync(int id)
         {
