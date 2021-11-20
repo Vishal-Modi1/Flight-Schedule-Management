@@ -65,7 +65,7 @@ namespace Repository
 
                 if (aircraftEquipment != null)
                 {
-                    _myContext.AircraftEquipments.Remove(aircraftEquipment);
+                    aircraftEquipment.IsDeleted = true;
                     _myContext.SaveChanges();
                 }
             }
@@ -75,7 +75,7 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
-                return _myContext.AircraftEquipments.ToList();
+                return _myContext.AircraftEquipments.Where(x => x.IsDeleted == false && x.IsActive == true).ToList();
             }
         }
 

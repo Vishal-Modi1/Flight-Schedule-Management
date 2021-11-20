@@ -93,7 +93,7 @@ namespace Service
         {
             try
             {
-                List<AirCraftEquipment> airCraft = _aircraftEquipementRepository.FindListByCondition(p => p.AirCraftId == airCraftId);
+                List<AirCraftEquipment> airCraft = _aircraftEquipementRepository.FindListByCondition(p => p.AirCraftId == airCraftId && p.IsActive == true && p.IsDeleted != true);
                 List<AirCraftEquipmentsVM> airCraftVM = new List<AirCraftEquipmentsVM>();
 
                 if (airCraft != null && airCraft.Count() > 0)
@@ -187,14 +187,6 @@ namespace Service
             return airCraftEquipmentsVM;
         }
 
-        //public CurrentResponse FindByCondition(Expression<Func<AirCraftEquipmentsVM, bool>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public CurrentResponse FindListByCondition(Expression<Func<AirCraftEquipmentsVM, bool>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
     }
 }

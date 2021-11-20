@@ -53,7 +53,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("delete")]
         public IActionResult Delete(int id)
         {

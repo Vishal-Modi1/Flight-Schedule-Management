@@ -112,7 +112,58 @@
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
         var id = $(this).attr('data-edird');
         var aircraftId = $(this).attr('data-craftid');
-        openCreateModal('Edit Equipment', '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId);
+        var actionbtn = $(this).attr('data-actionbtn');
+        var modalTitle = actionbtn == "edit" ? 'Edit Equipment' : (actionbtn == "edit" ? 'View Equipment' : 'Delete Equipment');
+        openCreateModal(modalTitle, '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId + "&actionbtn=" + actionbtn);
+    });
+    $(document).on('click', '.btnDeleteAirCraftEquipment', function () {
+        var id = $(this).attr('data-edird');
+        var aircraftId = $(this).attr('data-craftid');
+        var actionbtn = $(this).attr('data-actionbtn');
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary mr-2',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        if (id == 0) {
+            return false;
+        }
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //delete api 
+
+                debugger
+                $.ajax({
+                    url: '/aircraft/deleteequipment?airCraftEquipmentid=' + id,
+                    type: 'POST',
+                    success: function (data) {
+                        //toastr.success(data.message)
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            data.message,//'Equipment has been deleted.',
+                            'success'
+                        )
+                        RefreshEquipmentListing();
+                        loadDatatables();
+                    },
+                    error: function (error) {
+
+                        toastr.error(data.message)
+                    }
+                })
+               
+            }
+        })
     });
 
     $(document).on('click', '.btndelete', function () {
@@ -687,7 +738,6 @@
     }
 
     $(document).on('change', '#AircraftCategoryId', function () {
-
         if ($(this).find(":selected").text() == "Airplane") {
 
             $('#divairModule').css('display', 'block')
@@ -699,10 +749,14 @@
         else {
 
             $('#divairModule').css('display', 'none')
-            $('#divairCraftClass').css('display', 'none')
+            $('#divairCraftClass').css('display', 'none');
+            $("#AircraftClassId").val(0);
             $('#divenginePropellers').css('display', 'none')
+            $("#IsEngineshavePropellers").val('');
             $('#divNoofPropellers').css('display', 'none')
+            $("#NoofPropellers").val(0);
             $('#divengineTurbines').css('display', 'none')
+            $("#IsEnginesareTurbines").val('');
 
             if ($(this).find(":selected").text() == "Helicopter/Rotorcraft") {
 
@@ -719,6 +773,7 @@
         else {
             $('#divairModule').css('display', 'none')
             $('#divairflightSimulatorClass').css('display', 'none')
+            $("#FlightSimulatorClassId").val(0);
         }
 
 
@@ -742,7 +797,12 @@
         alert()
 
     });
-
+    function afterResetAircraftCategoryId() {
+        $("#AircraftClassId").val(0);
+        $("#FlightSimulatorClassId").val(0);
+        $("#NoofEngines").val(0);
+        $("#NoofPropellers").val(0);
+    }
     function ManageNoofEngineDropdown() {
 
         var aircraftClass = $('#AircraftClassId').find(":selected").text();

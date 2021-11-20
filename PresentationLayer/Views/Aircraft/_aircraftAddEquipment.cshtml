@@ -1,126 +1,150 @@
-﻿@model ViewModels.VM.AirCraftEquipmentsVM
+﻿@model Tuple<ViewModels.VM.AirCraftEquipmentsVM, string>
 @{
     Layout = null;
+    ViewModels.VM.AirCraftEquipmentsVM airCraftEquipmentsVM = new ViewModels.VM.AirCraftEquipmentsVM();
+    airCraftEquipmentsVM = Model.Item1;
+
+    string action = Model.Item2;
+    bool IsNotEdit() {
+        return action.ToLower() != "edit";
+    }
 }
 <div class="card-body ml-2 mr-2">
     @Html.AntiForgeryToken()
     <form asp-action="AddUpdateEquipment" asp-controller="airCraft" method="post" id="formAddUpdateEquipment">
+        <fieldset disabled="@IsNotEdit()">
+
         <div class="row">
-            <input type="hidden" asp-for="Id" value="@(Model.Id)">
-            <input type="hidden" asp-for="AirCraftId" value="@(Model.AirCraftId)">
+            <div class="col">
+                <div class="form-group float-right">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" asp-for="@airCraftEquipmentsVM.IsActive" class="custom-control-input" />
+                        <label asp-for="@airCraftEquipmentsVM.IsActive" class="custom-control-label"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input type="hidden" asp-for="@airCraftEquipmentsVM.Id" value="@(airCraftEquipmentsVM.Id)">
+            <input type="hidden" asp-for="@airCraftEquipmentsVM.AirCraftId" value="@(airCraftEquipmentsVM.AirCraftId)">
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="StatusId"></label>
-                    <select asp-for="StatusId" class="form-control"
-                            asp-items="@(new SelectList(Model.statusList, nameof(ViewModels.VM.StatusVM.Id), nameof(ViewModels.VM.StatusVM.Name)))">
+                    <label asp-for="@airCraftEquipmentsVM.StatusId"></label>
+                    <select asp-for="@airCraftEquipmentsVM.StatusId" class="form-control"
+                            asp-items="@(new SelectList(airCraftEquipmentsVM.statusList, nameof(ViewModels.VM.StatusVM.Id), nameof(ViewModels.VM.StatusVM.Name)))">
                         <option>Please select one</option>
                     </select>
 
-                    <span asp-validation-for="StatusId" class="text-danger"></span>
+                    <span asp-validation-for="@airCraftEquipmentsVM.StatusId" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="Item"></label>
-                    <input type="text" asp-for="Item" class="form-control" placeholder="Please Item">
-                    <span asp-validation-for="Item" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.Item"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.Item" class="form-control" placeholder="Please Item">
+                    <span asp-validation-for="@airCraftEquipmentsVM.Item" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="ClassificationId"></label>
-                    <select asp-for="ClassificationId" class="form-control"
-                            asp-items="@(new SelectList(Model.classificationList, nameof(ViewModels.VM.ClassificationVM.Id), nameof(ViewModels.VM.ClassificationVM.Name)))">
+                    <label asp-for="@airCraftEquipmentsVM.ClassificationId"></label>
+                    <select asp-for="@airCraftEquipmentsVM.ClassificationId" class="form-control"
+                            asp-items="@(new SelectList(@airCraftEquipmentsVM.classificationList, nameof(ViewModels.VM.ClassificationVM.Id), nameof(ViewModels.VM.ClassificationVM.Name)))">
                         <option>Please select one</option>
                     </select>
-                    <span asp-validation-for="ClassificationId" class="text-danger"></span>
+                    <span asp-validation-for="@airCraftEquipmentsVM.ClassificationId" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="Make"></label>
-                    <input type="text" asp-for="Make" class="form-control" placeholder="Please enter Make">
-                    <span asp-validation-for="Make" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.Make"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.Make" class="form-control" placeholder="Please enter Make">
+                    <span asp-validation-for="@airCraftEquipmentsVM.Make" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="Model"></label>
-                    <input type="text" asp-for="Model" class="form-control" placeholder="Please enter Model">
-                    <span asp-validation-for="Model" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.Model"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.Model" class="form-control" placeholder="Please enter Model">
+                    <span asp-validation-for="@airCraftEquipmentsVM.Model" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="Manufacturer"></label>
-                    <input type="text" asp-for="Manufacturer" class="form-control" placeholder="Please enter Manufacturer">
-                    <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.Manufacturer"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.Manufacturer" class="form-control" placeholder="Please enter Manufacturer">
+                    <span asp-validation-for="@airCraftEquipmentsVM.Manufacturer" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="PartNumber"></label>
-                    <input type="text" asp-for="PartNumber" class="form-control" placeholder="Please enter Part Number">
-                    <span asp-validation-for="PartNumber" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.PartNumber"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.PartNumber" class="form-control" placeholder="Please enter Part Number">
+                    <span asp-validation-for="@airCraftEquipmentsVM.PartNumber" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="SerialNumber"></label>
-                    <input type="text" asp-for="SerialNumber" class="form-control" placeholder="Please enter Serial Number">
-                    <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.SerialNumber"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.SerialNumber" class="form-control" placeholder="Please enter Serial Number">
+                    <span asp-validation-for="@airCraftEquipmentsVM.SerialNumber" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="ManufacturerDate"></label>
-                    <input type="date" asp-for="ManufacturerDate" class="form-control">
-                    <span asp-validation-for="ManufacturerDate" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.ManufacturerDate"></label>
+                    <input type="date" asp-for="@airCraftEquipmentsVM.ManufacturerDate" class="form-control">
+                    <span asp-validation-for="@airCraftEquipmentsVM.ManufacturerDate" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="AircraftTTInstall"></label>
-                    <input type="text" asp-for="AircraftTTInstall" class="form-control" placeholder="Please enter Aircraft TT at Install">
-                    <span asp-validation-for="AircraftTTInstall" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.AircraftTTInstall"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.AircraftTTInstall" class="form-control" placeholder="Please enter Aircraft TT at Install">
+                    <span asp-validation-for="@airCraftEquipmentsVM.AircraftTTInstall" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="PartTTInstall"></label>
-                    <input type="text" asp-for="PartTTInstall" class="form-control" placeholder="Please enter Part TT at Install">
-                    <span asp-validation-for="PartTTInstall" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.PartTTInstall"></label>
+                    <input type="text" asp-for="@airCraftEquipmentsVM.PartTTInstall" class="form-control" placeholder="Please enter Part TT at Install">
+                    <span asp-validation-for="@airCraftEquipmentsVM.PartTTInstall" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="LogEntryDate"></label>
-                    <input type="date" asp-for="LogEntryDate" class="form-control" placeholder="Please enter Log Entry Date">
-                    <span asp-validation-for="LogEntryDate" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="Notes"></label>
-                    <textarea type="text" asp-for="Notes" class="form-control" placeholder="Please enter Notes"></textarea>
-                    <span asp-validation-for="Notes" class="text-danger"></span>
+                    <label asp-for="@airCraftEquipmentsVM.LogEntryDate"></label>
+                    <input type="date" asp-for="@airCraftEquipmentsVM.LogEntryDate" class="form-control" placeholder="Please enter Log Entry Date">
+                    <span asp-validation-for="@airCraftEquipmentsVM.LogEntryDate" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="pl-0 pr-0">
-                    <button type="button" class="btn btn-primary" id="btnAddUpdateEquipmentSubmit">Submit</button>
+                <div class="form-group">
+                    <label asp-for="@airCraftEquipmentsVM.Notes"></label>
+                    <textarea type="text" asp-for="@airCraftEquipmentsVM.Notes" class="form-control" placeholder="Please enter Notes"></textarea>
+                    <span asp-validation-for="@airCraftEquipmentsVM.Notes" class="text-danger"></span>
                 </div>
             </div>
         </div>
+
+        @if (IsNotEdit() == false)
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="pl-0 pr-0">
+                        <button type="button" class="btn btn-primary" id="btnAddUpdateEquipmentSubmit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        }
+        </fieldset>
     </form>
 </div>

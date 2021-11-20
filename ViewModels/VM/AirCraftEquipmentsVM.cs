@@ -55,6 +55,8 @@ namespace ViewModels.VM
 
         [Display(Name = "Notes")]
         public string Notes { get; set; }
+        
+        [Display(Name = "In Use?")]
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }

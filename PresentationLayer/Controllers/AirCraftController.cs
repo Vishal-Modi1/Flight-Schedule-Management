@@ -287,9 +287,10 @@ namespace PresentationLayer.Controllers
         }
 
         #endregion
+
         #region AirCraftEquipment
         [HttpGet]
-        public async Task<IActionResult> AddUpdateEquipment(int id = 0,int aircraftId=0)
+        public async Task<IActionResult> AddUpdateEquipment(int id = 0, int aircraftId = 0, string actionbtn = "view")
         {
             AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
             airCraftEquipmentsVM.AirCraftId = aircraftId;
@@ -301,7 +302,7 @@ namespace PresentationLayer.Controllers
             }
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
-            return PartialView("_aircraftAddEquipment", airCraftEquipmentsVM);
+            return PartialView("_aircraftAddEquipment", Tuple.Create(airCraftEquipmentsVM, actionbtn));
         }
         [HttpGet]
         public async Task<IActionResult> AirCraftEquipmentListing(int id = 0)
@@ -337,6 +338,19 @@ namespace PresentationLayer.Controllers
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
             return RedirectToAction("Edit", airCraftEquipmentsVM.Id);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteEquipmentAsync(int airCraftEquipmentid)
+        {
+            string url;
+            url = "aircraftequipment/delete?id=" + airCraftEquipmentid;
+
+                CurrentResponse response = await _httpCaller.DeleteAsync(url);
+                if (response.Status == System.Net.HttpStatusCode.OK)
+                {
+                    return Json(response);
+                }
+            return Json(response);
         }
         #endregion
 
