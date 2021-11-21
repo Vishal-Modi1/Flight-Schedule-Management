@@ -43,7 +43,9 @@ function openSmallModal(title, ajaxURL, fnCallBackAfterLoad) {
 
             $('#create-small-body').html(data)
 
-            fnCallBackAfterLoad();
+            if (fnCallBackAfterLoad) {
+                fnCallBackAfterLoad();
+            }
             //InjectClientsideValidation();
 
         },
