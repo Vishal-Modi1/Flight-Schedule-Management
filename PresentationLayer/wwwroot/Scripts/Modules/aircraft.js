@@ -44,6 +44,27 @@
         LoadAircrafts();
 
     });
+    $("#expandeProfile").hide();
+    $(document).on('click', '#collapseExpandeProfilePanel', function () {
+
+        var vProfilePanel = document.getElementById("profilePanel");
+        var vDescPanel = document.getElementById("descPanel");
+        if (vProfilePanel.classList.contains("show")) {
+            vProfilePanel.classList.remove("col-md-3");
+            vProfilePanel.classList.remove("col-12");
+            vProfilePanel.classList.remove("show");
+            vDescPanel.classList.remove("col-md-9");
+            $("#collapseProfile").hide();
+            $("#expandeProfile").show();
+        } else {
+            $("#collapseProfile").show();
+            $("#expandeProfile").hide();
+            vProfilePanel.classList.add("col-md-3");
+            vProfilePanel.classList.add("col-12");
+            vProfilePanel.classList.add("show");
+            vDescPanel.classList.add("col-md-9");
+        }
+    });
 
     $(document).on('input', '#txtAircraftSearch', function () {
 
