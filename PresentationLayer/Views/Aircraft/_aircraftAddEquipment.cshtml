@@ -6,6 +6,9 @@
 
     string action = Model.Item2;
     bool IsNotEdit() {
+        if (airCraftEquipmentsVM.Id == 0) {
+            return false;
+        }
         return action.ToLower() != "edit";
     }
 }

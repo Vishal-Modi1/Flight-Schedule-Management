@@ -15,7 +15,8 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                            var bgColor = item.Item;
+                        <tr class="@(bgColor)">
                             <td class="text-center">@(item.Item)</td>
                             <td class="text-center">@(item.Make)</td>
                             <td class="text-center">@(item.Model)</td>

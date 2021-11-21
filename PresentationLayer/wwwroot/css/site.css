@@ -86,6 +86,9 @@ body {
 .btn-min-width {
     min-width: 83px;
 }
+.bg-light-danger {
+    background-color: #ff8c97cc;
+}
 /*LOADER START */
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower');

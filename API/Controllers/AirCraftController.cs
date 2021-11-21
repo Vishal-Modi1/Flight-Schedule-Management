@@ -169,7 +169,7 @@ namespace API.Controllers
         {
             int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
             if (aircraftEquipmentTimeVM.Count > 0) {
-                _aircraftEquipementTimeService.DeleteAllEquipmentTimeByAirCraftId(aircraftEquipmentTimeVM.FirstOrDefault().AircraftId);
+                _aircraftEquipementTimeService.DeleteAllEquipmentTimeByAirCraftId(aircraftEquipmentTimeVM.FirstOrDefault().AircraftId, createdBy);
             }
             CurrentResponse response = new CurrentResponse();
             aircraftEquipmentTimeVM.ForEach(item => {

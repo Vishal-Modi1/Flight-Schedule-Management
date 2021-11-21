@@ -99,11 +99,11 @@ namespace Service
             return aircraftEquipmentTime;
         }
 
-        public bool DeleteAllEquipmentTimeByAirCraftId(int AirCraftId)
+        public bool DeleteAllEquipmentTimeByAirCraftId(int AirCraftId,int UpdatedBy)
         {
             try
             {
-                _aircraftEquipementTimeRepository.DeleteEquipmentTimes(AirCraftId);
+                _aircraftEquipementTimeRepository.DeleteEquipmentTimes(AirCraftId, UpdatedBy);
                 return true;
             }
             catch (Exception exc)

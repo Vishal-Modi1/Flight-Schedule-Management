@@ -55,7 +55,7 @@ namespace Repository
             }
         }
 
-        public void DeleteEquipmentTimes(int airCraftId)
+        public void DeleteEquipmentTimes(int airCraftId, int UpdatedBy)
         {
             using (_myContext = new MyContext())
             {
@@ -63,7 +63,9 @@ namespace Repository
 
                 foreach(var aircraftEquipmentTime in aircraftEquipmentTimes)
                 {
-                    _myContext.AircraftEquipmentTimes.Remove(aircraftEquipmentTime);
+                    aircraftEquipmentTime.IsDeleted = true;
+                    aircraftEquipmentTime.UpdatedOn = DateTime.Now;
+                    aircraftEquipmentTime.UpdatedBy = UpdatedBy;
                 }
                 _myContext.SaveChanges();
             }
