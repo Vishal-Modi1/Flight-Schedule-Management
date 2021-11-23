@@ -46,24 +46,7 @@
     });
     $("#expandeProfile").hide();
     $(document).on('click', '#collapseExpandeProfilePanel', function () {
-
-        var vProfilePanel = document.getElementById("profilePanel");
-        var vDescPanel = document.getElementById("descPanel");
-        if (vProfilePanel.classList.contains("show")) {
-            vProfilePanel.classList.remove("col-md-3");
-            vProfilePanel.classList.remove("col-12");
-            vProfilePanel.classList.remove("show");
-            vDescPanel.classList.remove("col-md-9");
-            $("#collapseProfile").hide();
-            $("#expandeProfile").show();
-        } else {
-            $("#collapseProfile").show();
-            $("#expandeProfile").hide();
-            vProfilePanel.classList.add("col-md-3");
-            vProfilePanel.classList.add("col-12");
-            vProfilePanel.classList.add("show");
-            vDescPanel.classList.add("col-md-9");
-        }
+        collapseDefault();
     });
 
     $(document).on('input', '#txtAircraftSearch', function () {
@@ -134,7 +117,7 @@
         var id = $(this).attr('data-edird');
         var aircraftId = $(this).attr('data-craftid');
         var actionbtn = $(this).attr('data-actionbtn');
-        var modalTitle = actionbtn == "edit" ? 'Edit Equipment' : (actionbtn == "edit" ? 'View Equipment' : 'Delete Equipment');
+        var modalTitle = actionbtn == "edit" ? 'Edit Equipment' : (actionbtn == "view" ? 'View Equipment' : 'Delete Equipment');
         openCreateModal(modalTitle, '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId + "&actionbtn=" + actionbtn);
     });
     $(document).on('click', '.btnDeleteAirCraftEquipment', function () {
@@ -589,7 +572,35 @@
             }
         });
     }
-
+    function collapseDefault(showDefault) {
+        $("#collapseProfile").hide();
+        $("#expandeProfile").hide();
+        var vProfilePanel = document.getElementById("profilePanel");
+        var vDescPanel = document.getElementById("descPanel");
+        if (vProfilePanel.classList.contains("show")) {
+            vProfilePanel.classList.remove("col-md-3");
+            vProfilePanel.classList.remove("col-12");
+            vProfilePanel.classList.remove("show");
+            vDescPanel.classList.remove("col-md-9");
+            $("#collapseProfile").hide();
+            $("#expandeProfile").show();
+        } else {
+            $("#collapseProfile").show();
+            $("#expandeProfile").hide();
+            vProfilePanel.classList.add("col-md-3");
+            vProfilePanel.classList.add("col-12");
+            vProfilePanel.classList.add("show");
+            vDescPanel.classList.add("col-md-9");
+        }
+        if (showDefault) {
+            $("#collapseProfile").show();
+            $("#expandeProfile").hide();
+            vProfilePanel.classList.add("col-md-3");
+            vProfilePanel.classList.add("col-12");
+            vProfilePanel.classList.add("show");
+            vDescPanel.classList.add("col-md-9");
+        }
+    }
     function RefreshAircraftEdit() {
 
         var airCraftId = parseInt($("#AirCraftId").val());
@@ -606,6 +617,7 @@
                     toastr.success('details updated successfully')
 
                     $('.air-craft-edit-container').html(data);
+                    collapseDefault(true);
                 },
                 error: function (data) {
 

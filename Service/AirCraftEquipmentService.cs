@@ -26,6 +26,7 @@ namespace Service
             AirCraftEquipment aircraftEquipment = ToDataObject(aircraftEquipmentVM);
             try
             {
+                aircraftEquipment.IsActive = true;
                 aircraftEquipment = _aircraftEquipementRepository.Create(aircraftEquipment);
                 CreateResponse(aircraftEquipmentVM, HttpStatusCode.OK, "Aircraft Equipment added successfully");
 

@@ -1,41 +1,45 @@
 ﻿@model List<DataModels.Models.AirCraftEquipment>
-    <div class="row">
-        <div class="col-sm-12 m-2">
-            <table class="table table-bordered table-striped dataTable dtr-inline collapsed static-dataTable" id="tbllistaircraftequipment">
-                <thead>
-                    <tr>
-                        <th class="text-center">Item</th>
-                        <th class="text-center">Make</th>
-                        <th class="text-center">Model</th>
-                        <th class="text-center">Part Number</th>
-                        <th class="text-center">Serial Number</th>
-                        <th class="text-center" >Action</th>
+<div class="row">
+    <div class="col-sm-12 m-2">
+        <table class="table table-bordered table-striped dataTable dtr-inline collapsed static-dataTable" id="tbllistaircraftequipment">
+            <thead>
+                <tr>
+                    <th class="text-center">Item</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Classification</th>
+                    <th class="text-center">Make</th>
+                    <th class="text-center">Model</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var bgColor = item.Item;
+                    <tr class="@(bgColor)">
+                        <td class="text-center">@(item.Item)</td>
+                        <td class="text-right">@(item.StatusId)</td>
+                        <td class="text-right">@(item.ClassificationId)</td>
+                        <td class="text-center">@(item.Make)</td>
+                        <td class="text-center">@(item.Model)</td>
+                        <td class="text-center">
+                            <button title="View" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)"
+                                    data-actionbtn="view" class="ml-1 mr-1 img-circle btn btn-sm btn-primary btnEditAirCraftEquipment">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button title="Edit" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)"
+                                    data-actionbtn="edit" class="ml-1 mr-1 img-circle btn btn-sm btn-success btnEditAirCraftEquipment">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button title="Delete" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)"
+                                    data-actionbtn="delete" class="ml-1 mr-1 img-circle btn btn-sm btn-danger btnDeleteAirCraftEquipment">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                            var bgColor = item.Item;
-                        <tr class="@(bgColor)">
-                            <td class="text-center">@(item.Item)</td>
-                            <td class="text-center">@(item.Make)</td>
-                            <td class="text-center">@(item.Model)</td>
-                            <td class="text-right">@(item.PartNumber)</td>
-                            <td class="text-right">@(item.SerialNumber)</td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    <button title="View" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" 
-                                            data-actionbtn="view" class="btn btn-primary btnEditAirCraftEquipment"><i class="fas fa-eye"></i></button>
-                                    <button title="Edit" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" 
-                                            data-actionbtn="edit" class="btn btn-info btnEditAirCraftEquipment"><i class="fas fa-pen"></i></button>
-                                    <button title="Delete" type="button" data-edird="@(item.Id)" data-craftid="@(item.AirCraftId)" 
-                                            data-actionbtn="delete" class="btn btn-danger btnDeleteAirCraftEquipment"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
 
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
+</div>

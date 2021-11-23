@@ -149,40 +149,6 @@
                                                 </tr>
                                             }
                                         }
-                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Air Frame") && x.IsDeleted == true).Count() > 0)
-                                        {
-                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Air Frame") && x.IsDeleted == true).ToList())
-                                            {
-                                                <tr class="bg-light-danger">
-                                                    <td>Total @(item.EquipmentName)</td>
-                                                    <td><h4><span class="badge bg-success">@(item.Hours) Hours</span></h4></td>
-                                                </tr>
-                                            }
-                                        }
-                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Engine") && x.IsDeleted == true).Count() > 0)
-                                        {
-                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Engine") && x.IsDeleted == true).ToList())
-                                            {
-                                                <tr class="bg-light-danger">
-                                                    <td>@(item.EquipmentName)</td>
-                                                    <td><h4><span class="badge bg-primary">@(item.Hours) Hours</span></h4></td>
-                                                </tr>
-                                            }
-                                        }
-                                        @if (Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Propeller") && x.IsDeleted == true).Count() > 0)
-                                        {
-                                            foreach (var item in Model.AircraftEquipmentTimesList.Where(x => x.EquipmentName.Contains("Propeller") && x.IsDeleted == true).ToList())
-                                            {
-                                                <tr class="bg-light-danger">
-                                                    <td>@(item.EquipmentName)</td>
-                                                    <td><h4><span class="badge bg-secondary">@(item.Hours) Hours</span></h4></td>
-
-                                                </tr>
-                                            }
-                                        }
-
-
-
                                     </tbody>
                                 </table>
 

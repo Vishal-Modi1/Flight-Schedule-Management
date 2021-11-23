@@ -37,14 +37,21 @@ namespace DataModels.Models
         public Nullable<int> PartTTInstall { get; set; }
 
         public string Notes { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
-        public Nullable<System.DateTime> CreatedOn { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<int> DeletedBy { get; set; }
-        public Nullable<System.DateTime> DeletedOn { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
-        public Nullable<System.DateTime> UpdatedOn { get; set; }
 
+        public bool IsActive { get; set; } = true;
+        
+        public bool IsDeleted { get; set; }
+        
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        
+        public Nullable<int> CreatedBy { get; set; }
+        
+        public Nullable<int> DeletedBy { get; set; }
+        
+        public Nullable<System.DateTime> DeletedOn { get; set; }
+        
+        public Nullable<int> UpdatedBy { get; set; }
+        
+        public Nullable<System.DateTime> UpdatedOn { get; set; }
     }
 }
