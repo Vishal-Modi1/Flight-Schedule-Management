@@ -15,73 +15,107 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 List<UserRolePermissionVM> userRolePermissionsList = (from userRolePermission in _myContext.UserRolePermissions
-                            join userRole in _myContext.UserRoles
-                            on userRolePermission.RoleId equals userRole.Id
-                            where userRolePermission.RoleId == roleId
-                            select new UserRolePermissionVM()
-                            {
-                                Id = userRolePermission.Id,
-                                CanCreate = userRolePermission.CanCreate,
-                                CanDelete = userRolePermission.CanDelete,
-                                CanView = userRolePermission.CanView,
-                                CanUpdate = userRolePermission.CanUpdate,
-                                ModuleName = userRolePermission.ModuleName,
-                                RoleId = userRolePermission.RoleId,
-                                RoleName = userRole.Name
-                            }).ToList();
+                                                                      join userRole in _myContext.UserRoles
+                                                                      on userRolePermission.RoleId equals userRole.Id
+                                                                      join permission in _myContext.Permissions
+                                                                      on userRolePermission.PermissionId equals permission.Id
+                                                                      join module in _myContext.ModuleDetails
+                                                                      on userRolePermission.ModuleId equals module.Id
+                                                                      where userRolePermission.RoleId == roleId
+                                                                      select new UserRolePermissionVM()
+                                                                      {
+                                                                          Id = userRolePermission.Id,
+                                                                          ModuleName = module.Name,
+                                                                          RoleId = userRolePermission.RoleId,
+                                                                          RoleName = userRole.Name,
+                                                                          ActionName = module.ActionName,
+                                                                          ControlllerName = module.ControllerName,
+                                                                          Icon = module.Icon,
+                                                                          DisplayName = module.DisplayName,
+                                                                          ModuleId = module.Id,
+                                                                          PermissionId = permission.Id,
+                                                                          PermissionType = permission.PermissionType,
+                                                                          IsAllowed = userRolePermission.IsAllowed
+                                                                      }).ToList();
 
                 return userRolePermissionsList;
             }
         }
 
-        public List<UserRolePermissionVM> List(DatatableParams datatableParams)
+        public List<UserRolePermissionVM> List(UserRolePermissionDatatableParams datatableParams)
         {
             using (_myContext = new MyContext())
             {
-                var data = (from userRolePermission in _myContext.UserRolePermissions
-                            join userRole in _myContext.UserRoles
-                            on userRolePermission.RoleId equals userRole.Id
-                            select new UserRolePermissionVM()
-                            {
-                                Id = userRolePermission.Id,
-                                CanCreate = userRolePermission.CanCreate,
-                                CanDelete = userRolePermission.CanDelete,
-                                CanView = userRolePermission.CanView,
-                                CanUpdate = userRolePermission.CanUpdate,
-                                ModuleName = userRolePermission.ModuleName,
-                                RoleId = userRolePermission.RoleId,
-                                RoleName = userRole.Name
-                            }).ToList();
+                IQueryable<UserRolePermissionVM> userRolePermissionsInfo = (from userRolePermission in _myContext.UserRolePermissions
+                                                                          join userRole in _myContext.UserRoles
+                                                                          on userRolePermission.RoleId equals userRole.Id
+                                                                          join permission in _myContext.Permissions
+                                                                          on userRolePermission.PermissionId equals permission.Id
+                                                                          join module in _myContext.ModuleDetails
+                                                                          on userRolePermission.ModuleId equals module.Id
+                                                                          select new UserRolePermissionVM()
+                                                                          {
+                                                                              Id = userRolePermission.Id,
+                                                                              ModuleName = module.Name,
+                                                                              RoleId = userRolePermission.RoleId,
+                                                                              RoleName = userRole.Name,
+                                                                              ActionName = module.ActionName,
+                                                                              ControlllerName = module.ControllerName,
+                                                                              Icon = module.Icon,
+                                                                              DisplayName = module.DisplayName,
+                                                                              ModuleId = module.Id,
+                                                                              PermissionId = permission.Id,
+                                                                              PermissionType = permission.PermissionType,
+                                                                              IsAllowed = userRolePermission.IsAllowed
+                                                                          }).AsQueryable();
+
+
+                if(datatableParams.ModuleId != 0)
+                {
+                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.ModuleId == datatableParams.ModuleId);
+                }
+
+                if (datatableParams.RoleId != 0)
+                {
+                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.RoleId == datatableParams.RoleId);
+                }
+
+                if (datatableParams.ModuleId != 0 && datatableParams.RoleId != 0)
+                {
+                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.ModuleId == datatableParams.ModuleId && p.RoleId == datatableParams.RoleId);
+                }
+
+                var userRolePermissionsInfoList = userRolePermissionsInfo.ToList();
 
                 if (datatableParams.SortOrderColumn == "RoleName")
                 {
-                    data = data.OrderBy(p => p.RoleName).ToList();
+                    userRolePermissionsInfoList = userRolePermissionsInfoList.OrderBy(p => p.RoleName).ToList();
 
                     if (datatableParams.OrderType == "desc")
                     {
-                        data = data.OrderByDescending(p => p.RoleName).ToList();
+                        userRolePermissionsInfoList = userRolePermissionsInfoList.OrderByDescending(p => p.RoleName).ToList();
                     }
                 }
                 else if (datatableParams.SortOrderColumn == "ModuleName")
                 {
-                    data = data.OrderBy(p => p.ModuleName).ToList();
+                    userRolePermissionsInfoList = userRolePermissionsInfoList.OrderBy(p => p.ModuleName).ToList();
 
                     if (datatableParams.OrderType == "desc")
                     {
-                        data = data.OrderByDescending(p => p.ModuleName).ToList();
+                        userRolePermissionsInfoList = userRolePermissionsInfoList.OrderByDescending(p => p.ModuleName).ToList();
                     }
                 }
 
 
-                if(!string.IsNullOrWhiteSpace(datatableParams.SearchText))
+                if (!string.IsNullOrWhiteSpace(datatableParams.SearchText))
                 {
-                    data = data.Where(p => p.ModuleName.Contains(datatableParams.SearchText,System.StringComparison.OrdinalIgnoreCase) || p.RoleName.Contains(datatableParams.SearchText, System.StringComparison.OrdinalIgnoreCase)).ToList();
+                    userRolePermissionsInfoList = userRolePermissionsInfoList.Where(p => p.PermissionType.Contains(datatableParams.SearchText, System.StringComparison.OrdinalIgnoreCase) || p.RoleName.Contains(datatableParams.SearchText, System.StringComparison.OrdinalIgnoreCase)).ToList();
                 }
 
-                int totalRecords = data.Count();
+                int totalRecords = userRolePermissionsInfoList.Count();
 
-                List<UserRolePermissionVM> userRolePermissionsList = data.Skip(datatableParams.Start).Take(datatableParams.Length).ToList();
-               
+                List<UserRolePermissionVM> userRolePermissionsList = userRolePermissionsInfoList.Skip(datatableParams.Start).Take(datatableParams.Length).ToList();
+
                 if (userRolePermissionsList.Count() > 0)
                 {
                     userRolePermissionsList[0].TotalRecords = totalRecords;
@@ -96,7 +130,7 @@ namespace Repository
             throw new System.NotImplementedException();
         }
 
-        public void UpdateCreatePermission(int id, bool isAllow)
+        public void UpdatePermission(int id, bool isAllow)
         {
             using (_myContext = new MyContext())
             {
@@ -104,49 +138,7 @@ namespace Repository
 
                 if (userRolePermission != null)
                 {
-                    userRolePermission.CanCreate = isAllow;
-                    _myContext.SaveChanges();
-                }
-            }
-        }
-
-        public void UpdateEditPermission(int id, bool isAllow)
-        {
-            using (_myContext = new MyContext())
-            {
-                UserRolePermission userRolePermission = _myContext.UserRolePermissions.Where(p => p.Id == id).FirstOrDefault();
-
-                if (userRolePermission != null)
-                {
-                    userRolePermission.CanUpdate = isAllow;
-                    _myContext.SaveChanges();
-                }
-            }
-        }
-
-        public void UpdateViewPermission(int id, bool isAllow)
-        {
-            using (_myContext = new MyContext())
-            {
-                UserRolePermission userRolePermission = _myContext.UserRolePermissions.Where(p => p.Id == id).FirstOrDefault();
-
-                if (userRolePermission != null)
-                {
-                    userRolePermission.CanView = isAllow;
-                    _myContext.SaveChanges();
-                }
-            }
-        }
-
-        public void UpdateDeletePermission(int id, bool isAllow)
-        {
-            using (_myContext = new MyContext())
-            {
-                UserRolePermission userRolePermission = _myContext.UserRolePermissions.Where(p => p.Id == id).FirstOrDefault();
-
-                if (userRolePermission != null)
-                {
-                    userRolePermission.CanDelete = isAllow;
+                    userRolePermission.IsAllowed = isAllow;
                     _myContext.SaveChanges();
                 }
             }
@@ -160,10 +152,10 @@ namespace Repository
 
                 if (userRolePermission != null)
                 {
-                    userRolePermission.CanCreate = isAllow;
-                    userRolePermission.CanView = isAllow;
-                    userRolePermission.CanUpdate = isAllow;
-                    userRolePermission.CanDelete = isAllow;
+                    // userRolePermission.CanCreate = isAllow;
+                    //  userRolePermission.CanView = isAllow;
+                    //   userRolePermission.CanUpdate = isAllow;
+                    //   userRolePermission.CanDelete = isAllow;
 
                     _myContext.SaveChanges();
                 }

@@ -10,15 +10,9 @@ namespace Repository.Interface
 
         UserRolePermission Update(UserRolePermissionVM  userRolePermissionVM);
 
-        List<UserRolePermissionVM> List(DatatableParams datatableParams);
+        List<UserRolePermissionVM> List(UserRolePermissionDatatableParams datatableParams);
 
-        void UpdateCreatePermission(int id, bool isAllow);
-
-        void UpdateEditPermission(int id, bool isAllow);
-
-        void UpdateViewPermission(int id, bool isAllow);
-
-        void UpdateDeletePermission(int id, bool isAllow);
+        void UpdatePermission(int id, bool isAllow);
 
         void UpdateFullPermission(int id, bool isAllow);
     }

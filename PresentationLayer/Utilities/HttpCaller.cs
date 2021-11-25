@@ -127,10 +127,10 @@ namespace PresentationLayer.Utilities
         {
             ClaimsPrincipal cp = _httpContext.User;
 
-            string token = cp.Claims.Where(c => c.Type == claimType)
+            string claimValue = cp.Claims.Where(c => c.Type == claimType)
                                .Select(c => c.Value).SingleOrDefault();
 
-            return token;
+            return claimValue;
         }
     }
 }

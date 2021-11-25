@@ -1,13 +1,17 @@
-﻿@using ViewModels.VM
+﻿@model List<ViewModels.VM.MenuItem>
+@using ViewModels.VM
 
-@{ Menus menuList = new Menus();
 
+@{ 
     List<MenuItem> menuItems = new List<MenuItem>();
+
     menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
-    menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
-    menuItems.Add(new MenuItem { Controller = "UserRolePermission", Action = "Index", DisplayName = "User Role Permission", FavIconStyle = "fa fa-key nav-icon", });
-    menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
-    menuItems.Add(new MenuItem { Controller = "Aircraft", Action = "Index", DisplayName = "AirCraft", FavIconStyle = "fas fa-plane nav-icon" });
+
+    foreach (MenuItem menuItem in Model)
+    {
+        menuItems.Add(new MenuItem { Controller = menuItem.Controller, Action = menuItem.Action, DisplayName = menuItem.DisplayName, FavIconStyle = menuItem.FavIconStyle, });
+    }
+
     menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
 }
 

@@ -1,4 +1,33 @@
-﻿<section class="content-header">
+﻿@model ViewModels.VM.UserRolePermissionFilterVM
+@{
+    List<SelectListItem> userRoleList = new List<SelectListItem>();
+    List<SelectListItem> moduleList = new List<SelectListItem>();
+
+    userRoleList.Add(new SelectListItem { Text = "Select User Role", Value = "" });
+    moduleList.Add(new SelectListItem { Text = "Select Module", Value = "" });
+
+    userRoleList.AddRange(Model.UserRoleList.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = false
+        };
+    }));
+
+    moduleList.AddRange(Model.ModuleList.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = false
+        };
+    }));
+}
+
+<section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -11,15 +40,38 @@
 <div class="card">
 
     <div class="card-body">
+        <table class="table w-100 mt-2 mb-2 border-0">
+            <tbody>
+                <tr style="width:100%">
+                    <td class="pl-0">
+                        <label class="control-label" asp-for="UserRoleId">User Role</label>
+                        <select class="form-control" asp-for="UserRoleId" asp-items="userRoleList"></select>
+                    </td>
+
+                    <td class="pr-0">
+                        <label class="control-label" asp-for="ModuleId">Module</label>
+                        <select class="form-control" asp-for="ModuleId" asp-items="moduleList"></select>
+                    </td>
+
+                    @*<td class="pr-0">
+                        <label class="control-label">Company</label>
+                        <select class="form-control">
+                            <option>Company 1</option>
+                            <option>Company 2</option>
+                            <option>Company 3</option>
+                        </select>
+                    </td>*@
+                </tr>
+
+            </tbody>
+        </table>
         <table id="userRolePermissionList" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>User Role</th>
                     <th>Module Name</th>
-                    <th data-orderable="false">Can Create</th>
-                    <th data-orderable="false">Can Edit</th>
-                    <th data-orderable="false">Can View</th>
-                    <th data-orderable="false">Can Delete</th>
+                    <th data-orderable="false">Permission Type</th>
+                    <th data-orderable="false">Is Allowed</th>
                 </tr>
             </thead>
 
@@ -27,13 +79,12 @@
                 <tr>
                     <th>User Role</th>
                     <th>Module Name</th>
-                    <th>Can Create</th>
-                    <th>Can Edit</th>
-                    <th>Can View</th>
-                    <th>Can Delete</th>
+                    <th data-orderable="false">Permission Type</th>
+                    <th data-orderable="false">Is Allowed</th>
                 </tr>
             </tfoot>
         </table>
+
     </div>
     <!-- /.card-body -->
 </div>

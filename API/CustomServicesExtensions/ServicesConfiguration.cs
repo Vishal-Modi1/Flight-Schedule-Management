@@ -46,6 +46,7 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IClassificationRepository, ClassificationRepository>();
             services.AddScoped<IAirCraftEquipmentRepository, AirCraftEquipmentRepository>();
             services.AddScoped<IUserRolePermissionRepository, UserRolePermissionRepository>();
+            services.AddScoped<IModuleDetailsRepo, ModuleDetailsRepo>();
         }
     }
 }

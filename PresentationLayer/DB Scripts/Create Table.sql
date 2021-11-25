@@ -235,48 +235,154 @@ GO
 ALTER TABLE [dbo].[AirCraftEquipments] CHECK CONSTRAINT [FK_AirCraftEquipments_Statuses]
 GO
 
+--drop table UserRolePermissions
+
+Create Table [Permissions]
+(
+Id int primary key Identity (1,1),
+PermissionType varchar(100),
+)
+GO
+
+Create Table ModuleDetails
+(
+Id int primary key Identity (1,1),
+Name varchar(100),
+ControllerName varchar(100),
+ActionName varchar(100),
+DisplayName varchar(100),
+Icon varchar(50)
+)
+
 
 Create Table UserRolePermissions
 (
 Id int primary key Identity (1,1),
 RoleId int,
-ModuleName varchar(100),
-CanCreate bit not null default(0),
-CanUpdate bit not null default(0),
-CanView bit not null default(0),
-CanDelete bit not null default(0),
+PermissionId int,
+ModuleId int,
+IsAllowed bit not null default(0),
+CONSTRAINT UK_RoleId_PermissionId_ModuleId UNIQUE (RoleId, PermissionId,ModuleId),
 CONSTRAINT FK_UserRole_UserRolePermission Foreign Key (RoleId) References UserRoles(Id),
+CONSTRAINT FK_Permission_UserRolePermission Foreign Key (PermissionId) References Permissions(Id),
+CONSTRAINT FK_ModuleDetail_UserRolePermission Foreign Key (ModuleId) References ModuleDetails(Id),
 )
 Go
 
+INSERT INTO Permissions Values('Create');
+INSERT INTO Permissions Values('View');
+INSERT INTO Permissions Values('Edit');
+INSERT INTO Permissions Values('Delete');
+GO
 
-select * from UserRolePermissions
-INSERT INTO UserRolePermissions Values(1,'User',1,1,1,1)
-INSERT INTO UserRolePermissions Values(1,'InstructorType',1,1,1,1)
-INSERT INTO UserRolePermissions Values(1,'Aircraft',1,1,1,1)
-INSERT INTO UserRolePermissions Values(1,'UserRolePermission',1,1,1,1)
+INSERT INTO ModuleDetails VALUES ('User','User','Index','User','far fa-user nav-icon')
+INSERT INTO ModuleDetails VALUES ('InstructorType','InstructorType','Index','Instructor Type','far fa-user nav-icon')
+INSERT INTO ModuleDetails VALUES ('Aircraft','Aircraft','Index','Aircraft','fas fa-plane nav-icon')
+INSERT INTO ModuleDetails VALUES ('UserRolePermission','UserRolePermission','Index','User Role Permission','fas fa-key nav-icon')
+GO
 
-INSERT INTO UserRolePermissions Values(2,'User',0,0,0,0)
-INSERT INTO UserRolePermissions Values(2,'InstructorType',0,0,0,0)
-INSERT INTO UserRolePermissions Values(2,'Aircraft',0,0,0,0)
-INSERT INTO UserRolePermissions Values(2,'UserRolePermission',0,0,0,0)
 
-INSERT INTO UserRolePermissions Values(3,'User',0,0,0,0)
-INSERT INTO UserRolePermissions Values(3,'InstructorType',0,0,0,0)
-INSERT INTO UserRolePermissions Values(3,'Aircraft',0,0,0,0)
-INSERT INTO UserRolePermissions Values(3,'UserRolePermission',0,0,0,0)
 
-INSERT INTO UserRolePermissions Values(4,'User',0,0,0,0)
-INSERT INTO UserRolePermissions Values(4,'InstructorType',0,0,0,0)
-INSERT INTO UserRolePermissions Values(4,'Aircraft',0,0,0,0)
-INSERT INTO UserRolePermissions Values(4,'UserRolePermission',0,0,0,0)
+INSERT INTO UserRolePermissions VALUES(1,1,1,1)
+INSERT INTO UserRolePermissions VALUES(1,2,1,1)
+INSERT INTO UserRolePermissions VALUES(1,3,1,1)
+INSERT INTO UserRolePermissions VALUES(1,4,1,1)
+INSERT INTO UserRolePermissions VALUES(1,1,2,1)
+INSERT INTO UserRolePermissions VALUES(1,2,2,1)
+INSERT INTO UserRolePermissions VALUES(1,3,2,1)
+INSERT INTO UserRolePermissions VALUES(1,4,2,1)
+INSERT INTO UserRolePermissions VALUES(1,1,3,1)
+INSERT INTO UserRolePermissions VALUES(1,2,3,1)
+INSERT INTO UserRolePermissions VALUES(1,3,3,1)
+INSERT INTO UserRolePermissions VALUES(1,4,3,1)
+INSERT INTO UserRolePermissions VALUES(1,1,4,1)
+INSERT INTO UserRolePermissions VALUES(1,2,4,1)
+INSERT INTO UserRolePermissions VALUES(1,3,4,1)
+INSERT INTO UserRolePermissions VALUES(1,4,4,1)
 
-INSERT INTO UserRolePermissions Values(5,'User',0,0,0,0)
-INSERT INTO UserRolePermissions Values(5,'InstructorType',0,0,0,0)
-INSERT INTO UserRolePermissions Values(5,'Aircraft',0,0,0,0)
-INSERT INTO UserRolePermissions Values(5,'UserRolePermission',0,0,0,0)
+INSERT INTO UserRolePermissions VALUES(2,1,1,0)
+INSERT INTO UserRolePermissions VALUES(2,2,1,0)
+INSERT INTO UserRolePermissions VALUES(2,3,1,0)
+INSERT INTO UserRolePermissions VALUES(2,4,1,0)
+INSERT INTO UserRolePermissions VALUES(2,1,2,0)
+INSERT INTO UserRolePermissions VALUES(2,2,2,0)
+INSERT INTO UserRolePermissions VALUES(2,3,2,0)
+INSERT INTO UserRolePermissions VALUES(2,4,2,0)
+INSERT INTO UserRolePermissions VALUES(2,1,3,0)
+INSERT INTO UserRolePermissions VALUES(2,2,3,0)
+INSERT INTO UserRolePermissions VALUES(2,3,3,0)
+INSERT INTO UserRolePermissions VALUES(2,4,3,0)
+INSERT INTO UserRolePermissions VALUES(2,1,4,0)
+INSERT INTO UserRolePermissions VALUES(2,2,4,0)
+INSERT INTO UserRolePermissions VALUES(2,3,4,0)
+INSERT INTO UserRolePermissions VALUES(2,4,4,0)
 
-INSERT INTO UserRolePermissions Values(6,'User',0,0,0,0)
-INSERT INTO UserRolePermissions Values(6,'InstructorType',0,0,0,0)
-INSERT INTO UserRolePermissions Values(6,'Aircraft',0,0,0,0)
-INSERT INTO UserRolePermissions Values(6,'UserRolePermission',0,0,0,0)
+INSERT INTO UserRolePermissions VALUES(3,1,1,0)
+INSERT INTO UserRolePermissions VALUES(3,2,1,0)
+INSERT INTO UserRolePermissions VALUES(3,3,1,0)
+INSERT INTO UserRolePermissions VALUES(3,4,1,0)
+INSERT INTO UserRolePermissions VALUES(3,1,2,0)
+INSERT INTO UserRolePermissions VALUES(3,2,2,0)
+INSERT INTO UserRolePermissions VALUES(3,3,2,0)
+INSERT INTO UserRolePermissions VALUES(3,4,2,0)
+INSERT INTO UserRolePermissions VALUES(3,1,3,0)
+INSERT INTO UserRolePermissions VALUES(3,2,3,0)
+INSERT INTO UserRolePermissions VALUES(3,3,3,0)
+INSERT INTO UserRolePermissions VALUES(3,4,3,0)
+INSERT INTO UserRolePermissions VALUES(3,1,4,0)
+INSERT INTO UserRolePermissions VALUES(3,2,4,0)
+INSERT INTO UserRolePermissions VALUES(3,3,4,0)
+INSERT INTO UserRolePermissions VALUES(3,4,4,0)
+
+INSERT INTO UserRolePermissions VALUES(4,1,1,0)
+INSERT INTO UserRolePermissions VALUES(4,2,1,0)
+INSERT INTO UserRolePermissions VALUES(4,3,1,0)
+INSERT INTO UserRolePermissions VALUES(4,4,1,0)
+INSERT INTO UserRolePermissions VALUES(4,1,2,0)
+INSERT INTO UserRolePermissions VALUES(4,2,2,0)
+INSERT INTO UserRolePermissions VALUES(4,3,2,0)
+INSERT INTO UserRolePermissions VALUES(4,4,2,0)
+INSERT INTO UserRolePermissions VALUES(4,1,3,0)
+INSERT INTO UserRolePermissions VALUES(4,2,3,0)
+INSERT INTO UserRolePermissions VALUES(4,3,3,0)
+INSERT INTO UserRolePermissions VALUES(4,4,3,0)
+INSERT INTO UserRolePermissions VALUES(4,1,4,0)
+INSERT INTO UserRolePermissions VALUES(4,2,4,0)
+INSERT INTO UserRolePermissions VALUES(4,3,4,0)
+INSERT INTO UserRolePermissions VALUES(4,4,4,0)
+
+INSERT INTO UserRolePermissions VALUES(5,1,1,0)
+INSERT INTO UserRolePermissions VALUES(5,2,1,0)
+INSERT INTO UserRolePermissions VALUES(5,3,1,0)
+INSERT INTO UserRolePermissions VALUES(5,4,1,0)
+INSERT INTO UserRolePermissions VALUES(5,1,2,0)
+INSERT INTO UserRolePermissions VALUES(5,2,2,0)
+INSERT INTO UserRolePermissions VALUES(5,3,2,0)
+INSERT INTO UserRolePermissions VALUES(5,4,2,0)
+INSERT INTO UserRolePermissions VALUES(5,1,3,0)
+INSERT INTO UserRolePermissions VALUES(5,2,3,0)
+INSERT INTO UserRolePermissions VALUES(5,3,3,0)
+INSERT INTO UserRolePermissions VALUES(5,4,3,0)
+INSERT INTO UserRolePermissions VALUES(5,1,4,0)
+INSERT INTO UserRolePermissions VALUES(5,2,4,0)
+INSERT INTO UserRolePermissions VALUES(5,3,4,0)
+INSERT INTO UserRolePermissions VALUES(5,4,4,0)
+
+INSERT INTO UserRolePermissions VALUES(6,1,1,0)
+INSERT INTO UserRolePermissions VALUES(6,2,1,0)
+INSERT INTO UserRolePermissions VALUES(6,3,1,0)
+INSERT INTO UserRolePermissions VALUES(6,4,1,0)
+INSERT INTO UserRolePermissions VALUES(6,1,2,0)
+INSERT INTO UserRolePermissions VALUES(6,2,2,0)
+INSERT INTO UserRolePermissions VALUES(6,3,2,0)
+INSERT INTO UserRolePermissions VALUES(6,4,2,0)
+INSERT INTO UserRolePermissions VALUES(6,1,3,0)
+INSERT INTO UserRolePermissions VALUES(6,2,3,0)
+INSERT INTO UserRolePermissions VALUES(6,3,3,0)
+INSERT INTO UserRolePermissions VALUES(6,4,3,0)
+INSERT INTO UserRolePermissions VALUES(6,1,4,0)
+INSERT INTO UserRolePermissions VALUES(6,2,4,0)
+INSERT INTO UserRolePermissions VALUES(6,3,4,0)
+INSERT INTO UserRolePermissions VALUES(6,4,4,0)
+
+

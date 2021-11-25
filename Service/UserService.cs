@@ -38,7 +38,7 @@ namespace Service
 
             userVM.Countries = ListCountries();
             userVM.InstructorTypes = ListInstructorTypes();
-            userVM.UserRoles = ListUserRoles();
+            userVM.UserRoles = _userRoleRepository.List();
 
             CreateResponse(userVM, HttpStatusCode.OK, "");
 
@@ -154,19 +154,6 @@ namespace Service
             }
 
             return instructorTypesListVM;
-        }
-
-        private List<UserRoleVM> ListUserRoles()
-        {
-            List<UserRole> userRoles = _userRoleRepository.List();
-            List<UserRoleVM> userRoleListVM = new List<UserRoleVM>();
-
-            foreach (UserRole userRole in userRoles)
-            {
-                userRoleListVM.Add(new UserRoleVM() { Id = userRole.Id, Name = userRole.Name });
-            }
-
-            return userRoleListVM;
         }
 
         private List<CountryVM> ListCountries()

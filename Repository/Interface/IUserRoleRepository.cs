@@ -1,10 +1,11 @@
 ﻿using DataModels.Models;
 using System.Collections.Generic;
+using ViewModels.VM;
 
 namespace Repository.Interface
 {
     public interface IUserRoleRepository
     {
-        List<UserRole> List();
+        List<UserRoleVM> List();
     }
 }

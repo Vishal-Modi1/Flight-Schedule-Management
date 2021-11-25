@@ -6,16 +6,12 @@ namespace Service.Interface
     {
         CurrentResponse GetByRoleId(int roleId);
 
-        CurrentResponse List(DatatableParams datatableParams);
+        CurrentResponse List(UserRolePermissionDatatableParams datatableParams);
 
-        CurrentResponse UpdateCreatePermission(int id, bool isAllow);
-
-        CurrentResponse UpdateEditPermission(int id, bool isAllow);
-
-        CurrentResponse UpdateViewPermission(int id, bool isAllow);
-
-        CurrentResponse UpdateDeletePermission(int id, bool isAllow);
+        CurrentResponse UpdatePermission(int id, bool isAllow);
 
         CurrentResponse UpdateFullPermission(int id, bool isAllow);
+
+        CurrentResponse GetFiltersValue();
     }
 }

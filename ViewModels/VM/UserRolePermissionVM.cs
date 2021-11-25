@@ -5,11 +5,15 @@
         public int Id { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
+        public int ModuleId { get; set; }
         public string ModuleName { get; set; }
-        public bool CanCreate { get; set; }
-        public bool CanUpdate { get; set; }
-        public bool CanView { get; set; }
-        public bool CanDelete { get; set; }
+        public int PermissionId { get; set; }
+        public string PermissionType { get; set; }
+        public string ControlllerName { get; set; }
+        public string ActionName { get; set; }
+        public string DisplayName { get; set; }
+        public bool IsAllowed { get; set; }
+        public string Icon { get; set; }
         public int TotalRecords { get; set; }
     }
 }

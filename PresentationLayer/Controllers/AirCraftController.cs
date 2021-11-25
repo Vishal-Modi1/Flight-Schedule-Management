@@ -297,13 +297,17 @@ namespace PresentationLayer.Controllers
             airCraftEquipmentsVM.Id = id;
             airCraftEquipmentsVM.statusList = new List<StatusVM>();
             airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
+
             if (id > 0) {
                 airCraftEquipmentsVM = await GetAirCraftEquipmentAsync(id);
             }
+
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
+
             return PartialView("_aircraftAddEquipment", Tuple.Create(airCraftEquipmentsVM, actionbtn));
         }
+
         [HttpGet]
         public async Task<IActionResult> AirCraftEquipmentListing(int id = 0)
         {
@@ -311,6 +315,7 @@ namespace PresentationLayer.Controllers
             airCraftEquipment = await GetAirCraftEquipmentListAsync(id);
             return PartialView("_airCraftEquipmentListing", airCraftEquipment);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUpdateEquipmentAsync(AirCraftEquipmentsVM airCraftEquipmentsVM)
@@ -337,8 +342,10 @@ namespace PresentationLayer.Controllers
             airCraftEquipmentsVM.classificationList = new List<ClassificationVM>();
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
+            
             return RedirectToAction("Edit", airCraftEquipmentsVM.Id);
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteEquipmentAsync(int airCraftEquipmentid)
         {

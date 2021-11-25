@@ -1,5 +1,4 @@
-﻿using DataModels.Models;
-using Repository.Interface;
+﻿using Repository.Interface;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,15 @@ namespace Service
     public class UserRolePermissionService : BaseService, IUserRolePermissionService
     {
         private readonly IUserRolePermissionRepository _userRolePermissionRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IModuleDetailsRepo _moduleDetailsRepo;
 
-        public UserRolePermissionService(IUserRolePermissionRepository userRolePermissionRepository)
+        public UserRolePermissionService(IUserRolePermissionRepository userRolePermissionRepository, 
+            IUserRoleRepository userRoleRepository, IModuleDetailsRepo moduleDetailsRepo)
         {
             _userRolePermissionRepository = userRolePermissionRepository;
+            _userRoleRepository = userRoleRepository;
+            _moduleDetailsRepo = moduleDetailsRepo;
         }
 
         public CurrentResponse GetByRoleId(int roleId)
@@ -34,7 +38,7 @@ namespace Service
             }
         }
 
-        public CurrentResponse List(DatatableParams datatableParams)
+        public CurrentResponse List(UserRolePermissionDatatableParams datatableParams)
         {
             try
             {
@@ -51,92 +55,11 @@ namespace Service
             }
         }
 
-        public CurrentResponse UpdateCreatePermission(int id, bool isAllow)
+        public CurrentResponse UpdatePermission(int id, bool isAllow)
         {
             try
             {
-                _userRolePermissionRepository.UpdateCreatePermission(id, isAllow);
-
-                string message = "Permission granted successfully.";
-
-                if (!isAllow)
-                {
-                    message = "Permission denied successfully.";
-
-                }
-
-                CreateResponse(true, HttpStatusCode.OK, message);
-
-                return _currentResponse;
-            }
-
-            catch (Exception exc)
-            {
-                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
-
-                return _currentResponse;
-            }
-        }
-
-        public CurrentResponse UpdateDeletePermission(int id, bool isAllow)
-        {
-            try
-            {
-                _userRolePermissionRepository.UpdateDeletePermission(id, isAllow);
-
-                string message = "Permission granted successfully.";
-
-                if (!isAllow)
-                {
-                    message = "Permission denied successfully.";
-
-                }
-
-                CreateResponse(true, HttpStatusCode.OK, message);
-
-                return _currentResponse;
-            }
-
-            catch (Exception exc)
-            {
-                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
-
-                return _currentResponse;
-            }
-        }
-
-        public CurrentResponse UpdateEditPermission(int id, bool isAllow)
-        {
-            try
-            {
-                _userRolePermissionRepository.UpdateEditPermission(id, isAllow);
-
-                string message = "Permission granted successfully.";
-
-                if (!isAllow)
-                {
-                    message = "Permission denied successfully.";
-
-                }
-
-                CreateResponse(true, HttpStatusCode.OK, message);
-
-                return _currentResponse;
-            }
-
-            catch (Exception exc)
-            {
-                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
-
-                return _currentResponse;
-            }
-        }
-       
-        public CurrentResponse UpdateViewPermission(int id, bool isAllow)
-        {
-            try
-            {
-                _userRolePermissionRepository.UpdateViewPermission(id, isAllow);
+                _userRolePermissionRepository.UpdatePermission(id, isAllow);
 
                 string message = "Permission granted successfully.";
 
@@ -181,6 +104,28 @@ namespace Service
             catch (Exception exc)
             {
                 CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse GetFiltersValue()
+        {
+            try
+            {
+                UserRolePermissionFilterVM userRolePermissionFilterVM = new UserRolePermissionFilterVM();
+
+                userRolePermissionFilterVM.UserRoleList = _userRoleRepository.List();
+                userRolePermissionFilterVM.ModuleList = _moduleDetailsRepo.List();
+
+                CreateResponse(userRolePermissionFilterVM, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(new UserRolePermissionFilterVM(), HttpStatusCode.InternalServerError, exc.ToString());
 
                 return _currentResponse;
             }

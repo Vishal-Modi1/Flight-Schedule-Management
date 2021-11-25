@@ -17,51 +17,32 @@ namespace API.Controllers
             _userRolePermissionService = userRolePermissionService;
         }
 
+
         [HttpPost]
         [Route("list")]
-        public IActionResult List(DatatableParams datatableParams)
+        public IActionResult List(UserRolePermissionDatatableParams datatableParams)
         {
             CurrentResponse response = _userRolePermissionService.List(datatableParams);
 
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("getfilters")]
+        public IActionResult GetFilters()
+        {
+            CurrentResponse response = _userRolePermissionService.GetFiltersValue();
+
+            return Ok(response);
+        }
 
         [HttpGet]
-        [Route("updatecreatepermission")]
+        [Route("updatepermission")]
         public IActionResult UpdateCreatePermission(int id, bool isAllow)
         {
-            CurrentResponse response = _userRolePermissionService.UpdateCreatePermission(id, isAllow);
+            CurrentResponse response = _userRolePermissionService.UpdatePermission(id, isAllow);
 
             return Ok(response);
         }
-
-        [HttpGet]
-        [Route("updateeditepermission")]
-        public IActionResult UpdateEditPermission(int id, bool isAllow)
-        {
-            CurrentResponse response = _userRolePermissionService.UpdateEditPermission(id, isAllow);
-
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("updateviewpermission")]
-        public IActionResult UpdateViewPermission(int id, bool isAllow)
-        {
-            CurrentResponse response = _userRolePermissionService.UpdateViewPermission(id, isAllow);
-
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("updatedeletepermission")]
-        public IActionResult UpdateDeletePermission(int id, bool isAllow)
-        {
-            CurrentResponse response = _userRolePermissionService.UpdateDeletePermission(id, isAllow);
-
-            return Ok(response);
-        }
-
     }
 }

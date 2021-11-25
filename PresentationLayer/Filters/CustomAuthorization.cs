@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.VM;
+using DataModels.Enums ;
+
 
 namespace PresentationLayer.Filters
 {
@@ -33,34 +35,34 @@ namespace PresentationLayer.Filters
             string controllerName = (string)context.RouteData.Values["Controller"];
             string actionName = (string)context.RouteData.Values["Action"];
 
-            var userPermission = userPermissionList.Where(p => p.ModuleName.ToLower() == controllerName.ToLower()).FirstOrDefault();
+            userPermissionList = userPermissionList.Where(p => p.ModuleName.ToLower() == controllerName.ToLower() 
+                                && p.IsAllowed == true ).ToList();
 
-            if (userPermission == null)
+            if (userPermissionList.Count() == 0)
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Index" && !userPermission.CanView)
+            if (actionName == "Index" && userPermissionList.Where(p=>p.PermissionType == PermissionType.View.ToString()).Count() == 0)
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Create" && !userPermission.CanCreate)
+            if (actionName == "Create" && userPermissionList.Where(p => p.PermissionType == PermissionType.Create.ToString()).Count() == 0)
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Delete" && !userPermission.CanDelete)
+            if (actionName == "Delete" && userPermissionList.Where(p => p.PermissionType == PermissionType.Delete.ToString()).Count() == 0)
             {
                 SetErrorRoute(context);
                 return;
             }
 
-
-            if (actionName == "Edit" && !userPermission.CanUpdate)
+            if (actionName == "Edit" && userPermissionList.Where(p => p.PermissionType == PermissionType.Edit.ToString()).Count() == 0)
             {
                 SetErrorRoute(context);
                 return;

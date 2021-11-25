@@ -23,16 +23,19 @@ namespace PresentationLayer.Controllers
             _httpCaller = new HttpCaller(httpContextAccessor.HttpContext);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/getfilters");
+            UserRolePermissionFilterVM userRolePermissionFilters = JsonConvert.DeserializeObject<UserRolePermissionFilterVM>(response.Data);
+
+            return View(userRolePermissionFilters);
         }
 
         public async Task<IActionResult> ListAsync()
         {
             IQueryCollection query = HttpContext.Request.Query;
-            
-            DatatableParams datatableParams = new DatatableParams();
+
+            UserRolePermissionDatatableParams datatableParams = new UserRolePermissionDatatableParams();
 
             var draw = query["draw"].FirstOrDefault();
             datatableParams.Start = Convert.ToInt32(query["start"]);
@@ -49,8 +52,14 @@ namespace PresentationLayer.Controllers
             {
                 datatableParams.SortOrderColumn = "ModuleName";
             }
-            
+
             datatableParams.OrderType = query["order[0][dir]"].ToString();
+
+            if (!string.IsNullOrWhiteSpace(query["roleid"].ToString()))
+                datatableParams.RoleId = Convert.ToInt32(query["roleid"].ToString());
+
+            if (!string.IsNullOrWhiteSpace(query["moduleid"].ToString()))
+                datatableParams.ModuleId = Convert.ToInt32(query["moduleid"].ToString());
 
             string jsonData = JsonConvert.SerializeObject(datatableParams);
             CurrentResponse response = await _httpCaller.PostAsync($"UserRolePermission/list", jsonData);
@@ -67,33 +76,9 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> UpdateCreatePermissionAsync(int id, bool isAllow)
+        public async Task<ActionResult> UpdatePermissionAsync(int id, bool isAllow)
         {
-            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/updatecreatepermission?id={id}&isAllow={isAllow}");
-
-            return Json(response);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> UpdateEditPermissionAsync(int id, bool isAllow)
-        {
-            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/updateeditepermission?id={id}&isAllow={isAllow}");
-
-            return Json(response);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> UpdateViewPermissionAsync(int id, bool isAllow)
-        {
-            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/updateviewpermission?id={id}&isAllow={isAllow}");
-
-            return Json(response);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> UpdateDeletePermissionAsync(int id, bool isAllow)
-        {
-            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/updatedeletepermission?id={id}&isAllow={isAllow}");
+            CurrentResponse response = await _httpCaller.GetAsync($"userrolepermission/updatepermission?id={id}&isAllow={isAllow}");
 
             return Json(response);
         }
