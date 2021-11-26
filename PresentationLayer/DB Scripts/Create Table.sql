@@ -386,3 +386,5 @@ INSERT INTO UserRolePermissions VALUES(6,3,4,0)
 INSERT INTO UserRolePermissions VALUES(6,4,4,0)
 
 
+select * from UserRolePermissions
+

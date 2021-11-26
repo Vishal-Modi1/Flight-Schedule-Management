@@ -1,4 +1,6 @@
 ﻿@model ViewModels.VM.AirCraftVM
+@using PresentationLayer.Utilities;
+@using DataModels.Enums;
 @{
     Layout = null;
 
@@ -136,8 +138,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (Model.Id > 0) 
-                            { 
+                            @if (Model.Id > 0)
+                            {
                                 <div class="row mt-2 mb-2 ">
                                     <div class="col">
                                         <div class="alert alert-danger">
@@ -242,11 +244,11 @@
                                     </div>
                                 </div>
                             </div>
-                             
+
                             <br />
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <button type="button" id="btnNext" class="btn btn-primary btn-min-width" >Next</button>
+                                    <button type="button" id="btnNext" class="btn btn-primary btn-min-width">Next</button>
                                     <button type="button" class="btn btn-default btn-min-width closeModal" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>

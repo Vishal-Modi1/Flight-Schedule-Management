@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.VM;
 using DataModels.Enums ;
-
+using PresentationLayer.Utilities;
 
 namespace PresentationLayer.Filters
 {
@@ -44,30 +44,29 @@ namespace PresentationLayer.Filters
                 return;
             }
 
-            if (actionName == "Index" && userPermissionList.Where(p=>p.PermissionType == PermissionType.View.ToString()).Count() == 0)
+            if (actionName == "Index" && !PermissionManager.IsAllowed(PermissionType.View, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Create" && userPermissionList.Where(p => p.PermissionType == PermissionType.Create.ToString()).Count() == 0)
+            if (actionName == "Create" && !PermissionManager.IsAllowed(PermissionType.Create, controllerName.ToLower()) && context.HttpContext.Request.Method == "GET" )
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Delete" && userPermissionList.Where(p => p.PermissionType == PermissionType.Delete.ToString()).Count() == 0)
+            if (actionName == "Delete" && !PermissionManager.IsAllowed(PermissionType.Delete, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Edit" && userPermissionList.Where(p => p.PermissionType == PermissionType.Edit.ToString()).Count() == 0)
+            if (actionName == "Edit" && !PermissionManager.IsAllowed(PermissionType.Edit, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;
             }
-
         }
 
         private void SetErrorRoute(AuthorizationFilterContext context)

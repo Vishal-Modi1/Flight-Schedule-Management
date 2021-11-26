@@ -37,15 +37,23 @@
                 mData: 'isActive',
                 "render": function (data, type, row) {
 
-                    if (row.isActive == true) {
-                        return '<div class="icheck-primary d-inline"><input checked type="checkbox" class="userStatus" '
-                            + ' data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"'
-                            + ' id = "userStatus' + row.id + '" > <label for="userStatus' + row.id + '"></label>';
-                    } else {
-                        return '<div class="icheck-primary d-inline"><input type="checkbox" class="userStatus"'
-                            + ' data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"'
-                            + ' id = "userStatus' + row.id + '" > <label for="userStatus' + row.id + '"></label>';
+                    debugger
+                    var disabled = '';
+                    var checked = '';
+
+                    if ($('#hdnEdit').val() != "true") {
+
+                        disabled = 'disabled'
                     }
+
+                    if (row.isActive == true) {
+                        checked = 'checked'
+                    }
+
+                    return '<div class="icheck-primary d-inline"><input type="checkbox" ' + checked + " " + disabled + ' class="userStatus" '
+                            + ' data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"'
+                            + ' id = "userStatus' + row.id + '" > <label for="userStatus' + row.id + '"></label>';
+                    
                 }
             },
             {
@@ -53,9 +61,17 @@
                 mData: null,
                 "render": function (data, type, row) {
 
-                    var editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.id + '" ><i class="fas fa-pencil-alt"></i></button>';
-                    var deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
-                        + 'data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"><i class="far fa-trash-alt"></i></button>';
+                    var editHtml = '';
+                    var deleteHtml = '';
+
+                    if ($('#hdnEdit').val() == "true") {
+                        editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.id + '" ><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if ($('#hdnDelete').val() == "true") {
+                        deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
+                            + 'data-id="' + row.id + '" data-name="' + row.firstName + ' ' + row.lastName + '"><i class="far fa-trash-alt"></i></button>';
+                    }
+
 
                     return editHtml + '&nbsp;&nbsp;&nbsp;' + deleteHtml;
                 }
@@ -196,10 +212,9 @@
 
             },
             error: function (data) {
-                
+
             },
-            complete: function ()
-            {
+            complete: function () {
                 enableForm('createuser')
                 stopLoading();
             }

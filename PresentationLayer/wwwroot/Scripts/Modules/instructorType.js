@@ -25,9 +25,18 @@
                 mData: null,
                 "render": function (data, type, row) {
 
-                    var editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.id + '" ><i class="fas fa-pencil-alt"></i></button>';
-                    var deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
-                        + 'data-id="' + row.id + '" data-name="' + row.name + '"><i class="far fa-trash-alt"></i></button>';
+                    var editHtml = '';
+                    var deleteHtml = '';
+
+                    if ($('#hdnEdit').val() == "true") {
+
+                        editHtml = '<button type="button" class="btn btn-success  btn-sm btnedit" style="border-radius:50%" data-id="' + row.id + '" ><i class="fas fa-pencil-alt"></i></button>';
+                    }
+
+                    if ($('#hdnDelete').val() == "true") {
+                        deleteHtml = '<button type="button" class="btn btn-danger btn-sm btndelete" style="border-radius:50%"'
+                            + 'data-id="' + row.id + '" data-name="' + row.name + '"><i class="far fa-trash-alt"></i></button>';
+                    }
 
                     return editHtml + '&nbsp;&nbsp;&nbsp;' + deleteHtml;
                 }
@@ -147,6 +156,7 @@
             type: 'GET',
             success: function (data) {
 
+                closeDeleteModal();
                 toastr.success(data.message)
                 refreshTable()
 

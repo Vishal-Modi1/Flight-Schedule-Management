@@ -1,10 +1,12 @@
 using Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PresentationLayer.Utilities;
 using System;
 using System.IO;
 
@@ -72,6 +74,8 @@ namespace PresentationLayer
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");
             });
+
+            PermissionManager.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
         }
     }
 }
