@@ -37,7 +37,7 @@ namespace PresentationLayer.Controllers
                 MenuItem menuItem = new MenuItem();
 
                 menuItem.Action = userRolePermission.ActionName;
-                menuItem.Controller = userRolePermission.ControlllerName;
+                menuItem.Controller = userRolePermission.ControllerName;
                 menuItem.DisplayName = userRolePermission.DisplayName;
                 menuItem.FavIconStyle = userRolePermission.Icon;
 

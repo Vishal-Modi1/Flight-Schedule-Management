@@ -1,4 +1,5 @@
 ﻿using DataModels.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Repository
                                                                           RoleId = userRolePermission.RoleId,
                                                                           RoleName = userRole.Name,
                                                                           ActionName = module.ActionName,
-                                                                          ControlllerName = module.ControllerName,
+                                                                          ControllerName = module.ControllerName,
                                                                           Icon = module.Icon,
                                                                           DisplayName = module.DisplayName,
                                                                           ModuleId = module.Id,
@@ -46,83 +47,16 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
-                IQueryable<UserRolePermissionVM> userRolePermissionsInfo = (from userRolePermission in _myContext.UserRolePermissions
-                                                                          join userRole in _myContext.UserRoles
-                                                                          on userRolePermission.RoleId equals userRole.Id
-                                                                          join permission in _myContext.Permissions
-                                                                          on userRolePermission.PermissionId equals permission.Id
-                                                                          join module in _myContext.ModuleDetails
-                                                                          on userRolePermission.ModuleId equals module.Id
-                                                                          select new UserRolePermissionVM()
-                                                                          {
-                                                                              Id = userRolePermission.Id,
-                                                                              ModuleName = module.Name,
-                                                                              RoleId = userRolePermission.RoleId,
-                                                                              RoleName = userRole.Name,
-                                                                              ActionName = module.ActionName,
-                                                                              ControlllerName = module.ControllerName,
-                                                                              Icon = module.Icon,
-                                                                              DisplayName = module.DisplayName,
-                                                                              ModuleId = module.Id,
-                                                                              PermissionId = permission.Id,
-                                                                              PermissionType = permission.PermissionType,
-                                                                              IsAllowed = userRolePermission.IsAllowed
-                                                                          }).AsQueryable();
+                int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
+                List<UserRolePermissionVM> list;
+                string sql = $"EXEC dbo.GetUserRolePermissionList '{ datatableParams.SearchText }', { pageNo }, " +
+                    $"{datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}','{datatableParams.ModuleId}','{datatableParams.RoleId}'";
 
+                list = _myContext.UserRolePermissionList.FromSqlRaw<UserRolePermissionVM>(sql).ToList();
 
-                if(datatableParams.ModuleId != 0)
-                {
-                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.ModuleId == datatableParams.ModuleId);
-                }
+                return list;
 
-                if (datatableParams.RoleId != 0)
-                {
-                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.RoleId == datatableParams.RoleId);
-                }
-
-                if (datatableParams.ModuleId != 0 && datatableParams.RoleId != 0)
-                {
-                    userRolePermissionsInfo = userRolePermissionsInfo.Where(p => p.ModuleId == datatableParams.ModuleId && p.RoleId == datatableParams.RoleId);
-                }
-
-                var userRolePermissionsInfoList = userRolePermissionsInfo.ToList();
-
-                if (datatableParams.SortOrderColumn == "RoleName")
-                {
-                    userRolePermissionsInfoList = userRolePermissionsInfoList.OrderBy(p => p.RoleName).ToList();
-
-                    if (datatableParams.OrderType == "desc")
-                    {
-                        userRolePermissionsInfoList = userRolePermissionsInfoList.OrderByDescending(p => p.RoleName).ToList();
-                    }
-                }
-                else if (datatableParams.SortOrderColumn == "ModuleName")
-                {
-                    userRolePermissionsInfoList = userRolePermissionsInfoList.OrderBy(p => p.ModuleName).ToList();
-
-                    if (datatableParams.OrderType == "desc")
-                    {
-                        userRolePermissionsInfoList = userRolePermissionsInfoList.OrderByDescending(p => p.ModuleName).ToList();
-                    }
-                }
-
-
-                if (!string.IsNullOrWhiteSpace(datatableParams.SearchText))
-                {
-                    userRolePermissionsInfoList = userRolePermissionsInfoList.Where(p => p.PermissionType.Contains(datatableParams.SearchText, System.StringComparison.OrdinalIgnoreCase) || p.RoleName.Contains(datatableParams.SearchText, System.StringComparison.OrdinalIgnoreCase)).ToList();
-                }
-
-                int totalRecords = userRolePermissionsInfoList.Count();
-
-                List<UserRolePermissionVM> userRolePermissionsList = userRolePermissionsInfoList.Skip(datatableParams.Start).Take(datatableParams.Length).ToList();
-
-                if (userRolePermissionsList.Count() > 0)
-                {
-                    userRolePermissionsList[0].TotalRecords = totalRecords;
-                }
-
-                return userRolePermissionsList;
-            }
+              }
         }
 
         public UserRolePermission Update(UserRolePermissionVM userRolePermissionVM)

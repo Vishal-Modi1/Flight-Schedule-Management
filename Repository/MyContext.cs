@@ -44,6 +44,8 @@ namespace Repository
 
         public DbSet<UserSearchList> UserSearchList { get; set; }
 
+        public DbSet<UserRolePermissionVM> UserRolePermissionList { get; set; }
+
         public DbSet<EmailToken> EmailTokens { get; set; }
 
         public DbSet<InstructorTypeVM> InstructorTypeVM { get; set; }
