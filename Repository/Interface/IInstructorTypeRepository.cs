@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ViewModels.VM;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.Common;
 
 namespace Repository.Interface
 {

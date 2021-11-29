@@ -30,7 +30,7 @@ namespace DataModels.Models
 
         public Nullable<DateTime> ManufacturerDate { get; set; } = DateTime.Now;
 
-        public Nullable<DateTime> LogEntryDate { get; set; }
+        public Nullable<DateTime> LogEntryDate { get; set; } = DateTime.Now;
 
         public Nullable<int> AircraftTTInstall { get; set; }
 

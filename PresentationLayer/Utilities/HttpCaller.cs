@@ -3,7 +3,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.Common;
 using Configuration;
 using System.Net.Http.Headers;
 using System.Security.Claims;

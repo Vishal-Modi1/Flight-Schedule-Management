@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using ViewModels.VM;
+using ViewModels.VM.UserRolePermission;
 using DataModels.Enums;
 
 namespace PresentationLayer.Utilities
@@ -19,7 +19,7 @@ namespace PresentationLayer.Utilities
 
         private static HttpContext _httpContext => _accessor.HttpContext;
 
-        public static List<UserRolePermissionVM> Get()
+        public static List<UserRolePermissionDataVM> Get()
         {
 
             ClaimsPrincipal cp = _httpContext.User;
@@ -28,7 +28,7 @@ namespace PresentationLayer.Utilities
                                .Select(c => c.Value).SingleOrDefault();
 
 
-            List<UserRolePermissionVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(claimValue);
+            List<UserRolePermissionDataVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(claimValue);
 
             return userRolePermissionsList;
 
@@ -36,7 +36,7 @@ namespace PresentationLayer.Utilities
 
         public static bool IsAllowed(PermissionType permissionType, string moduleName)
         {
-            List<UserRolePermissionVM> userRolePermissionsList = Get();
+            List<UserRolePermissionDataVM> userRolePermissionsList = Get();
 
             bool isAllowed = userRolePermissionsList.Where(p => p.IsAllowed == true &&
                               p.ModuleName.ToLower() == moduleName && p.PermissionType == permissionType.ToString()).Count() > 0;

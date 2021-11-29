@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ViewModels.VM;
+using ViewModels.VM.User;
+using ViewModels.VM.Common;
+using ViewModels.VM.Account;
 
 namespace Repository.Interface
 {
@@ -16,7 +18,7 @@ namespace Repository.Interface
 
         User Edit(User user);
 
-        List<UserSearchList> List(DatatableParams datatableParams);
+        List<UserDataVM> List(DatatableParams datatableParams);
 
         void Delete(int id);
 

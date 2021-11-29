@@ -1,7 +1,7 @@
 ﻿using DataModels.Models;
 using Repository.Interface;
 using System.Linq;
-using ViewModels.VM;
+using ViewModels.VM.MyAccount;
 
 namespace Repository
 {

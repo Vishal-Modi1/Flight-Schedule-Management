@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using PresentationLayer.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using ViewModels.VM;
+using ViewModels.VM.UserRolePermission;
 using DataModels.Enums;
 
 namespace PresentationLayer.Controllers
@@ -26,13 +26,13 @@ namespace PresentationLayer.Controllers
             if (claimValue == null)
                 return PartialView("AdminPortal/_MainNavigation", new List<MenuItem>());
 
-            List<UserRolePermissionVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(claimValue);
+            List<UserRolePermissionDataVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(claimValue);
             userRolePermissionsList = userRolePermissionsList.Where(p => p.IsAllowed == true && p.PermissionType == PermissionType.View.ToString()).ToList();
 
             List<MenuItem> menuItemsList = new List<MenuItem>();
 
 
-            foreach (UserRolePermissionVM userRolePermission in userRolePermissionsList)
+            foreach (UserRolePermissionDataVM userRolePermission in userRolePermissionsList)
             {
                 MenuItem menuItem = new MenuItem();
 

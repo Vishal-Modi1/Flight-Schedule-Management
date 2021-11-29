@@ -1,6 +1,6 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.User
 {
-    public class UserRoleVM
+    public class CountryVM
     {
         public int Id { get; set; }
 

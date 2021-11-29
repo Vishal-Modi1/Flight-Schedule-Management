@@ -1,16 +1,18 @@
 ﻿using DataModels.Models;
 using System.Collections.Generic;
 using ViewModels.VM;
+using ViewModels.VM.UserRolePermission;
+
 
 namespace Repository.Interface
 {
     public interface IUserRolePermissionRepository
     {
-        List<UserRolePermissionVM> GetByRoleId(int roleId);
+        List<UserRolePermissionDataVM> GetByRoleId(int roleId);
 
-        UserRolePermission Update(UserRolePermissionVM  userRolePermissionVM);
+        UserRolePermission Update(UserRolePermissionDataVM  userRolePermissionVM);
 
-        List<UserRolePermissionVM> List(UserRolePermissionDatatableParams datatableParams);
+        List<UserRolePermissionDataVM> List(UserRolePermissionDatatableParams datatableParams);
 
         void UpdatePermission(int id, bool isAllow);
 

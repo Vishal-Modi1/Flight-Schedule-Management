@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
-using ViewModels.VM;
+using ViewModels.VM.MyAccount;
+using ViewModels.VM.Common;
 
 namespace API.Controllers
 {

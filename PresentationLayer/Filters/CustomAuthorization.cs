@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.UserRolePermission;
 using DataModels.Enums ;
 using PresentationLayer.Utilities;
 
@@ -31,7 +31,7 @@ namespace PresentationLayer.Filters
             string userPermissionJson = context.HttpContext.User.Claims.Where(c => c.Type == "Permissions")
                               .Select(c => c.Value).SingleOrDefault();
 
-            List<UserRolePermissionVM> userPermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(userPermissionJson);
+            List<UserRolePermissionDataVM> userPermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(userPermissionJson);
             string controllerName = (string)context.RouteData.Values["Controller"];
             string actionName = (string)context.RouteData.Values["Action"];
 

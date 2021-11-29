@@ -1,6 +1,6 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.UserRolePermission
 {
-    public class CountryVM
+    public class ModuleDetailsVM
     {
         public int Id { get; set; }
 

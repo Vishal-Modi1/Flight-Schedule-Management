@@ -10,7 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.Account;
+using ViewModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {

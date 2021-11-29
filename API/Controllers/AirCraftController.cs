@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.Aircraft;
+using ViewModels.VM.AircraftEquipment;
 
 namespace API.Controllers
 {
@@ -95,7 +97,7 @@ namespace API.Controllers
 
             IFormCollection form = Request.Form;
 
-            string fileName = $"{DateTime.Now.ToString("yyyyMMddHHMMss")}_{form.Files[0].FileName}.jpeg";
+            string fileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHMMss")}_{form.Files[0].FileName}.jpeg";
             bool isFileUploaded = await _fileUploader.UploadAsync(UploadDirectory.AircraftImage, form, fileName);
 
             CurrentResponse response = new CurrentResponse();
@@ -168,14 +170,19 @@ namespace API.Controllers
         public IActionResult CreateAircraftEquipment(List<AircraftEquipmentTimeVM> aircraftEquipmentTimeVM)
         {
             int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
-            if (aircraftEquipmentTimeVM.Count > 0) {
+
+            if (aircraftEquipmentTimeVM.Count > 0) 
+            {
                 _aircraftEquipementTimeService.DeleteAllEquipmentTimeByAirCraftId(aircraftEquipmentTimeVM.FirstOrDefault().AircraftId, createdBy);
             }
+
             CurrentResponse response = new CurrentResponse();
+
             aircraftEquipmentTimeVM.ForEach(item => {
                 item.CreatedBy = createdBy;
                 response = _aircraftEquipementTimeService.Create(item); 
             });
+
             return Ok(response);
         }
         #endregion

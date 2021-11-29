@@ -9,10 +9,11 @@ using PresentationLayer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.Aircraft;
+using ViewModels.VM.AircraftEquipment;
+using ViewModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {

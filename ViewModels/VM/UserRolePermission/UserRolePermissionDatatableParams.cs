@@ -1,4 +1,6 @@
-﻿namespace ViewModels.VM
+﻿using ViewModels.VM.Common;
+
+namespace ViewModels.VM.UserRolePermission
 {
     public class UserRolePermissionDatatableParams : DatatableParams
     {

@@ -1,7 +1,7 @@
-﻿@model Tuple<ViewModels.VM.AirCraftEquipmentsVM, string>
+﻿@model Tuple<ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM, string>
 @{
     Layout = null;
-    ViewModels.VM.AirCraftEquipmentsVM airCraftEquipmentsVM = new ViewModels.VM.AirCraftEquipmentsVM();
+    ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM airCraftEquipmentsVM = new ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM();
     airCraftEquipmentsVM = Model.Item1;
 
     string action = Model.Item2;
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label asp-for="@airCraftEquipmentsVM.StatusId"></label>
                     <select asp-for="@airCraftEquipmentsVM.StatusId" class="form-control"
-                            asp-items="@(new SelectList(airCraftEquipmentsVM.statusList, nameof(ViewModels.VM.StatusVM.Id), nameof(ViewModels.VM.StatusVM.Name)))">
+                            asp-items="@(new SelectList(airCraftEquipmentsVM.statusList, nameof(ViewModels.VM.AircraftEquipment.StatusVM.Id), nameof(ViewModels.VM.AircraftEquipment.StatusVM.Name)))">
                         <option>Please select one</option>
                     </select>
 
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label asp-for="@airCraftEquipmentsVM.ClassificationId"></label>
                     <select asp-for="@airCraftEquipmentsVM.ClassificationId" class="form-control"
-                            asp-items="@(new SelectList(@airCraftEquipmentsVM.classificationList, nameof(ViewModels.VM.ClassificationVM.Id), nameof(ViewModels.VM.ClassificationVM.Name)))">
+                            asp-items="@(new SelectList(@airCraftEquipmentsVM.classificationList, nameof(ViewModels.VM.AircraftEquipment.ClassificationVM.Id), nameof(ViewModels.VM.AircraftEquipment.ClassificationVM.Name)))">
                         <option>Please select one</option>
                     </select>
                     <span asp-validation-for="@airCraftEquipmentsVM.ClassificationId" class="text-danger"></span>

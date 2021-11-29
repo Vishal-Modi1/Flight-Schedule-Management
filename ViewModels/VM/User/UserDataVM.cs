@@ -1,6 +1,6 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.User
 {
-    public class UserSearchList
+    public class UserDataVM
     {
         public int Id { get; set; }
 

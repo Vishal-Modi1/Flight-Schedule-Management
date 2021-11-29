@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.Common
 {
     public class CurrentResponse
     {

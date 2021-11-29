@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.UserRole;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.User
 {
     public class UserVM
     {

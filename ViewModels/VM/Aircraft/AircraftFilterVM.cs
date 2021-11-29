@@ -1,4 +1,4 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.Aircraft
 {
     public class AircraftFilterVM
     {

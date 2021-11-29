@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.User;
+using ViewModels.VM.Account;
 
 namespace Repository
 {
@@ -95,15 +97,15 @@ namespace Repository
             }
         }
 
-        public List<UserSearchList> List(DatatableParams datatableParams)
+        public List<UserDataVM> List(DatatableParams datatableParams)
         {
             using (_myContext = new MyContext())
             {
                 int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
-                List<UserSearchList> list;
+                List<UserDataVM> list;
                 string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
 
-                list = _myContext.UserSearchList.FromSqlRaw<UserSearchList>(sql).ToList();
+                list = _myContext.UserSearchList.FromSqlRaw<UserDataVM>(sql).ToList();
                
                 return list;
 

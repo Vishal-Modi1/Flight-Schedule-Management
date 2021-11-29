@@ -1,4 +1,4 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.Common
 {
     public class DatatableParams
     {

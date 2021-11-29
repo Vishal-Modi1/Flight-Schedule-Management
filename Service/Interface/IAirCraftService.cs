@@ -1,4 +1,6 @@
-﻿using ViewModels.VM;
+﻿using ViewModels.VM.Aircraft;
+using ViewModels.VM.Common;
+
 
 namespace Service.Interface
 {

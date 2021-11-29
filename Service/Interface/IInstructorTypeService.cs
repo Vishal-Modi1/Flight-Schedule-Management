@@ -1,4 +1,5 @@
-﻿using ViewModels.VM;
+﻿using ViewModels.VM.InstructorType;
+using ViewModels.VM.Common;
 
 namespace Service.Interface
 {

@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.UserRolePermission;
 
 namespace PresentationLayer.Controllers
 {
@@ -63,7 +64,7 @@ namespace PresentationLayer.Controllers
 
             string jsonData = JsonConvert.SerializeObject(datatableParams);
             CurrentResponse response = await _httpCaller.PostAsync($"UserRolePermission/list", jsonData);
-            List<UserRolePermissionVM> userRolePermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(response.Data);
+            List<UserRolePermissionDataVM> userRolePermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(response.Data);
             int recordsTotal = userRolePermissionList.Count() > 0 ? userRolePermissionList[0].TotalRecords : 0;
 
             return Json(new

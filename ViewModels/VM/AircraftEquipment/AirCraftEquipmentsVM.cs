@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.AircraftEquipment
 {
     public class AirCraftEquipmentsVM
     {
@@ -45,7 +45,7 @@ namespace ViewModels.VM
         public Nullable<DateTime> ManufacturerDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Log Entry Date")]
-        public Nullable<DateTime> LogEntryDate { get; set; }
+        public Nullable<DateTime> LogEntryDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Aircraft TT at Install")]
         public Nullable<int> AircraftTTInstall { get; set; }

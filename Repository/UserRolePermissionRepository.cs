@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
-using ViewModels.VM;
+using ViewModels.VM.UserRolePermission;
 
 namespace Repository
 {
@@ -11,11 +11,11 @@ namespace Repository
     {
         private MyContext _myContext;
 
-        public List<UserRolePermissionVM> GetByRoleId(int roleId)
+        public List<UserRolePermissionDataVM> GetByRoleId(int roleId)
         {
             using (_myContext = new MyContext())
             {
-                List<UserRolePermissionVM> userRolePermissionsList = (from userRolePermission in _myContext.UserRolePermissions
+                List<UserRolePermissionDataVM> userRolePermissionsList = (from userRolePermission in _myContext.UserRolePermissions
                                                                       join userRole in _myContext.UserRoles
                                                                       on userRolePermission.RoleId equals userRole.Id
                                                                       join permission in _myContext.Permissions
@@ -23,7 +23,7 @@ namespace Repository
                                                                       join module in _myContext.ModuleDetails
                                                                       on userRolePermission.ModuleId equals module.Id
                                                                       where userRolePermission.RoleId == roleId
-                                                                      select new UserRolePermissionVM()
+                                                                      select new UserRolePermissionDataVM()
                                                                       {
                                                                           Id = userRolePermission.Id,
                                                                           ModuleName = module.Name,
@@ -43,23 +43,23 @@ namespace Repository
             }
         }
 
-        public List<UserRolePermissionVM> List(UserRolePermissionDatatableParams datatableParams)
+        public List<UserRolePermissionDataVM> List(UserRolePermissionDatatableParams datatableParams)
         {
             using (_myContext = new MyContext())
             {
                 int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
-                List<UserRolePermissionVM> list;
+                List<UserRolePermissionDataVM> list;
                 string sql = $"EXEC dbo.GetUserRolePermissionList '{ datatableParams.SearchText }', { pageNo }, " +
                     $"{datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}','{datatableParams.ModuleId}','{datatableParams.RoleId}'";
 
-                list = _myContext.UserRolePermissionList.FromSqlRaw<UserRolePermissionVM>(sql).ToList();
+                list = _myContext.UserRolePermissionList.FromSqlRaw<UserRolePermissionDataVM>(sql).ToList();
 
                 return list;
 
               }
         }
 
-        public UserRolePermission Update(UserRolePermissionVM userRolePermissionVM)
+        public UserRolePermission Update(UserRolePermissionDataVM userRolePermissionVM)
         {
             throw new System.NotImplementedException();
         }

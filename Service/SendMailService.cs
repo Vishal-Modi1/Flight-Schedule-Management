@@ -8,7 +8,8 @@ using System;
 using System.IO;
 using System.Net;
 using ViewModels.Models;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.User;
 
 namespace Service
 {

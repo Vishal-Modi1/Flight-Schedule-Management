@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Interface;
-using System;
 using System.Collections.Generic;
-using ViewModels.VM;
-
+using ViewModels.VM.Account;
+using ViewModels.VM.User;
+using ViewModels.VM.Common;
+using ViewModels.VM.UserRolePermission;
 
 namespace API.Controllers
 {
@@ -46,7 +47,7 @@ namespace API.Controllers
             if (user != null)
             {
                 response = _userRolePermissionService.GetByRoleId(user.RoleId);
-                List<UserRolePermissionVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionVM>>(response.Data);
+                List<UserRolePermissionDataVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(response.Data);
 
                 List<string> getRoles(int RoleId)
                 {

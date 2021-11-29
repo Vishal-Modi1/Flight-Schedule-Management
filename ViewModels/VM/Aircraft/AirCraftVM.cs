@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.Aircraft
 {
     public class AirCraftVM
     {

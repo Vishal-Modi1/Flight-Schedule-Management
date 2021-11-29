@@ -1,6 +1,6 @@
-﻿namespace ViewModels.VM
+﻿namespace ViewModels.VM.UserRole
 {
-    public class ModuleDetailsVM
+    public class UserRoleVM
     {
         public int Id { get; set; }
 

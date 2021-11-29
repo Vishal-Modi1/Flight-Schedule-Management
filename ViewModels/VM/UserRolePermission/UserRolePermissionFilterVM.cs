@@ -1,7 +1,7 @@
-﻿using DataModels.Models;
+﻿using ViewModels.VM.UserRole;
 using System.Collections.Generic;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.UserRolePermission
 {
     public class UserRolePermissionFilterVM
     {

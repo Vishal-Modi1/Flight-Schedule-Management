@@ -4,9 +4,10 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.User;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.Account;
 
 namespace Service
 {

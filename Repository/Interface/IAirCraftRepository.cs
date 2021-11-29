@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ViewModels.VM;
+using ViewModels.VM.Aircraft;
 
 namespace Repository.Interface
 {

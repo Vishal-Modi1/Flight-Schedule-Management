@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using ViewModels.VM;
+using ViewModels.VM.User;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.UserRolePermission;
 
 namespace Repository
 {
@@ -42,9 +44,9 @@ namespace Repository
 
         public DbSet<Country> Countries { get; set; }
 
-        public DbSet<UserSearchList> UserSearchList { get; set; }
+        public DbSet<UserDataVM> UserSearchList { get; set; }
 
-        public DbSet<UserRolePermissionVM> UserRolePermissionList { get; set; }
+        public DbSet<UserRolePermissionDataVM> UserRolePermissionList { get; set; }
 
         public DbSet<EmailToken> EmailTokens { get; set; }
 

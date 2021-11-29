@@ -64,8 +64,10 @@ namespace Repository
                 foreach(var aircraftEquipmentTime in aircraftEquipmentTimes)
                 {
                     aircraftEquipmentTime.IsDeleted = true;
-                    aircraftEquipmentTime.UpdatedOn = DateTime.Now;
+                    aircraftEquipmentTime.UpdatedOn = DateTime.UtcNow;
                     aircraftEquipmentTime.UpdatedBy = UpdatedBy;
+                    aircraftEquipmentTime.DeletedOn = DateTime.UtcNow;
+                    aircraftEquipmentTime.DeletedBy = UpdatedBy;
                 }
                 _myContext.SaveChanges();
             }

@@ -3,7 +3,8 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.UserRolePermission;
 
 namespace Service
 {
@@ -25,7 +26,7 @@ namespace Service
         {
             try
             {
-                List<UserRolePermissionVM> userRolePermissionsList = _userRolePermissionRepository.GetByRoleId(roleId);
+                List<UserRolePermissionDataVM> userRolePermissionsList = _userRolePermissionRepository.GetByRoleId(roleId);
                 CreateResponse(userRolePermissionsList, HttpStatusCode.OK, "");
 
                 return _currentResponse;
@@ -42,7 +43,7 @@ namespace Service
         {
             try
             {
-                List<UserRolePermissionVM> userRolePermissionList = _userRolePermissionRepository.List(datatableParams);
+                List<UserRolePermissionDataVM> userRolePermissionList = _userRolePermissionRepository.List(datatableParams);
                 CreateResponse(userRolePermissionList, HttpStatusCode.OK, "");
 
                 return _currentResponse;

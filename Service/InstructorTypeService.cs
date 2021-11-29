@@ -4,7 +4,8 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using ViewModels.VM;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.Common;
 
 namespace Service
 {

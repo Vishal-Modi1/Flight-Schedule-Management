@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using ViewModels.VM;
+using ViewModels.VM.Common;
 
 namespace Service
 {

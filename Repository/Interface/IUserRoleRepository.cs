@@ -1,6 +1,5 @@
-﻿using DataModels.Models;
-using System.Collections.Generic;
-using ViewModels.VM;
+﻿using System.Collections.Generic;
+using ViewModels.VM.UserRole;
 
 namespace Repository.Interface
 {

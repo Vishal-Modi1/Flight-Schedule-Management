@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using System;
-using ViewModels.VM;
+using ViewModels.VM.Common;
+using ViewModels.VM.User;
 
 namespace API.Controllers
 {

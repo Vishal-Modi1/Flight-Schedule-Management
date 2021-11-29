@@ -3,7 +3,7 @@ using Repository.Interface;
 using Service.Interface;
 using System;
 using System.Net;
-using ViewModels.VM;
+using ViewModels.VM.Common;
 
 namespace Service
 {

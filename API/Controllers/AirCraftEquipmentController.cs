@@ -1,21 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
 using Service.Interface;
 using System;
-using ViewModels.VM;
+using ViewModels.VM.Common;
 using API.Utilities;
-using DataModels.Constants;
-using DataModels.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Service.Interface;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ViewModels.VM;
-
+using ViewModels.VM.AircraftEquipment;
 
 namespace API.Controllers
 {
@@ -62,13 +52,13 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("list")]
-        public IActionResult List(int airCraftId)
-        {
-            CurrentResponse response = _airCraftEquipmentService.List(airCraftId);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("list")]
+        //public IActionResult List()
+        //{
+        //    CurrentResponse response = _airCraftEquipmentService.List();
+        //    return Ok(response);
+        //}
 
         [HttpGet]
         [Route("fetchbyid")]

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.VM
+namespace ViewModels.VM.Account
 {
     public class ResetPasswordVM
     {

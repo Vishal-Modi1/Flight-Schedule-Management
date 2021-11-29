@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.InstructorType;
+using ViewModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {

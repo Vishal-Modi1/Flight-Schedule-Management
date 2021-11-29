@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM;
+using ViewModels.VM.User;
+using ViewModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {
@@ -97,7 +98,7 @@ namespace PresentationLayer.Controllers
 
             string jsonData = JsonConvert.SerializeObject(datatableParams);
             CurrentResponse response = await _httpCaller.PostAsync(url, jsonData);
-            List<UserSearchList> userList = JsonConvert.DeserializeObject<List<UserSearchList>>(response.Data);
+            List<UserDataVM> userList = JsonConvert.DeserializeObject<List<UserDataVM>>(response.Data);
 
             int recordsTotal = userList.Count() > 0 ? userList[0].TotalRecords : 0;
             return Json(new
