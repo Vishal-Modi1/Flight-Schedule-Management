@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.VM.AircraftEquipment
 {
-    public class ClassificationVM
+    public class EquipmentClassificationVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

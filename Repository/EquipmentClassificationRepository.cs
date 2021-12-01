@@ -5,15 +5,15 @@ using System.Linq;
 
 namespace Repository
 {
-    public class StatusRepository : IEquipmentStatusRepository
+    public class EquipmentClassificationRepository : IEquipmentClassificationRepository
     {
         private MyContext _myContext;
 
-        public List<EquipmentStatus> List()
+        public List<EquipmentClassification> List()
         {
             using (_myContext = new MyContext())
             {
-                return _myContext.EquipmentStatuses.Where(c => c.IsActive == true).ToList();
+                return _myContext.EquipmentClassifications.Where(c => c.IsActive == true).ToList();
             }
         }
     }

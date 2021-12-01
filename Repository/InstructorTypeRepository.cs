@@ -73,7 +73,7 @@ namespace Repository
 
                 string sql = $"EXEC dbo.GetInstructorTypeList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
 
-                list = _myContext.InstructorTypeVM.FromSqlRaw<InstructorTypeVM>(sql).ToList();
+                list = _myContext.InstructorType.FromSqlRaw<InstructorTypeVM>(sql).ToList();
 
                 return list;
             }

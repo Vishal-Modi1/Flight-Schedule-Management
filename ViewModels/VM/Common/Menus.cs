@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace ViewModels.VM.UserRolePermission
+namespace ViewModels.VM.Common
 {
     public class Menus
     {
         List<MenuItem> MenuItems { get; set; }
     }
+
     public class MenuItem
     {
         public string Action { get; set; }

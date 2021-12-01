@@ -8,20 +8,21 @@ using ViewModels.VM.Common;
 
 namespace Service
 {
-    public class ClassificationService : BaseService, IClassificationService
+    public class EquipmentClassificationService : BaseService, IEquipmentClassificationService
     {
-        private readonly IClassificationRepository _classificationServiceRepository;
+        private readonly IEquipmentClassificationRepository _equipmentClassificationRepository;
 
-        public ClassificationService(IClassificationRepository classificationServiceRepository)
+        public EquipmentClassificationService(IEquipmentClassificationRepository equipmentClassificationRepository)
         {
-            _classificationServiceRepository = classificationServiceRepository;
+            _equipmentClassificationRepository = equipmentClassificationRepository;
         }
+
         public CurrentResponse List()
         {
             try
             {
-                List<Classification> statuses = new List<Classification>();
-                statuses = _classificationServiceRepository.List();
+                List<EquipmentClassification> statuses = new List<EquipmentClassification>();
+                statuses = _equipmentClassificationRepository.List();
                 CreateResponse(statuses, HttpStatusCode.OK, "");
                 return _currentResponse;
             }

@@ -21,8 +21,8 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IAircraftClassService, AircraftClassService>();
             services.AddScoped<IAircraftEquipementTimeService, AircraftEquipementTimeService>();
             services.AddScoped<IAircraftService, AircraftService>();
-            services.AddScoped<IStatusService, StatusService>();
-            services.AddScoped<IClassificationService, ClassificationService>();
+            services.AddScoped<IEquipmentStatusService, StatusService>();
+            services.AddScoped<IEquipmentClassificationService, EquipmentClassificationService>();
             services.AddScoped<IAirCraftEquipmentService, AirCraftEquipmentService>();
             services.AddScoped<IUserRolePermissionService, UserRolePermissionService>();
         }
@@ -42,8 +42,8 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IAircraftClassRepository, AircraftClassRepository>();
             services.AddScoped<IAircraftEquipmentTimeRepository, AircraftEquipmentTimeRepository>();
             services.AddScoped<IAircraftRepository, AircraftRepository>();
-            services.AddScoped<IStatusRepository, StatusRepository>();
-            services.AddScoped<IClassificationRepository, ClassificationRepository>();
+            services.AddScoped<IEquipmentStatusRepository, StatusRepository>();
+            services.AddScoped<IEquipmentClassificationRepository, EquipmentClassificationRepository>();
             services.AddScoped<IAirCraftEquipmentRepository, AirCraftEquipmentRepository>();
             services.AddScoped<IUserRolePermissionRepository, UserRolePermissionRepository>();
             services.AddScoped<IModuleDetailsRepo, ModuleDetailsRepo>();

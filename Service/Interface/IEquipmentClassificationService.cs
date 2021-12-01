@@ -2,7 +2,7 @@
 
 namespace Service.Interface
 {
-    public interface IClassificationService
+    public interface IEquipmentClassificationService
     {
         CurrentResponse List();
     }

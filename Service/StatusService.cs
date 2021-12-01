@@ -8,21 +8,21 @@ using ViewModels.VM.Common;
 
 namespace Service
 {
-    public class StatusService : BaseService, IStatusService
+    public class StatusService : BaseService, IEquipmentStatusService
     {
-        private readonly IStatusRepository _statusRepository;
+        private readonly IEquipmentStatusRepository _equipmentStatusRepository;
 
-        public StatusService(IStatusRepository statusRepository)
+        public StatusService(IEquipmentStatusRepository equipmentStatusRepository)
         {
-            _statusRepository = statusRepository;
+            _equipmentStatusRepository = equipmentStatusRepository;
         }
         public CurrentResponse List()
         {
             try
             {
-                List<Status> statuses = new List<Status>();
-                statuses = _statusRepository.List();
-                CreateResponse(statuses, HttpStatusCode.OK, "");
+                List<EquipmentStatus> equipmentStatus = new List<EquipmentStatus>();
+                equipmentStatus = _equipmentStatusRepository.List();
+                CreateResponse(equipmentStatus, HttpStatusCode.OK, "");
                 return _currentResponse;
             }
             catch (Exception exc)

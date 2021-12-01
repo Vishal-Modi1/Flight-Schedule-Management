@@ -9,20 +9,20 @@ namespace API.Controllers
     [ApiController]
     [Authorize]
 
-    public class ClassificationController : Controller
+    public class EquipmentStatusController : Controller
     {
-        private readonly IClassificationService _classificationService;
+        private readonly IEquipmentStatusService _equipmentStatusService;
 
-        public ClassificationController(IClassificationService classificationService)
+        public EquipmentStatusController(IEquipmentStatusService equipmentStatusService)
         {
-            _classificationService = classificationService;
+            _equipmentStatusService = equipmentStatusService;
         }
-        
+
         [HttpGet]
         [Route("list")]
         public IActionResult List()
         {
-            CurrentResponse response = _classificationService.List();
+            CurrentResponse response = _equipmentStatusService.List();
 
             return Ok(response);
         }

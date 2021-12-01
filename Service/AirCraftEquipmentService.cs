@@ -56,7 +56,7 @@ namespace Service
                 return _currentResponse;
             }
         }
-        public CurrentResponse Fetch(int id)
+        public CurrentResponse Get(int id)
         {
             AirCraftEquipment airCraft = _aircraftEquipementRepository.FindByCondition(p => p.Id == id);
             AirCraftEquipmentsVM airCraftVM = new AirCraftEquipmentsVM();
@@ -92,7 +92,7 @@ namespace Service
         {
             try
             {
-                List<AirCraftEquipment> airCraft = _aircraftEquipementRepository.FindListByCondition(p => p.AirCraftId == airCraftId && p.IsActive == true && p.IsDeleted != true);
+                List<AirCraftEquipment> airCraft = _aircraftEquipementRepository.FindListByCondition(p => p.AirCraftId == airCraftId  && p.IsDeleted != true);
                 List<AirCraftEquipmentsVM> airCraftVM = new List<AirCraftEquipmentsVM>();
 
                 if (airCraft != null && airCraft.Count() > 0)
@@ -112,6 +112,25 @@ namespace Service
 
                 //return _currentResponse;
             }
+            catch (Exception exc)
+            {
+                CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse List(AircraftEquipmentDatatableParams datatableParams)
+        {
+            try
+            {
+                List<AircraftEquipmentDataVM> aircraftEquipmentDataList = _aircraftEquipementRepository.List(datatableParams);
+
+                CreateResponse(aircraftEquipmentDataList, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+
             catch (Exception exc)
             {
                 CreateResponse(null, HttpStatusCode.InternalServerError, exc.ToString());

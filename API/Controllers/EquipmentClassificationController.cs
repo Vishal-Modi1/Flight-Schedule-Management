@@ -1,0 +1,31 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Service.Interface;
+using ViewModels.VM.Common;
+
+namespace API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+
+    public class EquipmentClassificationController : Controller
+    {
+        private readonly IEquipmentClassificationService _equipmentClassificationService;
+
+        public EquipmentClassificationController(IEquipmentClassificationService equipmentClassificationService)
+        {
+            _equipmentClassificationService = equipmentClassificationService;
+        }
+        
+        [HttpGet]
+        [Route("list")]
+        public IActionResult List()
+        {
+            CurrentResponse response = _equipmentClassificationService.List();
+
+            return Ok(response);
+        }
+
+    }
+}

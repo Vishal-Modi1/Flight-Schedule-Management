@@ -2,7 +2,7 @@
 
 namespace Service.Interface
 {
-    public interface IStatusService
+    public interface IEquipmentStatusService
     {
         CurrentResponse List();
     }

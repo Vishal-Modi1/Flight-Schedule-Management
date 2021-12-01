@@ -52,11 +52,21 @@ namespace API.Controllers
             return Ok(response);
         }
 
+
+       // With server side pagination
+        [HttpPost]
+        [Route("list")]
+        public IActionResult List(AircraftEquipmentDatatableParams datatableParams)
+        {
+            CurrentResponse response = _airCraftEquipmentService.List(datatableParams);
+            return Ok(response);
+        }
+
         //[HttpGet]
         //[Route("list")]
-        //public IActionResult List()
+        //public IActionResult List(int aircraftId)
         //{
-        //    CurrentResponse response = _airCraftEquipmentService.List();
+        //    CurrentResponse response = _airCraftEquipmentService.List(aircraftId);
         //    return Ok(response);
         //}
 
@@ -64,7 +74,7 @@ namespace API.Controllers
         [Route("fetchbyid")]
         public IActionResult fetchbyid(int id)
         {
-            CurrentResponse response = _airCraftEquipmentService.Fetch(id);
+            CurrentResponse response = _airCraftEquipmentService.Get(id);
             return Ok(response);
         }
     }

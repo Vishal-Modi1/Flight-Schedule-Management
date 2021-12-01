@@ -5,6 +5,7 @@ using System.IO;
 using ViewModels.VM.User;
 using ViewModels.VM.InstructorType;
 using ViewModels.VM.UserRolePermission;
+using ViewModels.VM.AircraftEquipment;
 
 namespace Repository
 {
@@ -50,7 +51,7 @@ namespace Repository
 
         public DbSet<EmailToken> EmailTokens { get; set; }
 
-        public DbSet<InstructorTypeVM> InstructorTypeVM { get; set; }
+        public DbSet<InstructorTypeVM> InstructorType { get; set; }
 
         public DbSet<AirCraft> AirCrafts { get; set; }
 
@@ -64,9 +65,9 @@ namespace Repository
 
         public DbSet<AircraftClass> AircraftClasses { get; set; }
 
-        public DbSet<Status> Statuses { get; set; }
+        public DbSet<EquipmentStatus> EquipmentStatuses { get; set; }
 
-        public DbSet<Classification> Classifications { get; set; }
+        public DbSet<EquipmentClassification> EquipmentClassifications { get; set; }
 
         public DbSet<AirCraftEquipment> AircraftEquipments { get; set; }
 
@@ -77,6 +78,8 @@ namespace Repository
         public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<ModuleDetail> ModuleDetails { get; set; }
+
+        public DbSet<AircraftEquipmentDataVM> AircraftEquipmentData { get; set; }
     }
 
 }

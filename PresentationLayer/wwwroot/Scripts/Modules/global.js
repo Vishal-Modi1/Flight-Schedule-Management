@@ -197,9 +197,3 @@ $('#btnChangePassword').on('click', function () {
 
 });
 
-function loadDatatables() {
-    setTimeout(function () {
-        $(".static-dataTable").DataTable().destroy();
-        $(".static-dataTable").DataTable({ "responsive": true, "lengthChange": false, "autoWidth": false })
-    },800)
-}

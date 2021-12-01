@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.VM.AircraftEquipment;
 
 namespace Repository.Interface
 {
@@ -21,5 +22,7 @@ namespace Repository.Interface
         AirCraftEquipment FindByCondition(Expression<Func<AirCraftEquipment, bool>> predicate);
 
         List<AirCraftEquipment> FindListByCondition(Expression<Func<AirCraftEquipment, bool>> predicate);
+
+        List<AircraftEquipmentDataVM> List(AircraftEquipmentDatatableParams datatableParams);
     }
 }

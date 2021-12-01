@@ -67,7 +67,7 @@ namespace ViewModels.VM.AircraftEquipment
         public Nullable<System.DateTime> UpdatedOn { get; set; }
 
         public List<StatusVM> statusList { get; set; }
-        public List<ClassificationVM> classificationList { get; set; }
+        public List<EquipmentClassificationVM> classificationList { get; set; }
 
     }
 }

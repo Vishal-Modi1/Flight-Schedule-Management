@@ -42,6 +42,6 @@ namespace ViewModels.VM.AircraftEquipment
 
         public bool IsDeleted { get; set; }
 
-
+        public int TotalRecords { get; set; }
     }
 }

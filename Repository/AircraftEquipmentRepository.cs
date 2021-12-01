@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ViewModels.VM;
+using ViewModels.VM.AircraftEquipment;
 
 namespace Repository
 {
     public class AirCraftEquipmentRepository : IAirCraftEquipmentRepository
     {
         private MyContext _myContext;
+
         public AirCraftEquipment Create(AirCraftEquipment aircraftEquipment)
         {
             using (_myContext = new MyContext())
@@ -76,6 +77,21 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 return _myContext.AircraftEquipments.Where(x => x.IsDeleted == false && x.IsActive == true).ToList();
+            }
+        }
+
+        public List<AircraftEquipmentDataVM> List(AircraftEquipmentDatatableParams datatableParams)
+        {
+            using (_myContext = new MyContext())
+            {
+                int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
+                List<AircraftEquipmentDataVM> list;
+
+                string sql = $"EXEC dbo.GetAircraftEquipmentList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}', { datatableParams.AircraftId }";
+
+                list = _myContext.AircraftEquipmentData.FromSqlRaw<AircraftEquipmentDataVM>(sql).ToList();
+
+                return list;
             }
         }
 
