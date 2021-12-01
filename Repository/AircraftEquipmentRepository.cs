@@ -84,7 +84,7 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
-                int pageNo = datatableParams.Start > 10 ? (datatableParams.Start / datatableParams.Length) : 1;
+                int pageNo = datatableParams.Start >= 10 ? ((datatableParams.Start / datatableParams.Length) + 1) : 1;
                 List<AircraftEquipmentDataVM> list;
 
                 string sql = $"EXEC dbo.GetAircraftEquipmentList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}', { datatableParams.AircraftId }";

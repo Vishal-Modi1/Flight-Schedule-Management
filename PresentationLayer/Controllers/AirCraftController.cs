@@ -296,23 +296,39 @@ namespace PresentationLayer.Controllers
         #endregion
 
         #region AirCraftEquipment
+
         [HttpGet]
         public async Task<IActionResult> AddUpdateEquipment(int id = 0, int aircraftId = 0, string actionbtn = "view")
         {
-            AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
+            AirCraftEquipmentsVM airCraftEquipmentsVM = await GetEquipmentDetailsAsync(id);
             airCraftEquipmentsVM.AirCraftId = aircraftId;
+
+            return PartialView("_aircraftAddEquipment", Tuple.Create(airCraftEquipmentsVM, actionbtn));
+        }
+
+        public async Task<IActionResult> ViewEquipmentDetails(int id)
+        {
+            AirCraftEquipmentsVM airCraftEquipmentsVM = await GetEquipmentDetailsAsync(id);
+
+            return View("_viewEquipmentDetails", Tuple.Create(airCraftEquipmentsVM, "view"));
+        }
+
+        private async Task<AirCraftEquipmentsVM> GetEquipmentDetailsAsync(int id)
+        {
+            AirCraftEquipmentsVM airCraftEquipmentsVM = new AirCraftEquipmentsVM();
             airCraftEquipmentsVM.Id = id;
             airCraftEquipmentsVM.statusList = new List<StatusVM>();
             airCraftEquipmentsVM.classificationList = new List<EquipmentClassificationVM>();
 
-            if (id > 0) {
+            if (id > 0)
+            {
                 airCraftEquipmentsVM = await GetAirCraftEquipmentAsync(id);
             }
 
             airCraftEquipmentsVM.statusList = await GetStatusListAsync();
             airCraftEquipmentsVM.classificationList = await GetClassificationListAsync();
 
-            return PartialView("_aircraftAddEquipment", Tuple.Create(airCraftEquipmentsVM, actionbtn));
+            return airCraftEquipmentsVM;
         }
 
         [HttpGet]

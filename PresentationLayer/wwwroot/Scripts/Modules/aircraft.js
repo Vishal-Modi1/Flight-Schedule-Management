@@ -85,16 +85,26 @@
     });
 
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
-        var id = $(this).attr('data-edird');
+        var id = $(this).attr('data-equipmentid');
         var aircraftId = $(this).attr('data-craftid');
         var actionbtn = $(this).attr('data-actionbtn');
         var modalTitle = actionbtn == "edit" ? 'Edit Equipment' : (actionbtn == "view" ? 'View Equipment' : 'Delete Equipment');
-        openCreateModal(modalTitle, '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId + "&actionbtn=" + actionbtn);
+        openCreateModal(modalTitle, '/aircraft/addupdateequipment?id=' + id + "&aircraftId=" + aircraftId + "&actionbtn=" + actionbtn, ValidateAircraftEquipmentForm);
+
+    });
+
+    $(document).on('click', '.btnViewAirCraftEquipment', function () {
+
+        var id = $(this).attr('data-equipmentid');
+
+        var modalTitle = 'Equipment Details';
+        openCreateModal(modalTitle, '/aircraft/ViewEquipmentDetails?id=' + id);
+
     });
 
     $(document).on('click', '.btnDeleteAirCraftEquipment', function () {
 
-        var id = $(this).attr('data-edird');
+        var id = $(this).attr('data-equipmentid');
         var aircraftId = $(this).attr('data-craftid');
         var actionbtn = $(this).attr('data-actionbtn');
 
@@ -103,7 +113,7 @@
 
         isAircraftDeleted = false;
 
-          });
+    });
 
     $(document).on('click', '.btndelete', function () {
 
@@ -200,13 +210,26 @@
 
         $('#formAddUpdateEquipment').validate({
             rules: {
-                status: {
+
+                airCraftEquipmentsVM_StatusId: {
+                    required: true
+                },
+                airCraftEquipmentsVM_ClassificationId: {
+                    required: true
+                },
+                airCraftEquipmentsVM_Item: {
                     required: true
                 }
             },
             messages: {
-                status: {
+                airCraftEquipmentsVM_StatusId: {
                     required: "Please select status"
+                },
+                airCraftEquipmentsVM_ClassificationId: {
+                    required: "Please select classification"
+                },
+                airCraftEquipmentsVM_Item: {
+                    required: "Please enter item name"
                 }
             },
 
@@ -237,8 +260,10 @@
             if ($('#AircraftClassId-error').length > 0) {
                 $('#AircraftClassId-error').css('display', 'inline-block')
             }
+
             return false;
-        } else {
+        }
+        else {
             var popupaircraftid = $(".popupaircraftid").val();
             if (parseInt(popupaircraftid) > 0) {
                 var noOfEngine = $("#NoofEngines").val();
@@ -438,7 +463,22 @@
             return false;
         }
 
-        var data = $("#formAddUpdateEquipment").serializeObject();
+        var data = $("#formAddUpdateEquipment").serializeArray();
+
+        data.push
+            (
+            {
+                name: "airCraftEquipmentsVM.Item",
+                value: $('#airCraftEquipmentsVM_Item').val()
+            },
+            {
+                name: "airCraftEquipmentsVM.StatusId",
+                value: $('#airCraftEquipmentsVM_StatusId').val()
+            },
+            {
+                name: "airCraftEquipmentsVM.ClassificationId",
+                value: $('#airCraftEquipmentsVM_ClassificationId').val()
+            })
 
         disableForm('formAddUpdateEquipment');
         startLoading();
@@ -907,16 +947,13 @@
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "createdRow": function (row, data, dataIndex) {
 
-                if (data.status == 'Installed')
-                {
+                if (data.status == 'Installed') {
                     $(row).css("background-color", "#CEF9D0");
                 }
-                else if (data.status == 'Repaired')
-                {
+                else if (data.status == 'Repaired') {
                     $(row).css("background-color", "#C8E6FA");
                 }
-                else
-                {
+                else {
                     $(row).css("background-color", "#F8D1D1");
                 }
             },
@@ -934,8 +971,8 @@
                 {
                     mData: 'status',
                     "render": function (data, type, row) {
-                       
-                        return  row.status;
+
+                        return row.status;
                     }
                 },
                 { mData: 'item' },
@@ -948,14 +985,14 @@
                     className: 'text-center',
                     "render": function (data, type, row) {
 
-                        var viewHtml = '<button type="button" class="btn btn-primary  btn-sm btnEditAirCraftEquipment" style="border-radius:50%"'
-                            + 'data-craftid="' + row.aircraftid + '" data-edird="' + row.id + '" data-actionbtn="view"><i class="fas fa-eye"></i></button>';
+                        var viewHtml = '<button type="button" class="btn btn-primary  btn-sm btnViewAirCraftEquipment" style="border-radius:50%"'
+                            + 'data-craftid="' + row.aircraftid + '" data-equipmentid="' + row.id + '" data-actionbtn="view"><i class="fas fa-eye"></i></button>';
 
-                        var editHtml = '<button type="button" class="btn btn-success  btn-sm btnEditAirCraftEquipment" style="border-radius:50%" data-id="' + row.id 
-                            + 'data-craftid="' + row.aircraftid + '" data-edird="' + row.id + '" data-actionbtn="edit" > <i class="fas fa-pencil-alt"></i></button> ';
+                        var editHtml = '<button type="button" class="btn btn-success  btn-sm btnEditAirCraftEquipment" style="border-radius:50%" data-id="' + row.id
+                            + 'data-craftid="' + row.aircraftid + '" data-equipmentid="' + row.id + '" data-actionbtn="edit" > <i class="fas fa-pencil-alt"></i></button> ';
 
                         var deleteHtml = '<button type="button" class="btn btn-danger btn-sm btnDeleteAirCraftEquipment" style="border-radius:50%"'
-                            + 'data-craftid="' + row.aircraftid + '" data-edird="' + row.id + '" data-actionbtn="delete"><i class="far fa-trash-alt"></i></button>';
+                            + 'data-craftid="' + row.aircraftid + '" data-equipmentid="' + row.id + '" data-actionbtn="delete"><i class="far fa-trash-alt"></i></button>';
 
                         return viewHtml + '&nbsp;&nbsp;&nbsp;' + editHtml + '&nbsp;&nbsp;&nbsp;' + deleteHtml;
                     }
