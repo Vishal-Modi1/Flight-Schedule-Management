@@ -7,43 +7,10 @@
     ViewData["makeId"] = Model.AircraftMakeId;
     ViewData["modelId"] = Model.AircraftModelId;
 
-    List<SelectListItem> aircraftCategoryList = new List<SelectListItem>();
-    List<SelectListItem> aircraftClassList = new List<SelectListItem>();
-    List<SelectListItem> flightSimulatorList = new List<SelectListItem>();
+    List<SelectListItem> aircraftCategoryList = DropDownListGenerator.Generate(Model.AircraftCategoryList, "Select category");
+    List<SelectListItem> aircraftClassList = DropDownListGenerator.Generate(Model.AircraftClassList, "Select class");
+    List<SelectListItem> flightSimulatorList = DropDownListGenerator.Generate(Model.FlightSimulatorClassList, "Select flight simulator");
 
-    aircraftCategoryList.Add(new SelectListItem { Text = "Select category", Value = "" });
-    aircraftClassList.Add(new SelectListItem { Text = "Select class", Value = "" });
-    flightSimulatorList.Add(new SelectListItem { Text = "Select flight simulator", Value = "" });
-
-    aircraftCategoryList.AddRange(Model.AircraftCategoryList.ConvertAll(a =>
-    {
-        return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = false
-        };
-    }));
-
-    aircraftClassList.AddRange(Model.AircraftClassList.ConvertAll(a =>
-    {
-        return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = false
-        };
-    }));
-
-    flightSimulatorList.AddRange(Model.FlightSimulatorClassList.ConvertAll(a =>
-    {
-        return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = false
-        };
-    }));
 }
 @*style="margin-right:-100px"*@
 <div class="card-body">

@@ -25,6 +25,22 @@ namespace Repository
             }
         }
 
+        public List<DropDownValues> ListDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> companyList = (from company in _myContext.Companies
+                                                     where company.IsActive == true && company.IsDeleted == false
+                                                     select new DropDownValues()
+                                                     {
+                                                         Id = company.Id,
+                                                         Name = company.Name
+                                                     }).ToList();
+
+                return companyList;
+            }
+        }
+
         public Company Create(Company company)
         {
             using (_myContext = new MyContext())

@@ -5,20 +5,7 @@
 
     var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
 
-    List<SelectListItem> companyList = new List<SelectListItem>();
-
-    companyList.Add(new SelectListItem { Text = "Select Company", Value = "" });
-
-
-    companyList.AddRange(Model.Companies.ConvertAll(a =>
-          {
-              return new SelectListItem()
-                      {
-                          Text = a.Name.ToString(),
-                          Value = a.Id.ToString(),
-                          Selected = false
-                      };
-          }));
+    List<SelectListItem> companyList = DropDownListGenerator.Generate(Model.Companies, "Select Company");
 }
 
 <section class="content-header">

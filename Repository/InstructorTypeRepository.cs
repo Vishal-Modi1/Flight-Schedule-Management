@@ -37,13 +37,13 @@ namespace Repository
         {
             using (_myContext = new MyContext())
             {
-                InstructorType existingInstructorType = _myContext.InstructorTypes.Where(p=>p.Id == instructorType.Id).FirstOrDefault();
-               
-                if(existingInstructorType != null)
+                InstructorType existingInstructorType = _myContext.InstructorTypes.Where(p => p.Id == instructorType.Id).FirstOrDefault();
+
+                if (existingInstructorType != null)
                 {
                     existingInstructorType.Name = instructorType.Name;
                 }
-                
+
                 _myContext.SaveChanges();
 
                 return instructorType;
@@ -86,5 +86,21 @@ namespace Repository
                 return _myContext.InstructorTypes.Where(predicate).FirstOrDefault();
             }
         }
+
+        public List<DropDownValues> ListDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> intructorTypesList = (from country in _myContext.InstructorTypes
+                                                           select new DropDownValues()
+                                                           {
+                                                               Id = country.Id,
+                                                               Name = country.Name
+                                                           }).ToList();
+
+                return intructorTypesList;
+            }
+        }
+
     }
 }

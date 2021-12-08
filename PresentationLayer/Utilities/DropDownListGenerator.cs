@@ -4,16 +4,15 @@ using DataModels.VM.Common;
 
 namespace PresentationLayer.Utilities
 {
-    public class DropDownListGenerator
+    public static class DropDownListGenerator
     {
-
-        public List<SelectListItem> Generate<T>(List<T> list, string optionalText) where T : DropDownListValues
+        public static List<SelectListItem> Generate(List<DropDownValues> list, string optionalText)
         {
-            List<SelectListItem> userRoleList = new List<SelectListItem>();
+            List<SelectListItem> dropdownList = new List<SelectListItem>();
 
-            userRoleList.Add(new SelectListItem { Text = optionalText, Value = "" });
+            dropdownList.Add(new SelectListItem { Text = optionalText, Value = "" });
 
-            userRoleList.AddRange(list.ConvertAll(a =>
+            dropdownList.AddRange(list.ConvertAll(a =>
             {
                 return new SelectListItem()
                 {
@@ -23,7 +22,29 @@ namespace PresentationLayer.Utilities
                 };
             }));
 
-            return userRoleList;
+            return dropdownList;
+        }
+
+        public static List<SelectListItem> Generate(List<DropDownValues> list, string[] optionalText)
+        {
+            List<SelectListItem> dropdownList = new List<SelectListItem>();
+
+            for (int i = 0; i < optionalText.Length; i++)
+            {
+                dropdownList.Add(new SelectListItem { Text = optionalText[i], Value = "" });
+            }
+
+            dropdownList.AddRange(list.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.Name.ToString(),
+                    Value = a.Id.ToString(),
+                    Selected = false
+                };
+            }));
+
+            return dropdownList;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using DataModels.VM.Aircraft;
+using DataModels.VM.Common;
 
 namespace Repository
 {
@@ -106,6 +107,21 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 return _myContext.FlightSimulatorClasses.ToList();
+            }
+        }
+
+        public List<DropDownValues> ListFlightSimulatorClassDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> flightSimulatorClassesList = (from flightSimulatorClass in _myContext.FlightSimulatorClasses
+                                                            select new DropDownValues()
+                                                            {
+                                                                Id = flightSimulatorClass.Id,
+                                                                Name = flightSimulatorClass.Name
+                                                            }).ToList();
+
+                return flightSimulatorClassesList;
             }
         }
 

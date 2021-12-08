@@ -2,11 +2,9 @@
 using Repository.Interface;
 using Service.Interface;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using DataModels.VM.Common;
 using DataModels.VM.User;
-using DataModels.VM.InstructorType;
 using DataModels.VM.Account;
 
 namespace Service
@@ -40,10 +38,10 @@ namespace Service
                 userVM = ToBusinessObject(user);
             }
 
-            userVM.Countries = ListCountries();
-            userVM.InstructorTypes = ListInstructorTypes();
-            userVM.UserRoles = _userRoleRepository.List();
-            userVM.Companies = _companyRepository.ListAll();
+            userVM.Countries = _countryRepository.ListDropDownValues(); ;
+            userVM.InstructorTypes = _instructorTypeRepository.ListDropDownValues();
+            userVM.UserRoles = _userRoleRepository.ListDropDownValues();
+            userVM.Companies = _companyRepository.ListDropDownValues();
 
             CreateResponse(userVM, HttpStatusCode.OK, "");
 
@@ -146,32 +144,6 @@ namespace Service
 
                 return _currentResponse;
             }
-        }
-
-        private List<InstructorTypeVM> ListInstructorTypes()
-        {
-            List<InstructorType> instructorTypesList = _instructorTypeRepository.List();
-            List<InstructorTypeVM> instructorTypesListVM = new List<InstructorTypeVM>();
-
-            foreach (InstructorType instructorType in instructorTypesList)
-            {
-                instructorTypesListVM.Add(new InstructorTypeVM() { Id = instructorType.Id, Name = instructorType.Name });
-            }
-
-            return instructorTypesListVM;
-        }
-
-        private List<CountryVM> ListCountries()
-        {
-            List<Country> countries = _countryRepository.List();
-            List<CountryVM> countryListVM = new List<CountryVM>();
-
-            foreach (Country country in countries)
-            {
-                countryListVM.Add(new CountryVM() { Id = country.Id, Name = country.Name });
-            }
-
-            return countryListVM;
         }
 
         #region Object Mapping
@@ -291,7 +263,7 @@ namespace Service
             {
                 UserFilterVM userFilterVM = new UserFilterVM();
 
-                userFilterVM.Companies = _companyRepository.ListAll();
+                userFilterVM.Companies = _companyRepository.ListDropDownValues();
 
                 CreateResponse(userFilterVM, HttpStatusCode.OK, "");
 
@@ -305,7 +277,5 @@ namespace Service
                 return _currentResponse;
             }
         }
-
-
     }
 }

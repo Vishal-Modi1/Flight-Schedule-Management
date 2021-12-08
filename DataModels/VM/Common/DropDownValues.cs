@@ -1,6 +1,6 @@
 ﻿namespace DataModels.VM.Common
 {
-    public class DropDownListValues 
+    public class DropDownValues 
     {
         public int Id { get; set; }
 

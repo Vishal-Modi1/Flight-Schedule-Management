@@ -1,23 +1,11 @@
-﻿@using DataModels.Entities;
-@model List<AircraftModel>
+﻿@using DataModels.VM.Common;
+@using PresentationLayer.Utilities;
+@model List<DropDownValues>
 @{
     Layout = null;
-
     int selectedId = Convert.ToInt32(ViewData["modelId"]);
+    List<SelectListItem> aircraftModelList = DropDownListGenerator.Generate(Model, new string[] { "Select model", "+ Add New" });
 
-    List<SelectListItem> aircraftModelList = new List<SelectListItem>();
-    aircraftModelList.Add(new SelectListItem { Text = "Select model", Value = "" });
-    aircraftModelList.Add(new SelectListItem { Text = "+ Add New", Value = "" });
-
-    aircraftModelList.AddRange(Model.ConvertAll(a =>
-    {
-        return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = a.Id == selectedId ? true : false
-        };
-    }));
 }
 
 

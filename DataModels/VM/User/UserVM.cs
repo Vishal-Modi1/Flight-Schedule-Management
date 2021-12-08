@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using DataModels.VM.InstructorType;
 using DataModels.VM.UserRole;
 using DataModels.VM.Company;
+using DataModels.VM.Common;
 
 namespace DataModels.VM.User
 {
@@ -68,9 +69,9 @@ namespace DataModels.VM.User
 
         public string ActivationLink { get; set; }
 
-        public List<UserRoleVM> UserRoles { get; set; }
-        public List<InstructorTypeVM> InstructorTypes { get; set; }
-        public List<CountryVM> Countries { get; set; }
-        public List<CompanyVM> Companies { get; set; }
+        public List<DropDownValues> UserRoles { get; set; }
+        public List<DropDownValues> InstructorTypes { get; set; }
+        public List<DropDownValues> Countries { get; set; }
+        public List<DropDownValues> Companies { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataModels.Entities;
+using DataModels.VM.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -70,11 +71,11 @@ namespace DataModels.VM.Aircraft
 
         //Dropdowns list
 
-        public List<AircraftMake> AircraftMakeList { get; set; }
-        public List<AircraftModel> AircraftModelList { get; set; }
-        public List<AircraftCategory> AircraftCategoryList { get; set; }
-        public List<AircraftClass> AircraftClassList { get; set; }
-        public List<FlightSimulatorClass> FlightSimulatorClassList { get; set; }
+        public List<DropDownValues> AircraftMakeList { get; set; }
+        public List<DropDownValues> AircraftModelList { get; set; }
+        public List<DropDownValues> AircraftCategoryList { get; set; }
+        public List<DropDownValues> AircraftClassList { get; set; }
+        public List<DropDownValues> FlightSimulatorClassList { get; set; }
         public List<AircraftEquipmentTime> AircraftEquipmentTimesList { get; set; }
 
         public List<AirCraftEquipment>  AirCraftEquipmentList { get; set; }

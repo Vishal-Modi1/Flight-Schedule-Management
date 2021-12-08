@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataModels.VM.UserRole;
+using DataModels.VM.Common;
 
 namespace Repository
 {
@@ -15,6 +16,21 @@ namespace Repository
             {
                 List<UserRoleVM> userRoleList = (from userRole in _myContext.UserRoles
                                                  select new UserRoleVM()
+                                                 {
+                                                     Id = userRole.Id,
+                                                     Name = userRole.Name
+                                                 }).ToList();
+
+                return userRoleList;
+            }
+        }
+
+        public List<DropDownValues> ListDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> userRoleList = (from userRole in _myContext.UserRoles
+                                                 select new DropDownValues()
                                                  {
                                                      Id = userRole.Id,
                                                      Name = userRole.Name

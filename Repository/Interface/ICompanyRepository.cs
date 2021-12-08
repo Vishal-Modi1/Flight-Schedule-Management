@@ -20,5 +20,7 @@ namespace Repository.Interface
         Company FindByCondition(Expression<Func<Company, bool>> predicate);
 
         void Delete(int id);
+
+        List<DropDownValues> ListDropDownValues();
     }
 }

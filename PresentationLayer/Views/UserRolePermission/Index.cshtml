@@ -1,43 +1,11 @@
 ﻿@model DataModels.VM.UserRolePermission.UserRolePermissionFilterVM
 @using PresentationLayer.Utilities;
 @{
-    List<SelectListItem> userRoleList = new List<SelectListItem>();
-    List<SelectListItem> moduleList = new List<SelectListItem>();
-    List<SelectListItem> companyList = new List<SelectListItem>();
+  
+    List<SelectListItem> userRoleList = DropDownListGenerator.Generate(Model.UserRoleList, "Select User Role");
+    List<SelectListItem> moduleList = DropDownListGenerator.Generate(Model.ModuleList, "Select Module");
+    List<SelectListItem> companyList = DropDownListGenerator.Generate(Model.Companies, "Select Company");
 
-    userRoleList.Add(new SelectListItem { Text = "Select User Role", Value = "" });
-    moduleList.Add(new SelectListItem { Text = "Select Module", Value = "" });
-    companyList.Add(new SelectListItem { Text = "Select Company", Value = "" });
-
-    userRoleList.AddRange(Model.UserRoleList.ConvertAll(a =>
-    {
-        return new SelectListItem()
-                {
-                    Text = a.Name.ToString(),
-                    Value = a.Id.ToString(),
-                    Selected = false
-                };
-    }));
-
-    moduleList.AddRange(Model.ModuleList.ConvertAll(a =>
-    {
-        return new SelectListItem()
-                {
-                    Text = a.Name.ToString(),
-                    Value = a.Id.ToString(),
-                    Selected = false
-                };
-    }));
-
-    companyList.AddRange(Model.Companies.ConvertAll(a =>
-           {
-               return new SelectListItem()
-                       {
-                           Text = a.Name.ToString(),
-                           Value = a.Id.ToString(),
-                           Selected = false
-                       };
-           }));
 }
 
 <section class="content-header">

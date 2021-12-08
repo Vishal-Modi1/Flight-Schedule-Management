@@ -118,9 +118,9 @@ namespace Service
             {
                 UserRolePermissionFilterVM userRolePermissionFilterVM = new UserRolePermissionFilterVM();
 
-                userRolePermissionFilterVM.UserRoleList = _userRoleRepository.List();
-                userRolePermissionFilterVM.ModuleList = _moduleDetailsRepo.List();
-                userRolePermissionFilterVM.Companies = _companyRepository.ListAll();
+                userRolePermissionFilterVM.UserRoleList = _userRoleRepository.ListDropDownValues();
+                userRolePermissionFilterVM.ModuleList = _moduleDetailsRepo.ListDropDownValues();
+                userRolePermissionFilterVM.Companies = _companyRepository.ListDropDownValues();
 
                 CreateResponse(userRolePermissionFilterVM, HttpStatusCode.OK, "");
 

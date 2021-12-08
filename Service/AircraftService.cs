@@ -153,12 +153,12 @@ namespace Service
                 airCraftVM = ToBusinessObject(airCraft);
             }
 
-            airCraftVM.AircraftCategoryList = _aircraftCategoryRepository.List();
-            airCraftVM.AircraftClassList = _aircraftClassRepository.List();
-            airCraftVM.AircraftMakeList = _aircraftMakeRepository.List();
-            airCraftVM.AircraftModelList = _aircraftModelRepository.List();
+            airCraftVM.AircraftCategoryList = _aircraftCategoryRepository.ListDropDownValues();
+            airCraftVM.AircraftClassList = _aircraftClassRepository.ListDropDownValues();
+            airCraftVM.AircraftMakeList = _aircraftMakeRepository.ListDropDownValues();
+            airCraftVM.AircraftModelList = _aircraftModelRepository.ListDropDownValues();
             airCraftVM.AircraftEquipmentTimesList = _aircraftEquipmentTimeRepository.FindListByCondition(p => p.AircraftId == id);
-            airCraftVM.FlightSimulatorClassList = _airCraftRepository.FlightSimulatorClassList();
+            airCraftVM.FlightSimulatorClassList = _airCraftRepository.ListFlightSimulatorClassDropDownValues();
 
             CreateResponse(airCraftVM, HttpStatusCode.OK, "");
 

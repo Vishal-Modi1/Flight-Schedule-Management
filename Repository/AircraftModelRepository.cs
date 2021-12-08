@@ -1,4 +1,5 @@
 ﻿using DataModels.Entities;
+using DataModels.VM.Common;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,22 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 return _myContext.AircraftModels.Where(predicate).FirstOrDefault();
+            }
+        }
+
+        public List<DropDownValues> ListDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> aircraftModelList = (from aircraftModel in _myContext.AircraftModels
+                                                         select new DropDownValues()
+                                                         {
+                                                             Id = aircraftModel.Id,
+                                                             Name = aircraftModel.Name
+
+                                                         }).ToList();
+
+                return aircraftModelList;
             }
         }
     }

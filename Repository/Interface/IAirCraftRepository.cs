@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using DataModels.VM.Aircraft;
+using DataModels.VM.Common;
 
 namespace Repository.Interface
 {
@@ -22,5 +23,7 @@ namespace Repository.Interface
         List<FlightSimulatorClass> FlightSimulatorClassList();
 
         bool UpdateImageName(int id, string imageName);
+
+        List<DropDownValues> ListFlightSimulatorClassDropDownValues();
     }
 }

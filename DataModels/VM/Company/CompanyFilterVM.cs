@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataModels.VM.Common;
+using System.Collections.Generic;
 
 namespace DataModels.VM.Company
 {
@@ -6,7 +7,7 @@ namespace DataModels.VM.Company
     {
         public int CompanyId { get; set; }
 
-        public List<CompanyVM> Companies { get; set; }
+        public List<DropDownValues> Companies { get; set; }
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataModels.VM.UserRolePermission;
+using DataModels.VM.Common;
 
 namespace Repository
 {
@@ -23,6 +24,21 @@ namespace Repository
                                                            }).ToList();
 
                 return moduleDetailsList;
+            }
+        }
+
+        public List<DropDownValues> ListDropDownValues()
+        {
+            using (_myContext = new MyContext())
+            {
+                List<DropDownValues> moduleList = (from module in _myContext.ModuleDetails
+                                                     select new DropDownValues()
+                                                     {
+                                                         Id = module.Id,
+                                                         Name = module.Name
+                                                     }).ToList();
+
+                return moduleList;
             }
         }
     }
