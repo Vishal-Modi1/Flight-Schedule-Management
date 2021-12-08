@@ -10,6 +10,11 @@ namespace PresentationLayer.Utilities
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
 
+            if (list == null)
+            {
+                return dropdownList;
+            }
+
             dropdownList.Add(new SelectListItem { Text = optionalText, Value = "" });
 
             dropdownList.AddRange(list.ConvertAll(a =>
@@ -28,6 +33,11 @@ namespace PresentationLayer.Utilities
         public static List<SelectListItem> Generate(List<DropDownValues> list, string[] optionalText)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
+
+            if(list == null)
+            {
+                return dropdownList;
+            }
 
             for (int i = 0; i < optionalText.Length; i++)
             {

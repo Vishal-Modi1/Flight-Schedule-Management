@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using DataModels.VM.Common;
 using DataModels.VM.UserRolePermission;
+using System;
+using DataModels.Constants;
+using Microsoft.AspNetCore.Http;
+using API.Utilities;
 
 namespace API.Controllers
 {
@@ -12,10 +16,12 @@ namespace API.Controllers
     public class UserRolePermissionController : ControllerBase
     {
         private readonly IUserRolePermissionService _userRolePermissionService;
+        private readonly JWTTokenGenerator _jWTTokenGenerator;
 
-        public UserRolePermissionController(IUserRolePermissionService userRolePermissionService)
+        public UserRolePermissionController(IUserRolePermissionService userRolePermissionService, IHttpContextAccessor httpContextAccessor)
         {
             _userRolePermissionService = userRolePermissionService;
+            _jWTTokenGenerator = new JWTTokenGenerator(httpContextAccessor.HttpContext);
         }
 
 
@@ -23,6 +29,12 @@ namespace API.Controllers
         [Route("list")]
         public IActionResult List(UserRolePermissionDatatableParams datatableParams)
         {
+            if (datatableParams.CompanyId == 0)
+            {
+                string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+                datatableParams.CompanyId = companyId == "" ? 0 : Convert.ToInt32(companyId);
+            }
+
             CurrentResponse response = _userRolePermissionService.List(datatableParams);
 
             return Ok(response);

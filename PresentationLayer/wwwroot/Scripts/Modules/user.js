@@ -135,6 +135,10 @@
                     maxlength: 10,
                     minlength: 10
                 },
+                CompanyId:
+                {
+                    required: true,
+                },
                 Email: {
                     required: true,
                     email: true,
@@ -175,6 +179,10 @@
                     maxlength: "Please enter vlaid phone no",
                     minlength: "Please enter vlaid phone no"
                 },
+                CompanyId:
+                {
+                    required: "Please select company",
+                }
             },
 
             errorElement: 'span',

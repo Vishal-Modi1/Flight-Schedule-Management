@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
 using DataModels.VM.Common;
+using DataModels.Constants;
 
 namespace PresentationLayer.Controllers
 {
@@ -22,7 +23,7 @@ namespace PresentationLayer.Controllers
         public IActionResult ChangePassword()
         {
             ChangePasswordVM changePasswordVM = new ChangePasswordVM();
-            changePasswordVM.UserId = Convert.ToInt32(_httpCaller.GetClaimValue("Id"));
+            changePasswordVM.UserId = Convert.ToInt32(_httpCaller.GetClaimValue(CustomClaimTypes.UserId));
 
             return View(changePasswordVM);
         }

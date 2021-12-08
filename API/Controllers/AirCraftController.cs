@@ -53,7 +53,7 @@ namespace API.Controllers
         [Route("create")]
         public IActionResult Create(AirCraftVM airCraftVM)
         {
-            airCraftVM.CreatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            airCraftVM.CreatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue(CustomClaimTypes.UserId));
             CurrentResponse response = _airCraftService.Create(airCraftVM);
 
             return Ok(response);
@@ -63,7 +63,7 @@ namespace API.Controllers
         [Route("edit")]
         public IActionResult Edit(AirCraftVM airCraftVM)
         {
-            airCraftVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            airCraftVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue(CustomClaimTypes.UserId));
             CurrentResponse response = _airCraftService.Edit(airCraftVM);
 
             return Ok(response);
@@ -169,7 +169,7 @@ namespace API.Controllers
         [Route("createaircraftequipment")]
         public IActionResult CreateAircraftEquipment(List<AircraftEquipmentTimeVM> aircraftEquipmentTimeVM)
         {
-            int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            int createdBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue(CustomClaimTypes.UserId));
 
             if (aircraftEquipmentTimeVM.Count > 0) 
             {

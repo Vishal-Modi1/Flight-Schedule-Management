@@ -44,9 +44,10 @@ namespace API.Controllers
             CurrentResponse response = _accountService.GetValidUser(loginVM);//try now 
 
             UserVM user = JsonConvert.DeserializeObject<UserVM>(response.Data);
+
             if (user != null)
             {
-                response = _userRolePermissionService.GetByRoleId(user.RoleId);
+                response = _userRolePermissionService.GetByRoleId(user.RoleId, user.CompanyId);
                 List<UserRolePermissionDataVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(response.Data);
 
                 List<string> getRoles(int RoleId)
@@ -80,7 +81,7 @@ namespace API.Controllers
                     return roles;
                 }
 
-                string accessToken = _jWTTokenGenerator.Generate(user.Id, user.Email, getRoles(user.RoleId));
+                string accessToken = _jWTTokenGenerator.Generate(user.Id, user.CompanyId, getRoles(user.RoleId));
 
                 response.Data = JsonConvert.SerializeObject(new LoginResponseVM
                 {

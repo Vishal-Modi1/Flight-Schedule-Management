@@ -7,6 +7,7 @@ using System.Text;
 using Configuration;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using DataModels.Constants;
 
 namespace API.Utilities
 {
@@ -21,14 +22,14 @@ namespace API.Utilities
             _httpContext = httpContext;
         }
 
-        public string Generate(int id, string username, List<string> roles)
+        public string Generate(int id, int? companyId, List<string> roles)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                //new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, username),
-                new Claim("Id", id.ToString()),
+                new Claim(CustomClaimTypes.CompanyId, companyId.ToString()),
+                new Claim(CustomClaimTypes.UserId, id.ToString()),
             };
 
             roles.ForEach(role =>

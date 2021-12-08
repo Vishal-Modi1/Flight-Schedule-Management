@@ -40,7 +40,6 @@ namespace Repository
                 existingDetails.Email = user.Email;
                 existingDetails.FirstName = user.FirstName;
                 existingDetails.LastName = user.LastName;
-                existingDetails.Password = user.Password;
                 existingDetails.Phone = user.Phone;
                 existingDetails.RoleId = user.RoleId;
                 existingDetails.IsInstructor = user.IsInstructor;

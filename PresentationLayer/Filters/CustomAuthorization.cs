@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DataModels.VM.UserRolePermission;
 using DataModels.Enums ;
 using PresentationLayer.Utilities;
+using DataModels.Constants;
 
 namespace PresentationLayer.Filters
 {
@@ -17,7 +18,7 @@ namespace PresentationLayer.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            string userName = context.HttpContext.User.Claims.Where(c => c.Type == "Permissions")
+            string userName = context.HttpContext.User.Claims.Where(c => c.Type == CustomClaimTypes.Permissions)
                               .Select(c => c.Value).SingleOrDefault();
 
 
@@ -28,7 +29,7 @@ namespace PresentationLayer.Filters
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            string userPermissionJson = context.HttpContext.User.Claims.Where(c => c.Type == "Permissions")
+            string userPermissionJson = context.HttpContext.User.Claims.Where(c => c.Type == CustomClaimTypes.Permissions)
                               .Select(c => c.Value).SingleOrDefault();
 
             List<UserRolePermissionDataVM> userPermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(userPermissionJson);

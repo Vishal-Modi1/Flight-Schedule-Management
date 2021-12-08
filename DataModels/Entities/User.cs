@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataModels.Entities
 {
@@ -19,6 +20,9 @@ namespace DataModels.Entities
         public string Gender { get; set; }
         public Nullable<int> CountryId { get; set; }
         public Nullable<int> CompanyId { get; set; }
+
+        [NotMapped]
+        public string CompanyName { set; get; }
         public string Password { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }

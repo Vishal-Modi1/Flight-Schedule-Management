@@ -8,7 +8,7 @@ namespace Repository.Interface
 {
     public interface IUserRolePermissionRepository
     {
-        List<UserRolePermissionDataVM> GetByRoleId(int roleId);
+        List<UserRolePermissionDataVM> GetByRoleId(int roleId, int? companyId);
 
         UserRolePermission Update(UserRolePermissionDataVM  userRolePermissionVM);
 

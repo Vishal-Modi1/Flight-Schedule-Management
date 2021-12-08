@@ -2,8 +2,8 @@
 {
     public class EmailTemplate
     {
-        public static string ForgotPasswordTemplate => "ForgotPasswordTemplate.html";
-        public static string NewUserAccountActivationTemplate => "NewUserAccountActivationTemplate.html";
+        public const string ForgotPasswordTemplate = "ForgotPasswordTemplate.html";
+        public const string NewUserAccountActivationTemplate = "NewUserAccountActivationTemplate.html";
         
     }
 }

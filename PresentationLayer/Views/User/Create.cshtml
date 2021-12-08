@@ -1,4 +1,10 @@
-﻿@model DataModels.VM.User.UserVM
+﻿@using PresentationLayer.Utilities;
+@model DataModels.VM.User.UserVM
+@{
+    var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
+
+    List<SelectListItem> companyList = DropDownListGenerator.Generate(Model.Companies, "Select Company");
+}
 
 <div class="card-body" style="margin-right:-100px">
     @using (Html.BeginForm("create", "user", FormMethod.Post, new { id = "createuser" }))
@@ -9,7 +15,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <!-- text input -->
-                <div class="form-group">
+            <div class="form-group">
                     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-6" })
                     @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Please enter first name" } })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -27,7 +33,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <!-- text input -->
-                <div class="form-group">
+            <div class="form-group">
 
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
 
@@ -60,7 +66,7 @@
 
             <div class="col-sm-5 my-auto">
                 <!-- text input -->
-                <div class="form-group">
+            <div class="form-group">
                     @Html.LabelFor(model => model.IsInstructor, htmlAttributes: new { @class = "control-label col-md-7" })
                     <input type="checkbox" name="IsInstructorSwitch" id="IsInstructorSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No">
 
@@ -79,16 +85,28 @@
         </div>
 
         <div class="row">
+
+
             <div class="col-sm-5">
                 <!-- text input -->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-6" })
-                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", placeholder = "Please enter company name" } })
-                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+            <div class="form-group">
 
+                    @if (PermissionManager.IsSuperAdmin())
+                    {
+                        <label class="control-label" asp-for="CompanyId">Company</label>
+                        <select class="form-control" asp-for="CompanyId" asp-items="companyList"></select>
+                    }
+                    else
+                    {
+                        @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-6" })
+                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @readonly = "true"  }})
+                        <input asp-for="CompanyId" type="hidden" />
+                    }
 
                 </div>
             </div>
+
+
             <div class="col-sm-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.ExternalId, htmlAttributes: new { @class = "control-label col-md-6" })
@@ -101,7 +119,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <!-- text input -->
-                <div class="form-group">
+            <div class="form-group">
                     @Html.LabelFor(model => model.DateofBirth, htmlAttributes: new { @class = "control-label col-md-6" })
                     @Html.EditorFor(model => model.DateofBirth, new { htmlAttributes = new { @class = "form-control", @type = "text", placeholder = "Please select date of birth" } })
                     @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
@@ -170,7 +188,7 @@
         <div class="row">
             <div class="col-sm-5" style="padding-top:28px">
                 <!-- text input -->
-                <div class="form-group">
+            <div class="form-group">
 
                     @Html.LabelFor(model => model.IsSendEmailInvite, htmlAttributes: new { @class = "control-label col-md-7" })
                     <input type="checkbox" name="IsSendEmailInviteSwitch" id="IsSendEmailInviteSwitch" checked data-bootstrap-switch data-on-text="Yes" data-off-text="No" />
@@ -201,58 +219,58 @@
 
     @*<div class="modal" style="display: none">
         <div class="center">
-            <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
+        <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
         </div>
-    </div>*@
+        </div>*@
 
 </div>
 
 <script>
 
-        $(function () {
+    $(function () {
 
-          $('#DateofBirth').datepicker({
-                weekStart: 1,
-                daysOfWeekHighlighted: "6,0",
-                autoclose: true,
-                todayHighlight: true,
-                format: 'dd/mm/yyyy'
-            });
+      $('#DateofBirth').datepicker({
+            weekStart: 1,
+            daysOfWeekHighlighted: "6,0",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
+        });
 
-            // $('#DateofBirth').datepicker("setDate", new Date());
+        // $('#DateofBirth').datepicker("setDate", new Date());
 
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            })
-
-            if ('@Model.Id' > 0) {
-
-                $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
-                $('#IsSendEmailInviteSwitch').bootstrapSwitch('state', @Model.IsSendEmailInvite.ToString().ToLower());
-                $('#IsSendTextMessageSwitch').bootstrapSwitch('state', @Model.IsSendTextMessage.ToString().ToLower());
-                SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
-
-            }
-            //  $('#IsInstructor').val(true)
-
-            $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
-
-                SetIsInstructorValue(data);
-            });
-
-            function SetIsInstructorValue(data) {
-                if (data == false) {
-
-                    $('#instructorTypeDiv').css('display', 'none')
-                    $('#IsInstructor').val(false)
-                }
-
-                else {
-                    $('#instructorTypeDiv').css('display', 'block')
-                    $('#IsInstructor').val(true)
-                }
-            }
-
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
         })
+
+        if ('@Model.Id' > 0) {
+
+            $('#IsInstructorSwitch').bootstrapSwitch('state', @Model.IsInstructor.ToString().ToLower());
+            $('#IsSendEmailInviteSwitch').bootstrapSwitch('state', @Model.IsSendEmailInvite.ToString().ToLower());
+            $('#IsSendTextMessageSwitch').bootstrapSwitch('state', @Model.IsSendTextMessage.ToString().ToLower());
+            SetIsInstructorValue(@Model.IsInstructor.ToString().ToLower());
+
+        }
+        //  $('#IsInstructor').val(true)
+
+        $('#IsInstructorSwitch').on('switchChange.bootstrapSwitch', function (e, data) {
+
+            SetIsInstructorValue(data);
+        });
+
+        function SetIsInstructorValue(data) {
+            if (data == false) {
+
+                $('#instructorTypeDiv').css('display', 'none')
+                $('#IsInstructor').val(false)
+            }
+
+            else {
+                $('#instructorTypeDiv').css('display', 'block')
+                $('#IsInstructor').val(true)
+            }
+        }
+
+    })
 </script>
 

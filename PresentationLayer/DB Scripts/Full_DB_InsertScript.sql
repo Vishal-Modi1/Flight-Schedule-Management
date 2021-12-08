@@ -608,13 +608,13 @@ SET IDENTITY_INSERT [dbo].[Permissions] OFF
 GO
 SET IDENTITY_INSERT [dbo].[UserRoles] ON 
 GO
-INSERT [dbo].[UserRoles] (Id, [Name]) VALUES (1,N'SuperAdmin')
+INSERT [dbo].[UserRoles] (Id, [Name]) VALUES (1,N'Super Admin')
 GO
 INSERT [dbo].[UserRoles] (id, [Name]) VALUES (2, N'Admin')
 GO
 INSERT [dbo].[UserRoles] (id, [Name]) VALUES (3, N'Office Staff')
 GO
-INSERT [dbo].[UserRoles] (id, [Name]) VALUES (4, N'Instructors')
+INSERT [dbo].[UserRoles] (id, [Name]) VALUES (4, N'Instructor')
 GO
 INSERT [dbo].[UserRoles] (id,[Name]) VALUES (5, N'Mechanic')
 GO

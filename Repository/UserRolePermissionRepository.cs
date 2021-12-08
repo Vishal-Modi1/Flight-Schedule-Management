@@ -11,7 +11,7 @@ namespace Repository
     {
         private MyContext _myContext;
 
-        public List<UserRolePermissionDataVM> GetByRoleId(int roleId)
+        public List<UserRolePermissionDataVM> GetByRoleId(int roleId, int? companyId)
         {
             using (_myContext = new MyContext())
             {
@@ -23,6 +23,7 @@ namespace Repository
                                                                       join module in _myContext.ModuleDetails
                                                                       on userRolePermission.ModuleId equals module.Id
                                                                       where userRolePermission.RoleId == roleId
+                                                                      && userRolePermission.CompanyId == companyId
                                                                       select new UserRolePermissionDataVM()
                                                                       {
                                                                           Id = userRolePermission.Id,

@@ -5,7 +5,7 @@ namespace Service.Interface
 {
     public interface IUserRolePermissionService
     {
-        CurrentResponse GetByRoleId(int roleId);
+        CurrentResponse GetByRoleId(int roleId, int? companyId);
 
         CurrentResponse List(UserRolePermissionDatatableParams datatableParams);
 

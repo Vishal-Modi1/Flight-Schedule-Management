@@ -7,6 +7,7 @@ using System.Linq;
 using DataModels.VM.Common;
 using DataModels.VM.UserRolePermission;
 using DataModels.Enums;
+using DataModels.Constants;
 
 namespace PresentationLayer.Controllers
 {
@@ -22,7 +23,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult GetMenuItems()
         {
-            string claimValue = _httpCaller.GetClaimValue("Permissions");
+            string claimValue = _httpCaller.GetClaimValue(CustomClaimTypes.Permissions);
 
             if (claimValue == null)
                 return PartialView("AdminPortal/_MainNavigation", new List<MenuItem>());

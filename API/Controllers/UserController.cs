@@ -6,6 +6,7 @@ using Service.Interface;
 using System;
 using DataModels.VM.Common;
 using DataModels.VM.User;
+using DataModels.Constants;
 
 namespace API.Controllers
 {
@@ -34,7 +35,10 @@ namespace API.Controllers
         [Route("getDetails")]
         public IActionResult GetDetails(int id)
         {
-            CurrentResponse response = _userService.GetDetails(id);
+            string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            int companyIdValue = companyId == "" ? 0 : Convert.ToInt32(companyId);
+
+            CurrentResponse response = _userService.GetDetails(id, companyIdValue);
             return Ok(response);
         }
 
@@ -44,7 +48,7 @@ namespace API.Controllers
         {
             string password = _randomPasswordGenerator.Generate();
 
-            userVM.CreatedBy = userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            userVM.CreatedBy = userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue(CustomClaimTypes.UserId));
 
             userVM.Password = password.Encrypt();
             CurrentResponse response = _userService.Create(userVM);
@@ -66,7 +70,7 @@ namespace API.Controllers
         [Route("edit")]
         public IActionResult Edit(UserVM userVM)
         {
-            userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue("Id"));
+            userVM.UpdatedBy = Convert.ToInt32(_jWTTokenGenerator.GetClaimValue(CustomClaimTypes.UserId));
 
             CurrentResponse response = _userService.Edit(userVM);
             return Ok(response);
@@ -103,6 +107,12 @@ namespace API.Controllers
         [Route("list")]
         public IActionResult List(DatatableParams datatableParams)
         {
+            if(datatableParams.CompanyId == 0)
+            {
+                string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+                datatableParams.CompanyId = companyId == "" ? 0 : Convert.ToInt32(companyId);
+            }
+
             CurrentResponse response = _userService.List(datatableParams);
 
             return Ok(response);

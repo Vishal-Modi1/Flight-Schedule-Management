@@ -11,10 +11,12 @@ namespace Service
     public class AccountService : BaseService, IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, ICompanyRepository companyRepository)
         {
             _accountRepository = accountRepository;
+            _companyRepository = companyRepository; 
         }
 
         public CurrentResponse GetValidUser(LoginVM loginVM)
@@ -22,6 +24,7 @@ namespace Service
             try
             {
                 User user = _accountRepository.GetValidUser(loginVM.Email, loginVM.Password);
+
 
                 if (user == null)
                 {
@@ -37,6 +40,13 @@ namespace Service
                 }
                 else
                 {
+                    Company company = _companyRepository.FindByCondition(p => p.Id == user.CompanyId);
+
+                    if(company != null)
+                    {
+                        user.CompanyName = company.Name;
+                    }
+
                     CreateResponse(user, HttpStatusCode.OK, "User is valid");
                 }
 

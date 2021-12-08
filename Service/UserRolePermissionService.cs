@@ -24,11 +24,11 @@ namespace Service
             _companyRepository = companyRepository;
         }
 
-        public CurrentResponse GetByRoleId(int roleId)
+        public CurrentResponse GetByRoleId(int roleId, int? companyId)
         {
             try
             {
-                List<UserRolePermissionDataVM> userRolePermissionsList = _userRolePermissionRepository.GetByRoleId(roleId);
+                List<UserRolePermissionDataVM> userRolePermissionsList = _userRolePermissionRepository.GetByRoleId(roleId, companyId);
                 CreateResponse(userRolePermissionsList, HttpStatusCode.OK, "");
 
                 return _currentResponse;

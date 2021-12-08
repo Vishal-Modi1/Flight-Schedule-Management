@@ -8,7 +8,7 @@ namespace DataModels.Constants
 {
     public class EmailType
     {
-        public static string AccountActivation => "AccountActivation";
-        public static string ForgotPassword => "ForgotPassword";
+        public const string AccountActivation = "AccountActivation";
+        public const string ForgotPassword = "ForgotPassword";
     }
 }

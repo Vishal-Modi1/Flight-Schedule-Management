@@ -2,7 +2,7 @@
 {
     public class UploadDirectory
     {
-        public static string RootDirectory => "Uploads";
-        public static string AircraftImage => "AircraftImages";
+        public const string RootDirectory = "Uploads";
+        public const string AircraftImage = "AircraftImages";
     }
 }

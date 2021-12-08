@@ -46,6 +46,7 @@ namespace DataModels.VM.User
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
+        [Required]
         public int? CompanyId { get; set; }
 
         [Display(Name = "External Id")]

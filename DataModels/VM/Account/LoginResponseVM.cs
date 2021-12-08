@@ -14,6 +14,7 @@ namespace DataModels.VM.Account
         public string Phone { get; set; }
         public int RoleId { get; set; }
         public string CompanyName { get; set; }
+        public int CompanyId { get; set; }
         public string ExternalId { get; set; }
         public Nullable<System.DateTime> DateofBirth { get; set; }
         public string Gender { get; set; }

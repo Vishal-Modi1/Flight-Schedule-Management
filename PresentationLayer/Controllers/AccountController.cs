@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DataModels.VM.Account;
 using DataModels.VM.Common;
+using DataModels.Constants;
 
 namespace PresentationLayer.Controllers
 {
@@ -33,15 +34,16 @@ namespace PresentationLayer.Controllers
         public IActionResult Login()
         {
             string callBackResponse = TempData.Count > 0 && TempData["response"] != null ? TempData["response"].ToString() : "";
-            
-            if (!string.IsNullOrEmpty(callBackResponse)) {
+
+            if (!string.IsNullOrEmpty(callBackResponse))
+            {
                 ViewBag.response = JsonConvert.DeserializeObject<CurrentResponse>(callBackResponse);
             }
 
             string userName = HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Name)
                                .Select(c => c.Value).SingleOrDefault();
 
-            if(!string.IsNullOrWhiteSpace(userName))
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -85,10 +87,12 @@ namespace PresentationLayer.Controllers
              {
                   new Claim(ClaimTypes.Name, loginResponse.FirstName),
                   new Claim(ClaimTypes.Email, loginResponse.Email),
-                  new Claim("AcessToken", loginResponse.AccessToken),
-                  new Claim("Id", loginResponse.Id.ToString()),
-                  new Claim("Permissions", JsonConvert.SerializeObject(loginResponse.UserPermissionList)),
-                  new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(loginResponse.RoleId))
+                  new Claim(CustomClaimTypes.AccessToken, loginResponse.AccessToken),
+                  new Claim(CustomClaimTypes.UserId, loginResponse.Id.ToString()),
+                  new Claim(CustomClaimTypes.Permissions, JsonConvert.SerializeObject(loginResponse.UserPermissionList)),
+                  new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(loginResponse.RoleId)),
+                  new Claim(CustomClaimTypes.CompanyName, JsonConvert.SerializeObject(loginResponse.CompanyName)),
+                  new Claim(CustomClaimTypes.CompanyId, JsonConvert.SerializeObject(loginResponse.CompanyId))
              };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
@@ -97,7 +101,7 @@ namespace PresentationLayer.Controllers
             Thread.CurrentPrincipal = userPrincipal;
 
             await HttpContext.SignInAsync(userPrincipal);
-       
+
         }
 
         [HttpGet]

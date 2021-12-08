@@ -28,9 +28,10 @@ namespace Service
             _companyRepository = companyRepository;
         }
 
-        public CurrentResponse GetDetails(int id)
+        public CurrentResponse GetDetails(int id, int companyId)
         {
             User user = _userRepository.FindByCondition(p => p.Id == id && p.IsDeleted != true);
+
             UserVM userVM = new UserVM();
 
             if (user != null)
@@ -38,10 +39,19 @@ namespace Service
                 userVM = ToBusinessObject(user);
             }
 
-            userVM.Countries = _countryRepository.ListDropDownValues(); ;
+            userVM.Countries = _countryRepository.ListDropDownValues(); 
             userVM.InstructorTypes = _instructorTypeRepository.ListDropDownValues();
             userVM.UserRoles = _userRoleRepository.ListDropDownValues();
-            userVM.Companies = _companyRepository.ListDropDownValues();
+           
+            if (companyId > 0)
+            {
+                userVM.CompanyId = companyId;
+                userVM.CompanyName = _companyRepository.FindByCondition(p => p.Id == companyId).Name;
+            }
+            else
+            {
+                userVM.Companies = _companyRepository.ListDropDownValues();
+            }
 
             CreateResponse(userVM, HttpStatusCode.OK, "");
 
@@ -158,7 +168,7 @@ namespace Service
             user.Email = userVM.Email;
             user.FirstName = userVM.FirstName;
             user.LastName = userVM.LastName;
-            user.Password = userVM.Password;
+     //       user.Password = userVM.Password;
             user.Phone = userVM.Phone;
             user.RoleId = userVM.RoleId;
             user.IsInstructor = userVM.IsInstructor;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using DataModels.VM.UserRolePermission;
 using DataModels.Enums;
+using DataModels.Constants;
 
 namespace PresentationLayer.Utilities
 {
@@ -24,7 +25,7 @@ namespace PresentationLayer.Utilities
 
             ClaimsPrincipal cp = _httpContext.User;
 
-            string claimValue = cp.Claims.Where(c => c.Type == "Permissions")
+            string claimValue = cp.Claims.Where(c => c.Type == CustomClaimTypes.Permissions)
                                .Select(c => c.Value).SingleOrDefault();
 
 
