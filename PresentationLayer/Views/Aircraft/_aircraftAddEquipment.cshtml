@@ -1,7 +1,7 @@
-﻿@model Tuple<ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM, string>
+﻿@model Tuple<DataModels.VM.AircraftEquipment.AirCraftEquipmentsVM, string>
 @{
     Layout = null;
-    ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM airCraftEquipmentsVM = new ViewModels.VM.AircraftEquipment.AirCraftEquipmentsVM();
+    DataModels.VM.AircraftEquipment.AirCraftEquipmentsVM airCraftEquipmentsVM = new DataModels.VM.AircraftEquipment.AirCraftEquipmentsVM();
     airCraftEquipmentsVM = Model.Item1;
 
     string action = Model.Item2;
@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label asp-for="@airCraftEquipmentsVM.StatusId"></label>
                         <select asp-for="@airCraftEquipmentsVM.StatusId" class="form-control" name="airCraftEquipmentsVM_StatusId"
-                                asp-items="@(new SelectList(airCraftEquipmentsVM.statusList, nameof(ViewModels.VM.AircraftEquipment.StatusVM.Id), nameof(ViewModels.VM.AircraftEquipment.StatusVM.Name)))">
+                                asp-items="@(new SelectList(airCraftEquipmentsVM.statusList, nameof(DataModels.VM.AircraftEquipment.StatusVM.Id), nameof(DataModels.VM.AircraftEquipment.StatusVM.Name)))">
                             <option value="">Please select one</option>
                         </select>
 
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label asp-for="@airCraftEquipmentsVM.ClassificationId"></label>
                         <select asp-for="@airCraftEquipmentsVM.ClassificationId" name="airCraftEquipmentsVM_ClassificationId" class="form-control"
-                                asp-items="@(new SelectList(@airCraftEquipmentsVM.classificationList, nameof(ViewModels.VM.AircraftEquipment.EquipmentClassificationVM.Id), nameof(ViewModels.VM.AircraftEquipment.EquipmentClassificationVM.Name)))">
+                                asp-items="@(new SelectList(@airCraftEquipmentsVM.classificationList, nameof(DataModels.VM.AircraftEquipment.EquipmentClassificationVM.Id), nameof(DataModels.VM.AircraftEquipment.EquipmentClassificationVM.Name)))">
                             <option value="">Please select one</option>
                         </select>
                     </div>

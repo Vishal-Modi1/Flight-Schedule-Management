@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Interface;
 using System.Collections.Generic;
-using ViewModels.VM.Account;
-using ViewModels.VM.User;
-using ViewModels.VM.Common;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.Account;
+using DataModels.VM.User;
+using DataModels.VM.Common;
+using DataModels.VM.UserRolePermission;
 
 namespace API.Controllers
 {

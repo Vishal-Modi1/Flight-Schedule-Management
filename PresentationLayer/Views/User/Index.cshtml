@@ -1,8 +1,24 @@
-﻿@using PresentationLayer.Utilities;
+﻿@model DataModels.VM.User.UserFilterVM;
+@using PresentationLayer.Utilities;
 @using DataModels.Enums;
 @{
 
     var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+
+    List<SelectListItem> companyList = new List<SelectListItem>();
+
+    companyList.Add(new SelectListItem { Text = "Select Company", Value = "" });
+
+
+    companyList.AddRange(Model.Companies.ConvertAll(a =>
+          {
+              return new SelectListItem()
+                      {
+                          Text = a.Name.ToString(),
+                          Value = a.Id.ToString(),
+                          Selected = false
+                      };
+          }));
 }
 
 <section class="content-header">
@@ -32,6 +48,23 @@
 
         <input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Edit,controllerName).ToString().ToLower()" id="hdnEdit" />
         <input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
+
+        <table class="table w-100 mt-2 mb-2 border-0">
+            <tbody>
+                <tr style="width:100%">
+
+                    @if (PermissionManager.IsSuperAdmin())
+                    {
+                        <td class="pr-0">
+                            <label class="control-label" asp-for="CompanyId">Company</label>
+                            <select class="form-control" asp-for="CompanyId" asp-items="companyList"></select>
+                        </td>
+                    }
+
+                </tr>
+
+            </tbody>
+        </table>
 
         <table id="userList" class="table table-bordered table-striped">
             <thead>
@@ -65,6 +98,6 @@
 
 @section Scripts
 {
-    <script type="text/javascript" src="~/Scripts/Modules/user.js"></script>
+<script type="text/javascript" src="~/Scripts/Modules/user.js"></script>
 }
 

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Utilities;
-using ViewModels.VM.MyAccount;
+using DataModels.VM.MyAccount;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
-using ViewModels.VM.Common;
+using DataModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {

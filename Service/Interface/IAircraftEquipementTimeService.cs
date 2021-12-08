@@ -1,6 +1,6 @@
-﻿using ViewModels.VM;
-using ViewModels.VM.AircraftEquipment;
-using ViewModels.VM.Common;
+﻿using DataModels.VM;
+using DataModels.VM.AircraftEquipment;
+using DataModels.VM.Common;
 
 namespace Service.Interface
 {

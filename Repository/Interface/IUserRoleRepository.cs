@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ViewModels.VM.UserRole;
+using DataModels.VM.UserRole;
 
 namespace Repository.Interface
 {

@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using System;
-using ViewModels.VM.Common;
+using DataModels.VM.Common;
 using API.Utilities;
 using Microsoft.AspNetCore.Http;
-using ViewModels.VM.AircraftEquipment;
+using DataModels.VM.AircraftEquipment;
 
 namespace API.Controllers
 {

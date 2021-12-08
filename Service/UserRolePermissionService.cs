@@ -3,8 +3,8 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using ViewModels.VM.Common;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.Common;
+using DataModels.VM.UserRolePermission;
 
 namespace Service
 {
@@ -12,14 +12,16 @@ namespace Service
     {
         private readonly IUserRolePermissionRepository _userRolePermissionRepository;
         private readonly IUserRoleRepository _userRoleRepository;
-        private readonly IModuleDetailsRepo _moduleDetailsRepo;
+        private readonly IModuleDetailsRepository _moduleDetailsRepo;
+        private readonly ICompanyRepository _companyRepository;
 
         public UserRolePermissionService(IUserRolePermissionRepository userRolePermissionRepository, 
-            IUserRoleRepository userRoleRepository, IModuleDetailsRepo moduleDetailsRepo)
+            IUserRoleRepository userRoleRepository, IModuleDetailsRepository moduleDetailsRepo, ICompanyRepository companyRepository)
         {
             _userRolePermissionRepository = userRolePermissionRepository;
             _userRoleRepository = userRoleRepository;
             _moduleDetailsRepo = moduleDetailsRepo;
+            _companyRepository = companyRepository;
         }
 
         public CurrentResponse GetByRoleId(int roleId)
@@ -118,6 +120,7 @@ namespace Service
 
                 userRolePermissionFilterVM.UserRoleList = _userRoleRepository.List();
                 userRolePermissionFilterVM.ModuleList = _moduleDetailsRepo.List();
+                userRolePermissionFilterVM.Companies = _companyRepository.ListAll();
 
                 CreateResponse(userRolePermissionFilterVM, HttpStatusCode.OK, "");
 

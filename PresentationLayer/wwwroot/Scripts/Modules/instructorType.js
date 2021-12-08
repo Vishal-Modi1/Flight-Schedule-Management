@@ -67,7 +67,7 @@
 
         var id = $(this).attr('data-id');
         var name = $(this).attr('data-name');
-        openDeleteModal('Delete User', name, id)
+        openDeleteModal('Delete Intrusctor Type', name, id)
     });
 
     function fnCallBackAfterLoad() {

@@ -1,4 +1,4 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;

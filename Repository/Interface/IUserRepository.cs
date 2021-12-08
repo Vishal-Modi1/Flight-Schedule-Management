@@ -1,10 +1,10 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ViewModels.VM.User;
-using ViewModels.VM.Common;
-using ViewModels.VM.Account;
+using DataModels.VM.User;
+using DataModels.VM.Common;
+using DataModels.VM.Account;
 
 namespace Repository.Interface
 {

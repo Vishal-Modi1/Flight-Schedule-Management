@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
-    <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    <ProjectReference Include="..\DataModels\DataModels.csproj" />
   </ItemGroup>
 
 </Project>

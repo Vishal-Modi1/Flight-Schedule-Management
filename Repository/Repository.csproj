@@ -29,7 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\DataModels\DataModels.csproj" />
-    <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    <ProjectReference Include="..\DataModels\DataModels.csproj" />
   </ItemGroup>
 
 </Project>

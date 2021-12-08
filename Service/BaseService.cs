@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
-using ViewModels.VM;
-using ViewModels.VM.Common;
+using DataModels.VM;
+using DataModels.VM.Common;
 
 namespace Service
 {

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.UserRolePermission;
 using DataModels.Enums ;
 using PresentationLayer.Utilities;
 

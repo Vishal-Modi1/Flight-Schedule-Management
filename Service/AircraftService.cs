@@ -1,11 +1,11 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Repository.Interface;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using ViewModels.VM.Common;
-using ViewModels.VM.Aircraft;
+using DataModels.VM.Common;
+using DataModels.VM.Aircraft;
 
 namespace Service
 {

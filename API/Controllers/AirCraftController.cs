@@ -1,6 +1,6 @@
 ﻿using API.Utilities;
 using DataModels.Constants;
-using DataModels.Models;
+using DataModels.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM.Common;
-using ViewModels.VM.Aircraft;
-using ViewModels.VM.AircraftEquipment;
+using DataModels.VM.Common;
+using DataModels.VM.Aircraft;
+using DataModels.VM.AircraftEquipment;
 
 namespace API.Controllers
 {

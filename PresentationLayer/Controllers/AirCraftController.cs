@@ -1,4 +1,4 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,9 +12,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ViewModels.VM.Aircraft;
-using ViewModels.VM.AircraftEquipment;
-using ViewModels.VM.Common;
+using DataModels.VM.Aircraft;
+using DataModels.VM.AircraftEquipment;
+using DataModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {

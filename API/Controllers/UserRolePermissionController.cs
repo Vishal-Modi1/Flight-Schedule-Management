@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
-using ViewModels.VM.Common;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.Common;
+using DataModels.VM.UserRolePermission;
 
 namespace API.Controllers
 {

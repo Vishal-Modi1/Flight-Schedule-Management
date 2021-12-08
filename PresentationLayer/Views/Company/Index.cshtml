@@ -1,0 +1,61 @@
+﻿@using PresentationLayer.Utilities;
+@using DataModels.Enums;
+@{
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+}
+
+<input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Edit, controllerName).ToString().ToLower()" id="hdnEdit" />
+<input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Manage Companies</h1>
+            </div>
+            <div class="col-sm-6">
+
+                @if (PermissionManager.IsAllowed(PermissionType.Create, controllerName))
+                {
+                    <button type="button" id="createCompany" class="btn btn-block btn-primary float-sm-right" style="width:36%">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        &nbsp; Create Company
+                    </button>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="card">
+
+    <div class="card-body">
+        <table id="companyList" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th> Name</th>
+                    <th> Address</th>
+                    <th> Contact</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th> Name</th>
+                    <th> Address</th>
+                    <th> Contact</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/Modules/company.js"></script>
+}
+

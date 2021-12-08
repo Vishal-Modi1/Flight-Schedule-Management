@@ -1,5 +1,5 @@
-﻿using ViewModels.VM.Account;
-using ViewModels.VM.Common;
+﻿using DataModels.VM.Account;
+using DataModels.VM.Common;
 
 namespace Service.Interface
 {

@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 using PresentationLayer.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using ViewModels.VM.Common;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.Common;
+using DataModels.VM.UserRolePermission;
 using DataModels.Enums;
 
 namespace PresentationLayer.Controllers

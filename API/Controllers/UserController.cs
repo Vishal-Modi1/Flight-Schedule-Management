@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using System;
-using ViewModels.VM.Common;
-using ViewModels.VM.User;
+using DataModels.VM.Common;
+using DataModels.VM.User;
 
 namespace API.Controllers
 {
@@ -104,6 +104,15 @@ namespace API.Controllers
         public IActionResult List(DatatableParams datatableParams)
         {
             CurrentResponse response = _userService.List(datatableParams);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("getfilters")]
+        public IActionResult GetFilters()
+        {
+            CurrentResponse response = _userService.GetFiltersValue();
 
             return Ok(response);
         }

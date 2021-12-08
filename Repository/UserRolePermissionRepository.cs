@@ -1,9 +1,9 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.UserRolePermission;
 
 namespace Repository
 {
@@ -32,12 +32,13 @@ namespace Repository
                                                                           ActionName = module.ActionName,
                                                                           ControllerName = module.ControllerName,
                                                                           Icon = module.Icon,
+                                                                          OrderNo = module.OrderNo,
                                                                           DisplayName = module.DisplayName,
                                                                           ModuleId = module.Id,
                                                                           PermissionId = permission.Id,
                                                                           PermissionType = permission.PermissionType,
                                                                           IsAllowed = userRolePermission.IsAllowed
-                                                                      }).ToList();
+                                                                      }).OrderBy(p=>p.OrderNo).ToList();
 
                 return userRolePermissionsList;
             }
@@ -48,9 +49,12 @@ namespace Repository
             using (_myContext = new MyContext())
             {
                 int pageNo = datatableParams.Start >= 10 ? ((datatableParams.Start / datatableParams.Length) + 1) : 1;
+                
                 List<UserRolePermissionDataVM> list;
+
                 string sql = $"EXEC dbo.GetUserRolePermissionList '{ datatableParams.SearchText }', { pageNo }, " +
-                    $"{datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}','{datatableParams.ModuleId}','{datatableParams.RoleId}'";
+                    $"{datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'," +
+                    $"{datatableParams.ModuleId},{datatableParams.RoleId},{datatableParams.CompanyId}";
 
                 list = _myContext.UserRolePermissionList.FromSqlRaw<UserRolePermissionDataVM>(sql).ToList();
 

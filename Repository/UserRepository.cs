@@ -1,13 +1,13 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ViewModels.VM.Common;
-using ViewModels.VM.User;
-using ViewModels.VM.Account;
+using DataModels.VM.Common;
+using DataModels.VM.User;
+using DataModels.VM.Account;
 
 namespace Repository
 {
@@ -35,7 +35,7 @@ namespace Repository
                 if (existingDetails == null)
                     return user;
 
-                existingDetails.CompanyName = user.CompanyName;
+                existingDetails.CompanyId = user.CompanyId;
                 existingDetails.DateofBirth = user.DateofBirth;
                 existingDetails.Email = user.Email;
                 existingDetails.FirstName = user.FirstName;
@@ -103,7 +103,7 @@ namespace Repository
             {
                 int pageNo = datatableParams.Start >= 10 ? ((datatableParams.Start / datatableParams.Length) + 1) : 1;
                 List<UserDataVM> list;
-                string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}'";
+                string sql = $"EXEC dbo.GetUserList '{ datatableParams.SearchText }', { pageNo }, {datatableParams.Length},'{datatableParams.SortOrderColumn}','{datatableParams.OrderType}',{datatableParams.CompanyId}";
 
                 list = _myContext.UserSearchList.FromSqlRaw<UserDataVM>(sql).ToList();
                

@@ -85,6 +85,7 @@
     });
 
     $(document).on('click', '.btnEditAirCraftEquipment', function () {
+      
         var id = $(this).attr('data-equipmentid');
         var aircraftId = $(this).attr('data-craftid');
         var actionbtn = $(this).attr('data-actionbtn');
@@ -120,6 +121,7 @@
         var id = $(this).attr('data-id');
         var name = $(this).attr('data-name');
         openDeleteModal('Delete User', name, id)
+
     });
 
     function ValidateAircraftForm() {

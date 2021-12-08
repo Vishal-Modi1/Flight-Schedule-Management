@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM.User;
-using ViewModels.VM.Common;
+using DataModels.VM.User;
+using DataModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {
@@ -25,9 +25,12 @@ namespace PresentationLayer.Controllers
         }
 
         // GET: User
-        public ActionResult Index()
+        public async Task<ActionResult> IndexAsync()
         {
-            return View();
+            CurrentResponse response = await _httpCaller.GetAsync($"user/getfilters");
+            UserFilterVM userFilterVM = JsonConvert.DeserializeObject<UserFilterVM>(response.Data);
+
+            return View(userFilterVM);
         }
 
         [HttpGet]
@@ -93,6 +96,9 @@ namespace PresentationLayer.Controllers
             }
 
             datatableParams.OrderType = query["order[0][dir]"].ToString();
+
+            if (!string.IsNullOrWhiteSpace(query["companyid"].ToString()))
+                datatableParams.CompanyId = Convert.ToInt32(query["companyid"].ToString());
 
             string url = "user/list";
 

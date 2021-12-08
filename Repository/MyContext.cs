@@ -1,11 +1,12 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using ViewModels.VM.User;
-using ViewModels.VM.InstructorType;
-using ViewModels.VM.UserRolePermission;
-using ViewModels.VM.AircraftEquipment;
+using DataModels.VM.User;
+using DataModels.VM.InstructorType;
+using DataModels.VM.UserRolePermission;
+using DataModels.VM.AircraftEquipment;
+using DataModels.VM.Company;
 
 namespace Repository
 {
@@ -78,6 +79,10 @@ namespace Repository
         public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<ModuleDetail> ModuleDetails { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyVM> CompanyData { get; set; }
+
 
         public DbSet<AircraftEquipmentDataVM> AircraftEquipmentData { get; set; }
     }

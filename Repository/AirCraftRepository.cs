@@ -1,11 +1,11 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ViewModels.VM.Aircraft;
+using DataModels.VM.Aircraft;
 
 namespace Repository
 {

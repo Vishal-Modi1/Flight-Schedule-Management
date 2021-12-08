@@ -1,4 +1,4 @@
-﻿using ViewModels.VM.Common;
+﻿using DataModels.VM.Common;
 
 namespace Service.Interface
 {

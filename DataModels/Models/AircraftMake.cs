@@ -1,9 +1,0 @@
-﻿namespace DataModels.Models
-{
-    public class AircraftMake
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-    }
-}

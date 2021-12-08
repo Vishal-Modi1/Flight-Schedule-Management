@@ -1,8 +1,8 @@
 ﻿using Repository.Interface;
 using Service.Interface;
 using System.Net;
-using ViewModels.VM.MyAccount;
-using ViewModels.VM.Common;
+using DataModels.VM.MyAccount;
+using DataModels.VM.Common;
 
 namespace Service
 {

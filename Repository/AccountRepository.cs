@@ -1,5 +1,5 @@
 ﻿using Configuration;
-using DataModels.Models;
+using DataModels.Entities;
 using Repository.Interface;
 using System;
 using System.Linq;

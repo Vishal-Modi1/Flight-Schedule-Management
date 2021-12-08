@@ -25,6 +25,7 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IEquipmentClassificationService, EquipmentClassificationService>();
             services.AddScoped<IAirCraftEquipmentService, AirCraftEquipmentService>();
             services.AddScoped<IUserRolePermissionService, UserRolePermissionService>();
+            services.AddScoped<ICompanyService, CompanyService>();
         }
 
         public static void AddCustomRepositories(this IServiceCollection services)
@@ -46,7 +47,8 @@ namespace API.CustomServicesExtensions
             services.AddScoped<IEquipmentClassificationRepository, EquipmentClassificationRepository>();
             services.AddScoped<IAirCraftEquipmentRepository, AirCraftEquipmentRepository>();
             services.AddScoped<IUserRolePermissionRepository, UserRolePermissionRepository>();
-            services.AddScoped<IModuleDetailsRepo, ModuleDetailsRepo>();
+            services.AddScoped<IModuleDetailsRepository, ModuleDetailsRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
         }
     }
 }

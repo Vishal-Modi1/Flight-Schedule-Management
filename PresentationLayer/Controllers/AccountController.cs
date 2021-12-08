@@ -10,8 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using ViewModels.VM.Account;
-using ViewModels.VM.Common;
+using DataModels.VM.Account;
+using DataModels.VM.Common;
 
 namespace PresentationLayer.Controllers
 {
@@ -87,7 +87,8 @@ namespace PresentationLayer.Controllers
                   new Claim(ClaimTypes.Email, loginResponse.Email),
                   new Claim("AcessToken", loginResponse.AccessToken),
                   new Claim("Id", loginResponse.Id.ToString()),
-                  new Claim("Permissions", JsonConvert.SerializeObject(loginResponse.UserPermissionList))
+                  new Claim("Permissions", JsonConvert.SerializeObject(loginResponse.UserPermissionList)),
+                  new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(loginResponse.RoleId))
              };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");

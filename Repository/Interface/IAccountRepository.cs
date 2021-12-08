@@ -1,4 +1,4 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 
 namespace Repository.Interface
 {

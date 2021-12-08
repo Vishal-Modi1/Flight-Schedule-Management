@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
-using ViewModels.VM.InstructorType;
-using ViewModels.VM.Common;
+using DataModels.VM.InstructorType;
+using DataModels.VM.Common;
 
 namespace API.Controllers
 {

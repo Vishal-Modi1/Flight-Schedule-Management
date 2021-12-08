@@ -1,4 +1,4 @@
-﻿using ViewModels.VM.MyAccount;
+﻿using DataModels.VM.MyAccount;
 
 namespace Repository.Interface
 {

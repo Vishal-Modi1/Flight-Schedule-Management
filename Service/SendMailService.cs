@@ -1,15 +1,15 @@
 ﻿using Configuration;
 using DataModels.Constants;
-using DataModels.Models;
+using DataModels.Entities;
 using Repository.Interface;
 using Service.Interface;
 using Service.Utilities;
 using System;
 using System.IO;
 using System.Net;
-using ViewModels.Models;
-using ViewModels.VM.Common;
-using ViewModels.VM.User;
+using DataModels.VM.Common;
+using DataModels.VM.User;
+using DataModels.Models;
 
 namespace Service
 {

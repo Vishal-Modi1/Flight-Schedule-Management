@@ -1,7 +1,7 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using System.Collections.Generic;
-using ViewModels.VM;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM;
+using DataModels.VM.UserRolePermission;
 
 
 namespace Repository.Interface

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using ViewModels.VM.Common;
+using DataModels.VM.Common;
 
 namespace Service.Middleware
 {

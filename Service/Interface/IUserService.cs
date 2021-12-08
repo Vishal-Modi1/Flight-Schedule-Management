@@ -1,6 +1,6 @@
-﻿using ViewModels.VM.User;
-using ViewModels.VM.Account;
-using ViewModels.VM.Common;
+﻿using DataModels.VM.User;
+using DataModels.VM.Account;
+using DataModels.VM.Common;
 
 namespace Service.Interface
 {
@@ -21,5 +21,7 @@ namespace Service.Interface
         CurrentResponse UpdateActiveStatus(int id, bool isActive);
         
         CurrentResponse ResetPassword(ResetPasswordVM resetPasswordVM);
+
+        CurrentResponse GetFiltersValue();
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.UserRolePermission;
 using DataModels.Enums;
 
 namespace PresentationLayer.Utilities
@@ -42,6 +42,16 @@ namespace PresentationLayer.Utilities
                               p.ModuleName.ToLower() == moduleName && p.PermissionType == permissionType.ToString()).Count() > 0;
 
             return isAllowed;
+        }
+
+        public static bool IsSuperAdmin()
+        {
+            ClaimsPrincipal cp = _httpContext.User;
+
+            string claimValue = cp.Claims.Where(c => c.Type == ClaimTypes.Role)
+                               .Select(c => c.Value).SingleOrDefault();
+
+            return Convert.ToInt32(claimValue) == ((int)UserRole.SuperAdmin);
         }
     }
 }

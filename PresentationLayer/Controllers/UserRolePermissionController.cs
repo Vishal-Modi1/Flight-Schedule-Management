@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModels.VM.Common;
-using ViewModels.VM.UserRolePermission;
+using DataModels.VM.Common;
+using DataModels.VM.UserRolePermission;
 
 namespace PresentationLayer.Controllers
 {
@@ -61,6 +61,9 @@ namespace PresentationLayer.Controllers
 
             if (!string.IsNullOrWhiteSpace(query["moduleid"].ToString()))
                 datatableParams.ModuleId = Convert.ToInt32(query["moduleid"].ToString());
+
+            if (!string.IsNullOrWhiteSpace(query["companyid"].ToString()))
+                datatableParams.CompanyId = Convert.ToInt32(query["companyid"].ToString());
 
             string jsonData = JsonConvert.SerializeObject(datatableParams);
             CurrentResponse response = await _httpCaller.PostAsync($"UserRolePermission/list", jsonData);

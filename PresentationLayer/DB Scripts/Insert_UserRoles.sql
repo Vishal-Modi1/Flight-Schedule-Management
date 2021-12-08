@@ -1,8 +1,9 @@
 Insert into UserRoles
-Values ('Administrator')
+Values
+ ('SuperAdmin')
+,('Admin')
 ,('Office Staff')
 ,('Instructors')
-,('Rentors')
-,('Students')
-,('Read Only')
-
+,('Mechanic')
+,('Pilot (Renter)')
+,('Owner')

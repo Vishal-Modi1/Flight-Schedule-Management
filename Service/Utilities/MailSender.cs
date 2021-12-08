@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
-using ViewModels.Models;
+using DataModels.Models;
 
 namespace Service.Utilities
 {

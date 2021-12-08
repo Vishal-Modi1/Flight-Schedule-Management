@@ -1,5 +1,5 @@
-﻿using ViewModels.VM.UserRolePermission;
-using ViewModels.VM.Common;
+﻿using DataModels.VM.UserRolePermission;
+using DataModels.VM.Common;
 
 namespace Service.Interface
 {

@@ -1,5 +1,5 @@
-﻿using ViewModels.VM.Aircraft;
-using ViewModels.VM.Common;
+﻿using DataModels.VM.Aircraft;
+using DataModels.VM.Common;
 
 
 namespace Service.Interface

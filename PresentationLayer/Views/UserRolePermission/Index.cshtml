@@ -1,30 +1,43 @@
-﻿@model ViewModels.VM.UserRolePermission.UserRolePermissionFilterVM
+﻿@model DataModels.VM.UserRolePermission.UserRolePermissionFilterVM
+@using PresentationLayer.Utilities;
 @{
     List<SelectListItem> userRoleList = new List<SelectListItem>();
     List<SelectListItem> moduleList = new List<SelectListItem>();
+    List<SelectListItem> companyList = new List<SelectListItem>();
 
     userRoleList.Add(new SelectListItem { Text = "Select User Role", Value = "" });
     moduleList.Add(new SelectListItem { Text = "Select Module", Value = "" });
+    companyList.Add(new SelectListItem { Text = "Select Company", Value = "" });
 
     userRoleList.AddRange(Model.UserRoleList.ConvertAll(a =>
     {
         return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = false
-        };
+                {
+                    Text = a.Name.ToString(),
+                    Value = a.Id.ToString(),
+                    Selected = false
+                };
     }));
 
     moduleList.AddRange(Model.ModuleList.ConvertAll(a =>
     {
         return new SelectListItem()
-        {
-            Text = a.Name.ToString(),
-            Value = a.Id.ToString(),
-            Selected = false
-        };
+                {
+                    Text = a.Name.ToString(),
+                    Value = a.Id.ToString(),
+                    Selected = false
+                };
     }));
+
+    companyList.AddRange(Model.Companies.ConvertAll(a =>
+           {
+               return new SelectListItem()
+                       {
+                           Text = a.Name.ToString(),
+                           Value = a.Id.ToString(),
+                           Selected = false
+                       };
+           }));
 }
 
 <section class="content-header">
@@ -53,14 +66,14 @@
                         <select class="form-control" asp-for="ModuleId" asp-items="moduleList"></select>
                     </td>
 
-                    @*<td class="pr-0">
-                        <label class="control-label">Company</label>
-                        <select class="form-control">
-                            <option>Company 1</option>
-                            <option>Company 2</option>
-                            <option>Company 3</option>
-                        </select>
-                    </td>*@
+                    @if (PermissionManager.IsSuperAdmin())
+                    {
+                        <td class="pr-0">
+                            <label class="control-label" asp-for="CompanyId">Company</label>
+                            <select class="form-control" asp-for="CompanyId" asp-items="companyList"></select>
+                        </td>
+                    }
+
                 </tr>
 
             </tbody>
@@ -91,5 +104,5 @@
 
 @section Scripts
 {
-    <script type="text/javascript" src="~/Scripts/Modules/userRolePermission.js"></script>
+<script type="text/javascript" src="~/Scripts/Modules/userRolePermission.js"></script>
 }

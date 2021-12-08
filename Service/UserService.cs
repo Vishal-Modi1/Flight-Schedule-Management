@@ -1,13 +1,13 @@
-﻿using DataModels.Models;
+﻿using DataModels.Entities;
 using Repository.Interface;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using ViewModels.VM.Common;
-using ViewModels.VM.User;
-using ViewModels.VM.InstructorType;
-using ViewModels.VM.Account;
+using DataModels.VM.Common;
+using DataModels.VM.User;
+using DataModels.VM.InstructorType;
+using DataModels.VM.Account;
 
 namespace Service
 {
@@ -17,14 +17,17 @@ namespace Service
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly IInstructorTypeRepository _instructorTypeRepository;
         private readonly ICountryRepository _countryRepository;
+        private readonly ICompanyRepository _companyRepository;
 
         public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository
-            , IInstructorTypeRepository instructorTypeRepository, ICountryRepository countryRepository)
+            , IInstructorTypeRepository instructorTypeRepository, ICountryRepository countryRepository,
+            ICompanyRepository companyRepository)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _instructorTypeRepository = instructorTypeRepository;
             _countryRepository = countryRepository;
+            _companyRepository = companyRepository;
         }
 
         public CurrentResponse GetDetails(int id)
@@ -40,6 +43,7 @@ namespace Service
             userVM.Countries = ListCountries();
             userVM.InstructorTypes = ListInstructorTypes();
             userVM.UserRoles = _userRoleRepository.List();
+            userVM.Companies = _companyRepository.ListAll();
 
             CreateResponse(userVM, HttpStatusCode.OK, "");
 
@@ -177,7 +181,7 @@ namespace Service
             User user = new User();
 
             user.Id = userVM.Id;
-            user.CompanyName = userVM.CompanyName;
+            user.CompanyId = userVM.CompanyId;
             user.DateofBirth = userVM.DateofBirth;
             user.Email = userVM.Email;
             user.FirstName = userVM.FirstName;
@@ -213,7 +217,7 @@ namespace Service
             UserVM userDetails = new UserVM();
 
             userDetails.Id = user.Id;
-            userDetails.CompanyName = user.CompanyName;
+            userDetails.CompanyId = user.CompanyId;
             userDetails.DateofBirth = user.DateofBirth;
             userDetails.Email = user.Email;
             userDetails.FirstName = user.FirstName;
@@ -276,6 +280,27 @@ namespace Service
             catch (Exception exc)
             {
                 CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
+
+        public CurrentResponse GetFiltersValue()
+        {
+            try
+            {
+                UserFilterVM userFilterVM = new UserFilterVM();
+
+                userFilterVM.Companies = _companyRepository.ListAll();
+
+                CreateResponse(userFilterVM, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(new UserFilterVM(), HttpStatusCode.InternalServerError, exc.ToString());
 
                 return _currentResponse;
             }

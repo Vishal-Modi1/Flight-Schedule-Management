@@ -23,7 +23,8 @@
                 "data": function (d) {
                     return $.extend({}, d, {
                         "roleid": $('#UserRoleId').val(),
-                        "moduleid": $('#ModuleId').val()
+                        "moduleid": $('#ModuleId').val(),
+                        "companyid": $('#CompanyId').val()
                     })
                 },
                 "type": "get",
@@ -31,7 +32,7 @@
             },
             aoColumns: [
                 { mData: 'roleName' },
-                { mData: 'moduleName' },
+                { mData: 'displayName' },
                 { mData: 'permissionType' },
                 {
                     mData: 'isAllowed',
@@ -52,13 +53,7 @@
         });
     }
 
-    $(document).on('change', '#UserRoleId', function () {
-
-        refreshTable();
-
-    });
-
-    $(document).on('change', '#ModuleId', function () {
+    $(document).on('change', '#UserRoleId,#ModuleId,#CompanyId', function () {
 
         refreshTable();
 

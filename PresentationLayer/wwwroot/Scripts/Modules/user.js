@@ -14,6 +14,11 @@
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "ajax": {
             "url": "/user/List",
+            "data": function (d) {
+                return $.extend({}, d, {
+                    "companyid": $('#CompanyId').val()
+                })
+            },
             "type": "get",
             "datatype": "json",
         },
@@ -77,6 +82,12 @@
                 }
             }
         ]
+    });
+
+    $(document).on('change', '#CompanyId', function () {
+
+        refreshTable();
+
     });
 
     var Toast = Swal.mixin({
