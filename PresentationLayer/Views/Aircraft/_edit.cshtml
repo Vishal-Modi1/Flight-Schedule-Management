@@ -2,6 +2,15 @@
 @{
     Layout = null;
 }
+
+@if (string.IsNullOrWhiteSpace(Model.TailNo))
+{
+    <div>Unable to process</div>
+}
+
+else
+
+{
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -10,8 +19,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="@(Url.Action("index","home"))">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="@(Url.Action("index","aircraft"))">Aircrafts</a></li>
+                    <li class="breadcrumb-item"><a href="@(Url.Action("index", "home"))">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="@(Url.Action("index", "aircraft"))">Aircrafts</a></li>
                 </ol>
             </div>
         </div>
@@ -73,12 +82,12 @@
                     <div class="card-body">
                         <strong><i class="fas fa-cogs mr-1"></i> Turbines</strong>
                         <p class="text-muted">
-                            Turbines <strong>@(Model.IsEnginesareTurbines == true?"Available": "Not Available")</strong>
+                            Turbines <strong>@(Model.IsEnginesareTurbines == true ? "Available" : "Not Available")</strong>
                         </p>
                         <hr>
                         <strong><i class="fas fa-fan mr-1"></i> Propellers</strong>
                         <p class="text-muted">
-                            Propellers <strong>@(Model.IsEngineshavePropellers == true?"Available": "Not Available")</strong>
+                            Propellers <strong>@(Model.IsEngineshavePropellers == true ? "Available" : "Not Available")</strong>
                         </p>
                     </div>
                     <!-- /.card-body -->
@@ -218,3 +227,5 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+
+}

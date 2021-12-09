@@ -24,7 +24,7 @@
         LoadAircrafts();
     });
 
-    $(document).on('change', '#ddlStatus', function () {
+    $(document).on('change', '#ddlStatus,.companyFilter > #CompanyId', function () {
 
         LoadAircrafts();
     });
@@ -35,7 +35,8 @@
         var data =
         {
             TailNo: $('#txtAircraftSearch').val(),
-            IsActive: $('#ddlStatus').val()
+            IsActive: $('#ddlStatus').val(),
+            CompanyId: $('#CompanyId').val()
         }
 
         $.ajax({
@@ -139,6 +140,10 @@
 
         $('#aircraftForm').validate({
             rules: {
+                CompanyId:
+                {
+                    required: true
+                },
                 TailNo: {
                     required: true
                 },
@@ -161,6 +166,10 @@
                 }
             },
             messages: {
+                CompanyId:
+                {
+                    required : "Please select company"
+                },
                 TailNo: {
                     required: "Please enter tail no"
                 },
@@ -285,7 +294,8 @@
         var airCraftVM =
         {
             TailNo: $('#TailNo').val(),
-            Id: $('#Id').val()
+            Id: $('#Id').val(),
+            CompanyId: $('.createForm > #CompanyId').val()
         }
 
         $.ajax({

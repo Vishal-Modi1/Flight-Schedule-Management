@@ -10,6 +10,7 @@
     List<SelectListItem> aircraftCategoryList = DropDownListGenerator.Generate(Model.AircraftCategoryList, "Select category");
     List<SelectListItem> aircraftClassList = DropDownListGenerator.Generate(Model.AircraftClassList, "Select class");
     List<SelectListItem> flightSimulatorList = DropDownListGenerator.Generate(Model.FlightSimulatorClassList, "Select flight simulator");
+    List<SelectListItem> companiesList = DropDownListGenerator.Generate(Model.Companies, "Select compnay");
 
 }
 @*style="margin-right:-100px"*@
@@ -55,29 +56,51 @@
                                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 </div>
                                 <button type="button" class="btn btn-primary" onclick="stepper.next()">Next</button>*@
+
+                            <div class="row">
+
+
+                                <div class="col-sm-6">
+                                    <!-- text input -->
+                                    <div class="form-group createForm">
+
+                                        <label class="control-label col-md-6" asp-for="CompanyId">Company</label>
+
+                                        @if (PermissionManager.IsSuperAdmin())
+                                        {
+                                            <select class="form-control" asp-for="CompanyId" asp-items="companiesList"></select>
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="CompanyName" class="form-control" readonly />
+                                            <input asp-for="CompanyId" type="hidden" />
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="TailNo"></label>
+                                        <input type="text" asp-for="TailNo" class="form-control" placeholder="Please enter tail no">
+                                        <span asp-validation-for="TailNo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-6">
                                     <!-- text input -->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label asp-for="TailNo"></label>
-                                                <input type="text" asp-for="TailNo" class="form-control" placeholder="Please enter tail no">
-                                                <span asp-validation-for="TailNo" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label asp-for="Year"></label>
-                                                <select asp-for="Year" class="form-control" placeholder="Year">
-                                                    <option value="">Year  </option>
-                                                    @for (int year = 1980; year <= 2021; year++)
-                                                    {
-                                                        <option value="@year">@year </option>
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="Year"></label>
+                                        <select asp-for="Year" class="form-control" placeholder="Year">
+                                            <option value="">Year  </option>
+                                            @for (int year = 1980; year <= 2021; year++)
+                                            {
+                                                <option value="@year">@year </option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-6">

@@ -6,7 +6,7 @@
 
     int selectedId = Convert.ToInt32(ViewData["makeId"]);
 
-    List<SelectListItem> aircraftMakeList = DropDownListGenerator.Generate(Model, new string[] { "Select model", "+ Add New" });
+    List<SelectListItem> aircraftMakeList = DropDownListGenerator.Generate(Model, new string[] { "Select model", "+ Add New" },  selectedId);
 
 }
 

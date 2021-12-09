@@ -6,7 +6,7 @@ namespace PresentationLayer.Utilities
 {
     public static class DropDownListGenerator
     {
-        public static List<SelectListItem> Generate(List<DropDownValues> list, string optionalText)
+        public static List<SelectListItem> Generate(List<DropDownValues> list, string optionalText, int selectedOptionId=0)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
 
@@ -23,14 +23,14 @@ namespace PresentationLayer.Utilities
                 {
                     Text = a.Name.ToString(),
                     Value = a.Id.ToString(),
-                    Selected = false
+                    Selected = a.Id == selectedOptionId ? true : false
                 };
             }));
 
             return dropdownList;
         }
 
-        public static List<SelectListItem> Generate(List<DropDownValues> list, string[] optionalText)
+        public static List<SelectListItem> Generate(List<DropDownValues> list, string[] optionalText, int selectedOptionId=0)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
 
@@ -50,7 +50,7 @@ namespace PresentationLayer.Utilities
                 {
                     Text = a.Name.ToString(),
                     Value = a.Id.ToString(),
-                    Selected = false
+                    Selected = a.Id == selectedOptionId ? true : false
                 };
             }));
 

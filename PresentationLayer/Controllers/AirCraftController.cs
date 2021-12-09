@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using DataModels.VM.Aircraft;
 using DataModels.VM.AircraftEquipment;
 using DataModels.VM.Common;
+using DataModels.VM.User;
 
 namespace PresentationLayer.Controllers
 {
@@ -31,9 +32,12 @@ namespace PresentationLayer.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult> IndexAsync()
         {
-            return View();
+            CurrentResponse response = await _httpCaller.GetAsync($"aircraft/getfilters");
+            AircraftFilterVM aircraftFilterVM = JsonConvert.DeserializeObject<AircraftFilterVM>(response.Data);
+
+            return View(aircraftFilterVM);
         }
 
         public async Task<IActionResult> CreateAsync()
@@ -155,6 +159,7 @@ namespace PresentationLayer.Controllers
             {
                 airCraftVM = JsonConvert.DeserializeObject<AirCraftVM>(response.Data);
             }
+
             return airCraftVM;
         }
         private async Task<List<StatusVM>> GetStatusListAsync()

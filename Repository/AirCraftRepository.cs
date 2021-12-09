@@ -93,6 +93,10 @@ namespace Repository
                 {
                     airCraftList = _myContext.AirCrafts.Where(p => p.IsActive == aircraftFilterVM.IsActive && p.IsDeleted == false && p.TailNo.Contains(aircraftFilterVM.TailNo)).ToList();
                 }
+                else if (aircraftFilterVM.CompanyId > 0)
+                {
+                    airCraftList = _myContext.AirCrafts.Where(p => p.IsActive == aircraftFilterVM.IsActive && p.IsDeleted == false && p.CompanyId == aircraftFilterVM.CompanyId).ToList();
+                }
                 else
                 {
                     airCraftList = _myContext.AirCrafts.Where(p => p.IsActive == aircraftFilterVM.IsActive && p.IsDeleted == false).ToList();

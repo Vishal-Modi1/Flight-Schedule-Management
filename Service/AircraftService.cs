@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using DataModels.VM.Common;
 using DataModels.VM.Aircraft;
+using DataModels.VM.User;
 
 namespace Service
 {
@@ -17,10 +18,12 @@ namespace Service
         private readonly IAircraftMakeRepository _aircraftMakeRepository;
         private readonly IAircraftModelRepository _aircraftModelRepository;
         private readonly IAircraftEquipmentTimeRepository _aircraftEquipmentTimeRepository;
+        private readonly ICompanyRepository _companyRepository;
 
         public AircraftService(IAircraftRepository airCraftRepository, IAircraftCategoryRepository aircraftCategoryRepository,
                                IAircraftClassRepository aircraftClassRepository, IAircraftMakeRepository aircraftMakeRepository,
-                               IAircraftModelRepository aircraftModelRepository, IAircraftEquipmentTimeRepository aircraftEquipmentTimeRepository)
+                               IAircraftModelRepository aircraftModelRepository, IAircraftEquipmentTimeRepository aircraftEquipmentTimeRepository,
+                                ICompanyRepository companyRepository)
         {
             _airCraftRepository = airCraftRepository;
             _aircraftCategoryRepository = aircraftCategoryRepository;
@@ -28,6 +31,7 @@ namespace Service
             _aircraftMakeRepository = aircraftMakeRepository;
             _aircraftModelRepository = aircraftModelRepository;
             _aircraftEquipmentTimeRepository = aircraftEquipmentTimeRepository;
+            _companyRepository = companyRepository; 
         }
 
         public CurrentResponse Create(AirCraftVM airCraftVM)
@@ -143,9 +147,9 @@ namespace Service
             }
         }
 
-        public CurrentResponse GetDetails(int id)
+        public CurrentResponse GetDetails(int id, int companyId)
         {
-            AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.Id == id);
+            AirCraft airCraft = _airCraftRepository.FindByCondition(p => p.Id == id && (companyId == 0 ? true : p.CompanyId == companyId));
             AirCraftVM airCraftVM = new AirCraftVM();
 
             if (airCraft != null)
@@ -159,6 +163,16 @@ namespace Service
             airCraftVM.AircraftModelList = _aircraftModelRepository.ListDropDownValues();
             airCraftVM.AircraftEquipmentTimesList = _aircraftEquipmentTimeRepository.FindListByCondition(p => p.AircraftId == id);
             airCraftVM.FlightSimulatorClassList = _airCraftRepository.ListFlightSimulatorClassDropDownValues();
+
+            if (companyId > 0)
+            {
+                airCraftVM.CompanyId = companyId;
+                airCraftVM.CompanyName = _companyRepository.FindByCondition(p => p.Id == companyId).Name;
+            }
+            else
+            {
+                airCraftVM.Companies = _companyRepository.ListDropDownValues();
+            }
 
             CreateResponse(airCraftVM, HttpStatusCode.OK, "");
 
@@ -191,6 +205,7 @@ namespace Service
             airCraftVM.IsEnginesareTurbines = airCraft.IsEnginesareTurbines;
             airCraftVM.TrackOilandFuel = airCraft.TrackOilandFuel;
             airCraftVM.IsIdentifyMeterMismatch = airCraft.IsIdentifyMeterMismatch;
+            airCraftVM.CompanyId = airCraft.CompanyId;
 
             airCraftVM.IsActive = airCraft.IsActive;
             airCraftVM.IsDeleted = airCraft.IsDeleted;
@@ -238,6 +253,7 @@ namespace Service
             airCraft.TrackOilandFuel = airCraftVM.TrackOilandFuel;
             airCraft.IsIdentifyMeterMismatch = airCraftVM.IsIdentifyMeterMismatch;
             airCraft.IsActive = true;
+            airCraft.CompanyId = airCraftVM.CompanyId;
 
             airCraft.CreatedBy = airCraftVM.CreatedBy;
             airCraft.UpdatedBy = airCraftVM.UpdatedBy;
@@ -252,6 +268,38 @@ namespace Service
             }
 
             return airCraft;
+        }
+
+        public CurrentResponse GetFiltersValue(int companyId)
+        {
+            try
+            {
+                AircraftFilterVM aircraftFilterVM = new AircraftFilterVM();
+
+
+                if (companyId > 0)
+                {
+                    aircraftFilterVM.CompanyId = companyId;
+                    aircraftFilterVM.CompanyName = _companyRepository.FindByCondition(p => p.Id == companyId).Name;
+                }
+                else
+                {
+                    aircraftFilterVM.Companies = _companyRepository.ListDropDownValues();
+                }
+
+                aircraftFilterVM.Companies = _companyRepository.ListDropDownValues();
+
+                CreateResponse(aircraftFilterVM, HttpStatusCode.OK, "");
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(new UserFilterVM(), HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
         }
 
         public CurrentResponse List(AircraftFilterVM aircraftFilterVM)

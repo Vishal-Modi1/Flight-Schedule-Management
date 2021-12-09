@@ -59,6 +59,11 @@ namespace DataModels.VM.Aircraft
         [Display(Name = "Identify Meter Mismatch")]
         public bool IsIdentifyMeterMismatch { get; set; }
 
+        [Display(Name = "Company Name")]
+        public string CompanyName { get; set; }
+
+        [Required]
+        public int? CompanyId { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<int> DeletedBy { get; set; }
@@ -76,6 +81,7 @@ namespace DataModels.VM.Aircraft
         public List<DropDownValues> AircraftCategoryList { get; set; }
         public List<DropDownValues> AircraftClassList { get; set; }
         public List<DropDownValues> FlightSimulatorClassList { get; set; }
+        public List<DropDownValues> Companies { get; set; }
         public List<AircraftEquipmentTime> AircraftEquipmentTimesList { get; set; }
 
         public List<AirCraftEquipment>  AirCraftEquipmentList { get; set; }

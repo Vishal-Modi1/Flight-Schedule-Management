@@ -1,7 +1,12 @@
-﻿@using PresentationLayer.Utilities;
+﻿@using DataModels.VM.Aircraft
+@using PresentationLayer.Utilities;
 @using DataModels.Enums;
-@{ 
+@using DataModels.VM.Common;
+@model AircraftFilterVM
+@{
     var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    List<SelectListItem> companyList = DropDownListGenerator.Generate(Model.Companies, "Select Company");
+
 }
 <section class="content-header">
     <div class="container-fluid">
@@ -11,7 +16,7 @@
             </div>
             <div class="offset-md-3 offset-lg-3 offset-xl-3"></div>
             <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-                
+
                 @if (PermissionManager.IsAllowed(PermissionType.Create, controllerName))
                 {
                     <button type="button" id="createAircraft" class="btn btn-block btn-primary float-right">
@@ -20,17 +25,18 @@
                     </button>
                 }
 
-                </div>
+            </div>
         </div>
 
         <div class="row">
 
             <div class="col-sm-3 col-md-3">
+                <label class="control-label">Search</label>
                 <input type="search" placeholder="Search" value="" id="txtAircraftSearch" name="txtAircraftSearch" class="form-control" />
             </div>
 
             <div class="col-sm-3 col-md-3">
-
+                <label class="control-label">Aircraft Status</label>
                 <select id="ddlStatus" class="form-control">
                     <option value="true">Active</option>
                     <option value="false">InActive</option>
@@ -38,21 +44,36 @@
 
             </div>
 
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-3 col-md-3 companyFilter">
+                @if (PermissionManager.IsSuperAdmin())
+                {
+                    <label class="control-label" asp-for="CompanyId">Company</label>
+                    <select class="form-control" asp-for="CompanyId" asp-items="companyList"></select>
+                }
+                else
+                {
+                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    <input asp-for="CompanyId" type="hidden" />
+                }
+
+            </div>
+
+            <div class="col-sm-6 col-md-3" style="margin-top:2.5%">
                 <button type="button" id="btnSearchAircraft" class="btn btn-block btn-primary">
                     Clear filter
                 </button>
             </div>
 
         </div>
-    </div>
 
+        <div cla style="margin-top:20px" id="aircraftList">
+        </div>
+
+    </div>
 </section>
 
-<div style="margin-top:20px" id="aircraftList">
 
-
-</div>
 
 @section Scripts {
 

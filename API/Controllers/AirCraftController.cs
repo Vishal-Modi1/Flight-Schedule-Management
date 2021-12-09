@@ -40,6 +40,18 @@ namespace API.Controllers
             _fileUploader = new FileUploader(webHostEnvironment);
         }
 
+        [HttpGet]
+        [Route("getfilters")]
+        public IActionResult GetFilters()
+        {
+            string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            int companyIdValue = companyId == "" ? 0 : Convert.ToInt32(companyId);
+
+            CurrentResponse response = _airCraftService.GetFiltersValue(companyIdValue);
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("list")]
         public IActionResult List(AircraftFilterVM aircraftFilterVM)
@@ -73,7 +85,10 @@ namespace API.Controllers
         [Route("getDetails")]
         public IActionResult GetDetails(int id)
         {
-            CurrentResponse response = _airCraftService.GetDetails(id);
+            string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            int companyIdValue = companyId == "" ? 0 : Convert.ToInt32(companyId);
+
+            CurrentResponse response = _airCraftService.GetDetails(id, companyIdValue);
             return Ok(response);
         }
 
