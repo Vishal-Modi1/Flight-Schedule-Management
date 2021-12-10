@@ -66,7 +66,7 @@
 
                                         <label class="control-label col-md-6" asp-for="CompanyId">Company</label>
 
-                                        @if (PermissionManager.IsSuperAdmin())
+                                        @if (CurrentUserPermissionManager.IsSuperAdmin())
                                         {
                                             <select class="form-control" asp-for="CompanyId" asp-items="companiesList"></select>
                                         }

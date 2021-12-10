@@ -89,11 +89,12 @@ namespace PresentationLayer.Controllers
                   new Claim(ClaimTypes.Email, loginResponse.Email),
                   new Claim(CustomClaimTypes.AccessToken, loginResponse.AccessToken),
                   new Claim(CustomClaimTypes.UserId, loginResponse.Id.ToString()),
-                  new Claim(CustomClaimTypes.Permissions, JsonConvert.SerializeObject(loginResponse.UserPermissionList)),
                   new Claim(ClaimTypes.Role, JsonConvert.SerializeObject(loginResponse.RoleId)),
                   new Claim(CustomClaimTypes.CompanyName, JsonConvert.SerializeObject(loginResponse.CompanyName)),
                   new Claim(CustomClaimTypes.CompanyId, JsonConvert.SerializeObject(loginResponse.CompanyId))
              };
+
+            CurrentUserPermissionManager.AddInCache(loginResponse.Id, loginResponse.UserPermissionList);
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
 

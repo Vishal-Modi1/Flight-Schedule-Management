@@ -4,8 +4,8 @@
     var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
 }
 
-<input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Edit, controllerName).ToString().ToLower()" id="hdnEdit" />
-<input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
+<input type="hidden" value="@CurrentUserPermissionManager.IsAllowed(PermissionType.Edit, controllerName).ToString().ToLower()" id="hdnEdit" />
+<input type="hidden" value="@CurrentUserPermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
 
 <section class="content-header">
     <div class="container-fluid">
@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-6">
 
-                @if (PermissionManager.IsAllowed(PermissionType.Create, controllerName))
+                @if (CurrentUserPermissionManager.IsAllowed(PermissionType.Create, controllerName))
                 {
                     <button type="button" id="createInstructorType" class="btn btn-block btn-primary float-sm-right" style="width:36%">
                         <i class="fa fa-plus" aria-hidden="true"></i>

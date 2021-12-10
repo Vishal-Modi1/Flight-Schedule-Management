@@ -16,23 +16,18 @@ namespace PresentationLayer.Filters
 {
     public class CustomAuthorization : AuthorizeAttribute, IAsyncAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
-        {
-            string userName = context.HttpContext.User.Claims.Where(c => c.Type == CustomClaimTypes.Permissions)
-                              .Select(c => c.Value).SingleOrDefault();
-
-
-            context.Result = new UnauthorizedResult();
-
-            return;
-        }
-
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            string userPermissionJson = context.HttpContext.User.Claims.Where(c => c.Type == CustomClaimTypes.Permissions)
+            string loggedInUserId = context.HttpContext.User.Claims.Where(c => c.Type == CustomClaimTypes.UserId)
                               .Select(c => c.Value).SingleOrDefault();
 
-            List<UserRolePermissionDataVM> userPermissionList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(userPermissionJson);
+            if(string.IsNullOrWhiteSpace(loggedInUserId))
+            {
+                return;
+            }
+
+            List<UserRolePermissionDataVM> userPermissionList = CurrentUserPermissionManager.GetAsync().Result;
+
             string controllerName = (string)context.RouteData.Values["Controller"];
             string actionName = (string)context.RouteData.Values["Action"];
 
@@ -45,25 +40,25 @@ namespace PresentationLayer.Filters
                 return;
             }
 
-            if (actionName == "Index" && !PermissionManager.IsAllowed(PermissionType.View, controllerName.ToLower()))
+            if (actionName == "Index" && !CurrentUserPermissionManager.IsAllowed(PermissionType.View, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Create" && !PermissionManager.IsAllowed(PermissionType.Create, controllerName.ToLower()) && context.HttpContext.Request.Method == "GET" )
+            if (actionName == "Create" && !CurrentUserPermissionManager.IsAllowed(PermissionType.Create, controllerName.ToLower()) && context.HttpContext.Request.Method == "GET" )
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Delete" && !PermissionManager.IsAllowed(PermissionType.Delete, controllerName.ToLower()))
+            if (actionName == "Delete" && !CurrentUserPermissionManager.IsAllowed(PermissionType.Delete, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;
             }
 
-            if (actionName == "Edit" && !PermissionManager.IsAllowed(PermissionType.Edit, controllerName.ToLower()))
+            if (actionName == "Edit" && !CurrentUserPermissionManager.IsAllowed(PermissionType.Edit, controllerName.ToLower()))
             {
                 SetErrorRoute(context);
                 return;

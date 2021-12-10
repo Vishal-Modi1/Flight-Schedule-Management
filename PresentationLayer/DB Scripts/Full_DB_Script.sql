@@ -1029,13 +1029,13 @@ GO
 
 USE [FSM]
 GO
-/****** Object:  Trigger [dbo].[Trigger_InsertUserRolePermission]    Script Date: 03-12-2021 16:40:28 ******/
+/****** Object:  Trigger [dbo].[Trg_Company_InsertUserRolePermission]    Script Date: 03-12-2021 16:40:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE Trigger [dbo].[Trigger_InsertUserRolePermission]
+CREATE Trigger [dbo].[Trg_Company_InsertUserRolePermission]
 On [dbo].[Companies]
 AFTER INSERT
 AS
@@ -1070,11 +1070,9 @@ BEGIN
 					WHILE @@FETCH_STATUS = 0
 					BEGIN
 					  
-					  print(@permissionId)
-
 							SET @rolesCursor = CURSOR FOR
 							SELECT Id FROM dbo.UserRoles
-							WHERE Name != 'SuperAdmin'
+							WHERE Name != 'Super Admin'
 							
 							OPEN @rolesCursor 
 							FETCH NEXT FROM @rolesCursor 
@@ -1083,11 +1081,18 @@ BEGIN
 							WHILE @@FETCH_STATUS = 0
 							BEGIN
 							  
+									IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleId and CompanyId = @companyId and 
+											     	PermissionId = @permissionId)
+
+									BEGIN
+
 									INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
 															 VALUES (@roleId,@permissionId, @moduleId, @companyId,0 )
 
-										FETCH NEXT FROM @rolesCursor 
-									INTO @roleId 
+										FETCH NEXT FROM @rolesCursor INTO @roleId 
+
+									END
 	
 							END; 
 	
@@ -1111,3 +1116,353 @@ BEGIN
 	    DEALLOCATE @moduleDetailsCursor;
 	
 END
+GO
+
+CREATE Trigger [dbo].[Trg_ModuleDetails_InsertUserRolePermission]
+On [dbo].[ModuleDetails]
+AFTER INSERT
+AS
+SET NOCOUNT ON;
+BEGIN
+
+		DECLARE @moduleDetailId INT = 0
+		SELECT @moduleDetailId = i.id FROM inserted i
+	
+		DECLARE @companyCursor CURSOR, @permissionsCursor CURSOR, @rolesCursor CURSOR
+		DECLARE @companyId INT, @permissionId INT, @roleId INT
+		
+		SET @companyCursor = CURSOR FOR
+	    SELECT Id FROM dbo.Companies
+		--WHERE IsActive = 1 and IsDeleted = 0
+	    
+		OPEN @companyCursor 
+	    FETCH NEXT FROM @companyCursor 
+	    INTO @companyId
+		
+	    WHILE @@FETCH_STATUS = 0
+	    BEGIN
+	    
+					SET @permissionsCursor = CURSOR FOR
+					SELECT Id FROM dbo.Permissions
+					
+					OPEN @permissionsCursor 
+					FETCH NEXT FROM @permissionsCursor 
+					INTO @permissionId
+	
+					WHILE @@FETCH_STATUS = 0
+					BEGIN
+					  
+							SET @rolesCursor = CURSOR FOR
+							SELECT Id FROM dbo.UserRoles
+							WHERE Name != 'Super Admin'
+							
+							OPEN @rolesCursor 
+							FETCH NEXT FROM @rolesCursor 
+							INTO @roleId
+	
+							WHILE @@FETCH_STATUS = 0
+							BEGIN
+									IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleDetailId and CompanyId = @companyId and 
+											     	PermissionId = @permissionId)
+
+									BEGIN
+
+									INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
+															 VALUES (@roleId,@permissionId, @moduleDetailId, @companyId,0 )
+
+										FETCH NEXT FROM @rolesCursor 
+									INTO @roleId 
+
+									END
+	
+							END; 
+	
+							CLOSE @rolesCursor ;
+							DEALLOCATE @rolesCursor;
+
+							FETCH NEXT FROM @permissionsCursor 
+							INTO @permissionId 
+	
+					END; 
+	
+					CLOSE @permissionsCursor;
+					DEALLOCATE @permissionsCursor;
+		
+			FETCH NEXT FROM @companyCursor 
+			INTO @companyId 
+	
+	    END; 
+	
+	    CLOSE @companyCursor ;
+	    DEALLOCATE @companyCursor;
+
+		-- For Super Admin
+
+		SET @permissionsCursor = CURSOR FOR
+		SELECT Id FROM dbo.Permissions
+		
+		OPEN @permissionsCursor 
+		FETCH NEXT FROM @permissionsCursor 
+		INTO @permissionId
+	
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+		  
+				SET @rolesCursor = CURSOR FOR
+				SELECT Id FROM dbo.UserRoles
+				WHERE Name = 'Super Admin'
+				
+				OPEN @rolesCursor 
+				FETCH NEXT FROM @rolesCursor 
+				INTO @roleId
+	
+				WHILE @@FETCH_STATUS = 0
+				BEGIN
+				  
+						IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleDetailId and CompanyId = null and 
+											     	PermissionId = @permissionId)
+
+						BEGIN
+						INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
+												 VALUES (@roleId,@permissionId, @moduleDetailId, null, 1)
+
+						END 
+
+						FETCH NEXT FROM @rolesCursor 
+						INTO @roleId 
+	
+				END; 
+	
+				CLOSE @rolesCursor ;
+				DEALLOCATE @rolesCursor;
+
+				FETCH NEXT FROM @permissionsCursor 
+				INTO @permissionId 
+	
+		END; 
+	
+		CLOSE @permissionsCursor;
+		DEALLOCATE @permissionsCursor;
+	
+END
+GO
+
+CREATE Trigger [dbo].[Trg_Permissions_InsertUserRolePermission]
+On [dbo].[Permissions]
+AFTER INSERT
+AS
+SET NOCOUNT ON;
+BEGIN
+
+		DECLARE @permissionId INT = 0
+		SELECT @permissionId = i.Id FROM inserted i
+	
+		DECLARE @companyCursor CURSOR, @moduleDetaiilsCursor CURSOR, @rolesCursor CURSOR
+		DECLARE @companyId INT, @moduleDetailsId INT, @roleId INT
+		
+		SET @companyCursor = CURSOR FOR
+	    SELECT Id FROM dbo.Companies
+		--WHERE IsActive = 1 and IsDeleted = 0
+	    
+		OPEN @companyCursor 
+	    FETCH NEXT FROM @companyCursor 
+	    INTO @companyId
+		
+
+	    WHILE @@FETCH_STATUS = 0
+	    BEGIN
+	    
+					SET @moduleDetaiilsCursor = CURSOR FOR
+					SELECT Id FROM dbo.ModuleDetails
+					
+					OPEN @moduleDetaiilsCursor 
+					FETCH NEXT FROM @moduleDetaiilsCursor 
+					INTO @moduleDetailsId
+	
+					WHILE @@FETCH_STATUS = 0
+					BEGIN
+					  
+					  print(@permissionId)
+
+							SET @rolesCursor = CURSOR FOR
+							SELECT Id FROM dbo.UserRoles
+							WHERE Name != 'Super Admin'
+							
+							OPEN @rolesCursor 
+							FETCH NEXT FROM @rolesCursor 
+							INTO @roleId
+	
+							WHILE @@FETCH_STATUS = 0
+							BEGIN
+							  
+								    IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleDetailsId and CompanyId = @companyId and 
+											     	PermissionId = @permissionId)
+
+									BEGIN
+									INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
+															 VALUES (@roleId,@permissionId, @moduleDetailsId, @companyId,0 )
+
+									END
+
+										FETCH NEXT FROM @rolesCursor INTO @roleId 
+	
+							END; 
+	
+							CLOSE @rolesCursor ;
+							DEALLOCATE @rolesCursor;
+
+							FETCH NEXT FROM @moduleDetaiilsCursor 
+							INTO @moduleDetailsId 
+	
+					END; 
+	
+					CLOSE @moduleDetaiilsCursor;
+					DEALLOCATE @moduleDetaiilsCursor;
+		
+			FETCH NEXT FROM @companyCursor 
+			INTO @companyId 
+	
+	    END; 
+	
+	    CLOSE @companyCursor ;
+	    DEALLOCATE @companyCursor;
+
+		-- For Super Admin
+
+		SET @moduleDetaiilsCursor = CURSOR FOR
+		SELECT Id FROM dbo.ModuleDetails
+		
+		OPEN @moduleDetaiilsCursor 
+		FETCH NEXT FROM @moduleDetaiilsCursor 
+		INTO @moduleDetailsId
+	
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+		  
+				SET @rolesCursor = CURSOR FOR
+				SELECT Id FROM dbo.UserRoles
+				WHERE Name = 'Super Admin'
+				
+				OPEN @rolesCursor 
+				FETCH NEXT FROM @rolesCursor 
+				INTO @roleId
+	
+				WHILE @@FETCH_STATUS = 0
+				BEGIN
+				  
+						IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleDetailsId and CompanyId = null and 
+											     	PermissionId = @permissionId)
+
+						BEGIN
+
+						INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
+												 VALUES (@roleId,@permissionId, @moduleDetailsId, null ,1 )
+
+						END
+
+							FETCH NEXT FROM @rolesCursor 
+						INTO @roleId 
+	
+				END; 
+	
+				CLOSE @rolesCursor ;
+				DEALLOCATE @rolesCursor;
+
+				FETCH NEXT FROM @moduleDetaiilsCursor 
+				INTO @moduleDetailsId 
+	
+		END; 
+	
+		CLOSE @moduleDetaiilsCursor;
+		DEALLOCATE @moduleDetaiilsCursor;
+	
+END
+GO
+
+CREATE Trigger [dbo].[Trg_UserRoles_InsertUserRolePermission]
+On [dbo].[UserRoles]
+AFTER INSERT
+AS
+SET NOCOUNT ON;
+BEGIN
+
+		DECLARE @roleId INT = 0
+		SELECT @roleId = i.Id FROM inserted i
+	
+		DECLARE @companyCursor CURSOR, @moduleDetaiilsCursor CURSOR, @permissionsCursor CURSOR
+		DECLARE @companyId INT, @moduleDetailsId INT, @permissionId INT
+		
+		SET @companyCursor = CURSOR FOR
+	    SELECT Id FROM dbo.Companies
+		--WHERE IsActive = 1 and IsDeleted = 0
+	    
+		OPEN @companyCursor 
+	    FETCH NEXT FROM @companyCursor 
+	    INTO @companyId
+		
+
+	    WHILE @@FETCH_STATUS = 0
+	    BEGIN
+	    
+					SET @moduleDetaiilsCursor = CURSOR FOR
+					SELECT Id FROM dbo.ModuleDetails
+					
+					OPEN @moduleDetaiilsCursor 
+					FETCH NEXT FROM @moduleDetaiilsCursor 
+					INTO @moduleDetailsId
+	
+					WHILE @@FETCH_STATUS = 0
+					BEGIN
+					  
+					  print(@permissionId)
+
+							SET @permissionsCursor = CURSOR FOR
+							SELECT Id FROM dbo.Permissions
+							
+							OPEN @permissionsCursor 
+							FETCH NEXT FROM @permissionsCursor 
+							INTO @permissionId
+	
+							WHILE @@FETCH_STATUS = 0
+							BEGIN
+							  
+								   IF NOT EXISTS (Select Id from UserRolePermissions where RoleId = @roleId and
+												    ModuleId = @moduleDetailsId and CompanyId = @companyId and 
+											     	PermissionId = @permissionId)
+
+									BEGIN
+									INSERT INTO UserRolePermissions (RoleId, PermissionId, ModuleId, CompanyId, IsAllowed)
+															 VALUES (@roleId,@permissionId, @moduleDetailsId, @companyId,0 )
+
+									End
+
+										FETCH NEXT FROM @permissionsCursor 
+									INTO @permissionId 
+	
+							END; 
+	
+							CLOSE @permissionsCursor ;
+							DEALLOCATE @permissionsCursor;
+
+							FETCH NEXT FROM @moduleDetaiilsCursor 
+							INTO @moduleDetailsId 
+	
+					END; 
+	
+					CLOSE @moduleDetaiilsCursor;
+					DEALLOCATE @moduleDetaiilsCursor;
+		
+			FETCH NEXT FROM @companyCursor 
+			INTO @companyId 
+	
+	    END; 
+	
+	    CLOSE @companyCursor ;
+	    DEALLOCATE @companyCursor;
+	
+END
+GO

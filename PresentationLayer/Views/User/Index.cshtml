@@ -16,7 +16,7 @@
             </div>
             <div class="col-sm-6">
 
-                @if (PermissionManager.IsAllowed(PermissionType.Create, controllerName))
+                @if (CurrentUserPermissionManager.IsAllowed(PermissionType.Create, controllerName))
                 {
                     <button type="button" id="createUser" class="btn btn-block btn-primary float-sm-right" style="width:23%">
                         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -33,14 +33,14 @@
 
     <div class="card-body">
 
-        <input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Edit,controllerName).ToString().ToLower()" id="hdnEdit" />
-        <input type="hidden" value="@PermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
+        <input type="hidden" value="@CurrentUserPermissionManager.IsAllowed(PermissionType.Edit,controllerName).ToString().ToLower()" id="hdnEdit" />
+        <input type="hidden" value="@CurrentUserPermissionManager.IsAllowed(PermissionType.Delete, controllerName).ToString().ToLower()" id="hdnDelete" />
 
         <table class="table w-100 mt-2 mb-2 border-0">
             <tbody>
                 <tr style="width:100%">
 
-                    @if (PermissionManager.IsSuperAdmin())
+                    @if (CurrentUserPermissionManager.IsSuperAdmin())
                     {
                         <td class="pr-0 pl-0">
                             <label class="control-label" asp-for="CompanyId">Company</label>

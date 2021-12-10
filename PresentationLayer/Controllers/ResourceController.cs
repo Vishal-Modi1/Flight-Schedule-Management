@@ -23,12 +23,11 @@ namespace PresentationLayer.Controllers
 
         public IActionResult GetMenuItems()
         {
-            string claimValue = _httpCaller.GetClaimValue(CustomClaimTypes.Permissions);
+            List<UserRolePermissionDataVM> userRolePermissionsList = CurrentUserPermissionManager.GetAsync().Result;
 
-            if (claimValue == null)
+            if (userRolePermissionsList == null || userRolePermissionsList.Count() == 0)
                 return PartialView("AdminPortal/_MainNavigation", new List<MenuItem>());
 
-            List<UserRolePermissionDataVM> userRolePermissionsList = JsonConvert.DeserializeObject<List<UserRolePermissionDataVM>>(claimValue);
             userRolePermissionsList = userRolePermissionsList.Where(p => p.IsAllowed == true && p.PermissionType == PermissionType.View.ToString()).ToList();
 
             List<MenuItem> menuItemsList = new List<MenuItem>();

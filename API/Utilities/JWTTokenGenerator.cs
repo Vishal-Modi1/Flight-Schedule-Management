@@ -22,7 +22,7 @@ namespace API.Utilities
             _httpContext = httpContext;
         }
 
-        public string Generate(int id, int? companyId, List<string> roles)
+        public string Generate(int id, int? companyId, int roleId)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -30,12 +30,14 @@ namespace API.Utilities
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(CustomClaimTypes.CompanyId, companyId.ToString()),
                 new Claim(CustomClaimTypes.UserId, id.ToString()),
+                new Claim(ClaimTypes.Role, roleId.ToString()),
             };
 
-            roles.ForEach(role =>
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            });
+            //roles.ForEach(role =>
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, role));
+            //});
+
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configurationSettings.JWTKey));
             DateTime expires = DateTime.Now.AddDays(_configurationSettings.JWTExpireDays);

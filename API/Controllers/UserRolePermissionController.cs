@@ -41,6 +41,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("listbyroleid")]
+        public IActionResult ListByRoleId()
+        {
+
+            string companyIdClaim = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            string roleIdClaim = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            int companyId = companyIdClaim == "" ? 0 : Convert.ToInt32(companyIdClaim);
+            int roleId = roleIdClaim == "" ? 0 : Convert.ToInt32(roleIdClaim);
+
+            CurrentResponse response = _userRolePermissionService.GetByRoleId(roleId, companyId);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("getfilters")]
         public IActionResult GetFilters()
         {

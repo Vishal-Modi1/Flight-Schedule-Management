@@ -39,10 +39,10 @@ namespace Service
                 userVM = ToBusinessObject(user);
             }
 
-            userVM.Countries = _countryRepository.ListDropDownValues(); 
+            userVM.Countries = _countryRepository.ListDropDownValues();
             userVM.InstructorTypes = _instructorTypeRepository.ListDropDownValues();
             userVM.UserRoles = _userRoleRepository.ListDropDownValues();
-           
+
             if (companyId > 0)
             {
                 userVM.CompanyId = companyId;
@@ -168,7 +168,12 @@ namespace Service
             user.Email = userVM.Email;
             user.FirstName = userVM.FirstName;
             user.LastName = userVM.LastName;
-     //       user.Password = userVM.Password;
+
+            if (!string.IsNullOrWhiteSpace(userVM.Password))
+            {
+                user.Password = userVM.Password;
+            }
+
             user.Phone = userVM.Phone;
             user.RoleId = userVM.RoleId;
             user.IsInstructor = userVM.IsInstructor;

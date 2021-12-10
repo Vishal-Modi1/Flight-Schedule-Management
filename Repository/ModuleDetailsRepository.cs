@@ -35,7 +35,7 @@ namespace Repository
                                                      select new DropDownValues()
                                                      {
                                                          Id = module.Id,
-                                                         Name = module.Name
+                                                         Name = module.DisplayName
                                                      }).ToList();
 
                 return moduleList;

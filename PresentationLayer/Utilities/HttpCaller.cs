@@ -17,12 +17,23 @@ namespace PresentationLayer.Utilities
     {
         private HttpClient _httpClient;
         private readonly ConfigurationSettings _configurationSettings;
-        private readonly HttpContext _httpContext;
+        private  HttpContext _httpContext => _httpContextAccessor.HttpContext;
+        private static IHttpContextAccessor _httpContextAccessor;
+
+        public static void Configure(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         public HttpCaller(HttpContext httpContext)
         {
             _configurationSettings = ConfigurationSettings.Instance;
-            _httpContext = httpContext;
+            //_httpContext = httpContext;
+        }
+
+        public HttpCaller()
+        {
+
         }
 
         public async Task<CurrentResponse> GetAsync(string url)

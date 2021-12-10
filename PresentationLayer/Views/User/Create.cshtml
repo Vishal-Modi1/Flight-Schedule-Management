@@ -91,7 +91,7 @@
                 <!-- text input -->
             <div class="form-group">
 
-                    @if (PermissionManager.IsSuperAdmin())
+                    @if (CurrentUserPermissionManager.IsSuperAdmin())
                     {
                         <label class="control-label" asp-for="CompanyId">Company</label>
                         <select class="form-control" asp-for="CompanyId" asp-items="companyList"></select>

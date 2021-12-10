@@ -51,6 +51,11 @@ namespace Repository
                 existingDetails.IsSendEmailInvite = user.IsSendEmailInvite;
                 existingDetails.IsSendTextMessage = user.IsSendTextMessage;
 
+                if (!string.IsNullOrWhiteSpace(user.Password))
+                {
+                    existingDetails.Password = user.Password;
+                }
+
                 existingDetails.Gender = user.Gender;
 
                 _myContext.SaveChanges();
