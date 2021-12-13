@@ -40,3 +40,12 @@
 /.vs/Flight Schedule Management App/v16/TestStore/0
 /.vs/Flight Schedule Management App/v17
 /TestProject1
+/Configuration/bin/Debug/net6.0
+/Configuration/bin/Debug/net6.0
+/PresentationLayer/bin/Debug/net6.0
+/Service/bin/Debug/net6.0
+/Repository/bin/Debug/net6.0
+/FSMAPI/bin/Debug/net6.0
+/FSMAPI/obj
+/FSMAPI/Uploads
+/DataModels/bin/Debug/net6.0

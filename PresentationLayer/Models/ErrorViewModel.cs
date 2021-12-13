@@ -1,6 +1,6 @@
 using System;
 
-namespace PresentationLayer.Entities
+namespace PresentationLayer.Models
 {
     public class ErrorViewModel
     {

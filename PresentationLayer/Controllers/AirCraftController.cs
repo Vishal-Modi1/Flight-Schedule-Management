@@ -1,21 +1,12 @@
 ﻿using DataModels.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PresentationLayer.Filters;
 using PresentationLayer.Utilities;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using DataModels.VM.Aircraft;
 using DataModels.VM.AircraftEquipment;
 using DataModels.VM.Common;
-using DataModels.VM.User;
 
 namespace PresentationLayer.Controllers
 {
