@@ -23,7 +23,7 @@ namespace Repository
                                                                       join module in _myContext.ModuleDetails
                                                                       on userRolePermission.ModuleId equals module.Id
                                                                       where userRolePermission.RoleId == roleId
-                                                                      && userRolePermission.CompanyId == companyId
+                                                                      && (companyId.GetValueOrDefault() == 0  ? true : userRolePermission.CompanyId == companyId)
                                                                       select new UserRolePermissionDataVM()
                                                                       {
                                                                           Id = userRolePermission.Id,
@@ -78,6 +78,24 @@ namespace Repository
                 if (userRolePermission != null)
                 {
                     userRolePermission.IsAllowed = isAllow;
+                    _myContext.SaveChanges();
+                }
+            }
+        }
+
+        public void UpdateMultiplePermissions(UserRolePermissionFilterVM userRolePermissionFilterVM)
+        {
+            using (_myContext = new MyContext())
+            {
+                List<UserRolePermission> userRolePermissionsList = _myContext.UserRolePermissions.Where(p => 
+                                                        (userRolePermissionFilterVM.CompanyId == 0 ? true : p.CompanyId == userRolePermissionFilterVM.CompanyId)
+                                                        && (userRolePermissionFilterVM.UserRoleId == 0 ? true : p.RoleId == userRolePermissionFilterVM.UserRoleId)
+                                                        && (userRolePermissionFilterVM.ModuleId == 0 ? true : p.ModuleId == userRolePermissionFilterVM.ModuleId)
+                                                        ).ToList();
+
+                if (userRolePermissionsList.Count() >  0)
+                {
+                    userRolePermissionsList.ForEach(l => { l.IsAllowed = userRolePermissionFilterVM.IsAllow; });
                     _myContext.SaveChanges();
                 }
             }

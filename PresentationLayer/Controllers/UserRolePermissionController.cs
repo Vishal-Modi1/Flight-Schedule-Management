@@ -87,5 +87,14 @@ namespace PresentationLayer.Controllers
             return Json(response);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UpdateMultiplePermissionsAsync(UserRolePermissionFilterVM userRolePermissionFilterVM)
+        {
+            string jsonData = JsonConvert.SerializeObject(userRolePermissionFilterVM);
+            CurrentResponse response = await _httpCaller.PostAsync($"userrolepermission/updatemultiplepermissions", jsonData);
+
+            return Json(response);
+        }
+
     }
 }

@@ -38,7 +38,10 @@ namespace API.Controllers
             string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
             int companyIdValue = companyId == "" ? 0 : Convert.ToInt32(companyId);
 
-            CurrentResponse response = _userService.GetDetails(id, companyIdValue);
+            string roleId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            int roleIdValue = companyId == "" ? 0 : Convert.ToInt32(roleId);
+
+            CurrentResponse response = _userService.GetDetails(id, companyIdValue, roleIdValue);
             return Ok(response);
         }
 

@@ -13,6 +13,8 @@ namespace Service.Interface
 
         CurrentResponse UpdateFullPermission(int id, bool isAllow);
 
-        CurrentResponse GetFiltersValue();
+        CurrentResponse GetFiltersValue(int roleId);
+
+        CurrentResponse UpdateMultiplePermissions(UserRolePermissionFilterVM userRolePermissionFilterVM);
     }
 }

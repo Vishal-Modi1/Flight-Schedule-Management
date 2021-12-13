@@ -28,7 +28,7 @@ namespace Service
             _companyRepository = companyRepository;
         }
 
-        public CurrentResponse GetDetails(int id, int companyId)
+        public CurrentResponse GetDetails(int id, int companyId, int roleId)
         {
             User user = _userRepository.FindByCondition(p => p.Id == id && p.IsDeleted != true);
 
@@ -41,7 +41,7 @@ namespace Service
 
             userVM.Countries = _countryRepository.ListDropDownValues();
             userVM.InstructorTypes = _instructorTypeRepository.ListDropDownValues();
-            userVM.UserRoles = _userRoleRepository.ListDropDownValues();
+            userVM.UserRoles = _userRoleRepository.ListDropDownValues(roleId);
 
             if (companyId > 0)
             {

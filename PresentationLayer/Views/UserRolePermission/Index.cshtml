@@ -34,7 +34,7 @@
                         <select class="form-control" asp-for="ModuleId" asp-items="moduleList"></select>
                     </td>
 
-                    @if (PermissionManager.IsSuperAdmin())
+                    @if (CurrentUserPermissionManager.IsSuperAdmin())
                     {
                         <td class="pr-0">
                             <label class="control-label" asp-for="CompanyId">Company</label>
@@ -52,7 +52,9 @@
                     <th>User Role</th>
                     <th>Module Name</th>
                     <th data-orderable="false">Permission Type</th>
-                    <th data-orderable="false">Is Allowed</th>
+                    <th data-orderable="false" class="select-checkbox">
+                    <div class="icheck-primary d-inline"><input type="checkbox" id="isAllowedAll"> <label for="isAllowedAll"></label></div>
+                    Is Allowed</th>
                 </tr>
             </thead>
 
@@ -61,7 +63,7 @@
                     <th>User Role</th>
                     <th>Module Name</th>
                     <th data-orderable="false">Permission Type</th>
-                    <th data-orderable="false">Is Allowed</th>
+                    <th data-orderable="false"> Is Allowed</th>
                 </tr>
             </tfoot>
         </table>

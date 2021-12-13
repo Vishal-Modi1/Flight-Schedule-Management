@@ -112,13 +112,13 @@ namespace Service
             }
         }
 
-        public CurrentResponse GetFiltersValue()
+        public CurrentResponse GetFiltersValue(int roleId)
         {
             try
             {
                 UserRolePermissionFilterVM userRolePermissionFilterVM = new UserRolePermissionFilterVM();
 
-                userRolePermissionFilterVM.UserRoleList = _userRoleRepository.ListDropDownValues();
+                userRolePermissionFilterVM.UserRoleList = _userRoleRepository.ListDropDownValues(roleId);
                 userRolePermissionFilterVM.ModuleList = _moduleDetailsRepo.ListDropDownValues();
                 userRolePermissionFilterVM.Companies = _companyRepository.ListDropDownValues();
 
@@ -135,5 +135,31 @@ namespace Service
             }
         }
 
+        public CurrentResponse UpdateMultiplePermissions(UserRolePermissionFilterVM userRolePermissionFilterVM)
+        {
+            try
+            {
+                _userRolePermissionRepository.UpdateMultiplePermissions(userRolePermissionFilterVM);
+
+                string message = "Permissions granted successfully.";
+
+                if (!userRolePermissionFilterVM.IsAllow)
+                {
+                    message = "Permissions denied successfully.";
+
+                }
+
+                CreateResponse(true, HttpStatusCode.OK, message);
+
+                return _currentResponse;
+            }
+
+            catch (Exception exc)
+            {
+                CreateResponse(false, HttpStatusCode.InternalServerError, exc.ToString());
+
+                return _currentResponse;
+            }
+        }
     }
 }

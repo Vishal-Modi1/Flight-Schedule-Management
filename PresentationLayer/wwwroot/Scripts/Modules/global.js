@@ -122,7 +122,6 @@ function closeInfoModal() {
 
 function openInfoModal(title, content, id) {
 
-    
     $('#info-modal').modal('toggle')
     $('#info-modal-title').text(title)
 

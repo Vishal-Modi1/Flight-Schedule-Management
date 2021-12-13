@@ -11,5 +11,7 @@ namespace DataModels.VM.UserRolePermission
         public List<DropDownValues> UserRoleList{ get; set; }
         public int ModuleId { get; set; }
         public int UserRoleId { get; set; }
+
+        public bool IsAllow { get; set; }
     }
 }

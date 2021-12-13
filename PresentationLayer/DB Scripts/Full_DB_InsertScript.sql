@@ -608,19 +608,19 @@ SET IDENTITY_INSERT [dbo].[Permissions] OFF
 GO
 SET IDENTITY_INSERT [dbo].[UserRoles] ON 
 GO
-INSERT [dbo].[UserRoles] (Id, [Name]) VALUES (1,N'Super Admin')
+INSERT [dbo].[UserRoles] (Id, [Name], [Priority]) VALUES (1,N'Super Admin',1)
 GO
-INSERT [dbo].[UserRoles] (id, [Name]) VALUES (2, N'Admin')
+INSERT [dbo].[UserRoles] (id, [Name], [Priority]) VALUES (2, N'Admin',2)
 GO
-INSERT [dbo].[UserRoles] (id, [Name]) VALUES (3, N'Office Staff')
+INSERT [dbo].[UserRoles] (id, [Name], [Priority]) VALUES (3, N'Office Staff',999)
 GO
-INSERT [dbo].[UserRoles] (id, [Name]) VALUES (4, N'Instructor')
+INSERT [dbo].[UserRoles] (id, [Name], [Priority]) VALUES (4, N'Instructor',999)
 GO
-INSERT [dbo].[UserRoles] (id,[Name]) VALUES (5, N'Mechanic')
+INSERT [dbo].[UserRoles] (id,[Name], [Priority]) VALUES (5, N'Mechanic',999)
 GO
-INSERT [dbo].[UserRoles] (id,[Name]) VALUES (6, N'Pilot (Renter)')
+INSERT [dbo].[UserRoles] (id,[Name], [Priority]) VALUES (6, N'Pilot (Renter)',999)
 GO
-INSERT [dbo].[UserRoles] (id,[Name]) VALUES (7, N'Owner')
+INSERT [dbo].[UserRoles] (id,[Name], [Priority]) VALUES (7, N'Owner',999)
 GO
 SET IDENTITY_INSERT [dbo].[UserRoles] OFF
 GO

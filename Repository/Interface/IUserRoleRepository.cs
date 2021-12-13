@@ -8,6 +8,6 @@ namespace Repository.Interface
     {
         List<UserRoleVM> List();
 
-        List<DropDownValues> ListDropDownValues();
+        List<DropDownValues> ListDropDownValues(int roleId);
     }
 }

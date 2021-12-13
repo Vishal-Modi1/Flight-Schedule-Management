@@ -417,6 +417,7 @@ GO
 CREATE TABLE [dbo].[UserRoles](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NULL,
+	[Priority] int not null,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

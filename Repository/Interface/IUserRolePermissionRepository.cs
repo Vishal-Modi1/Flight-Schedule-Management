@@ -1,6 +1,5 @@
 ﻿using DataModels.Entities;
 using System.Collections.Generic;
-using DataModels.VM;
 using DataModels.VM.UserRolePermission;
 
 
@@ -17,5 +16,7 @@ namespace Repository.Interface
         void UpdatePermission(int id, bool isAllow);
 
         void UpdateFullPermission(int id, bool isAllow);
+
+        void UpdateMultiplePermissions(UserRolePermissionFilterVM userRolePermissionFilterVM);
     }
 }

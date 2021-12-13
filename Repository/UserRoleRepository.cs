@@ -25,11 +25,12 @@ namespace Repository
             }
         }
 
-        public List<DropDownValues> ListDropDownValues()
+        public List<DropDownValues> ListDropDownValues(int roleId)
         {
             using (_myContext = new MyContext())
             {
                 List<DropDownValues> userRoleList = (from userRole in _myContext.UserRoles
+                                                     where userRole.Priority >= roleId
                                                  select new DropDownValues()
                                                  {
                                                      Id = userRole.Id,

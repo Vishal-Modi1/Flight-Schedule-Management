@@ -8,7 +8,7 @@ namespace Service.Interface
     {
         CurrentResponse Create(UserVM userVM);
 
-        CurrentResponse GetDetails(int id, int companyId);
+        CurrentResponse GetDetails(int id, int companyId, int roleId);
 
         CurrentResponse IsEmailExist(string email);
 

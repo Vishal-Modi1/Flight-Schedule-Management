@@ -7,6 +7,7 @@ using System;
 using DataModels.Constants;
 using Microsoft.AspNetCore.Http;
 using API.Utilities;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -44,9 +45,9 @@ namespace API.Controllers
         [Route("listbyroleid")]
         public IActionResult ListByRoleId()
         {
-
             string companyIdClaim = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
-            string roleIdClaim = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+            string roleIdClaim = _jWTTokenGenerator.GetClaimValue(ClaimTypes.Role);
+
             int companyId = companyIdClaim == "" ? 0 : Convert.ToInt32(companyIdClaim);
             int roleId = roleIdClaim == "" ? 0 : Convert.ToInt32(roleIdClaim);
 
@@ -59,16 +60,35 @@ namespace API.Controllers
         [Route("getfilters")]
         public IActionResult GetFilters()
         {
-            CurrentResponse response = _userRolePermissionService.GetFiltersValue();
+            string roleIdClaim = _jWTTokenGenerator.GetClaimValue(ClaimTypes.Role);
+            int roleId = roleIdClaim == "" ? 0 : Convert.ToInt32(roleIdClaim);
+
+            CurrentResponse response = _userRolePermissionService.GetFiltersValue(roleId);
 
             return Ok(response);
         }
 
         [HttpGet]
         [Route("updatepermission")]
-        public IActionResult UpdateCreatePermission(int id, bool isAllow)
+        public IActionResult UpdatePermission(int id, bool isAllow)
         {
             CurrentResponse response = _userRolePermissionService.UpdatePermission(id, isAllow);
+
+            return Ok(response);
+        }
+
+
+        [HttpPost]
+        [Route("updatemultiplepermissions")]
+        public IActionResult UpdateMultiplePermissions(UserRolePermissionFilterVM userRolePermissionFilterVM)
+        {
+            if (userRolePermissionFilterVM.CompanyId == 0)
+            {
+                string companyId = _jWTTokenGenerator.GetClaimValue(CustomClaimTypes.CompanyId);
+                userRolePermissionFilterVM.CompanyId = companyId == "" ? 0 : Convert.ToInt32(companyId);
+            }
+
+            CurrentResponse response = _userRolePermissionService.UpdateMultiplePermissions(userRolePermissionFilterVM);
 
             return Ok(response);
         }
