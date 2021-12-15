@@ -49,3 +49,7 @@
 /FSMAPI/obj
 /FSMAPI/Uploads
 /DataModels/bin/Debug/net6.0
+/FSM.Blazor/bin/Debug/net6.0
+/FSM.Blazor/obj
+/Blazor.Services/bin/Debug/net6.0
+/Blazor.Services/obj

@@ -1,0 +1,28 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "APIURL": "https://localhost:7132/api/",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=LAPTOP-U2ALAPDK;Database=FSM;User Id=sa;password=sa123;Trusted_Connection=False;MultipleActiveResultSets=true;"
+    // "DefaultConnection": "Data Source=DESKTOP-M8KCIKB\\SQLEXPRESS;Initial Catalog=FlightScheduleManagement;Integrated Security=True"
+    // "DefaultConnection": "Server=tcp:cendiendbserver.database.windows.net,1433;Initial Catalog=FlightScheduleManagement;Persist Security Info=False;User ID=cendien_admin;Password=QCcF^7v2GP&!$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+  "JWTKey": "SXkSqsKyNUyvGbnHs7ke2NCq8zQzNLW7mPmHbnZZ",
+  "JWTIssuer": "https://localhost:7073", //replace this with your application url
+  "JWTExpireDays": 1,
+  "CookieName": "UserLoginCookie",
+  "MailSettings": {
+    "Host": "smtp-mail.outlook.com",
+    "Port": "587",
+    "FromEmail": "vmodi@cendien.com",
+    "Password": "V#Try%$#Mhj",
+    "EnabelSSL": "true"
+  },
+  "EmailTokenExpirationDays": 1
+}

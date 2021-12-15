@@ -1,0 +1,80 @@
+using Configuration;
+using FSM.Blazor.Blazor.Services.Account;
+using FSM.Blazor.Data;
+using FSM.Blazor.Data.CommonServices;
+using FSM.Blazor.Utilities;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Radzen;
+
+var builder = WebApplication.CreateBuilder(args);
+var _configurationSettings = ConfigurationSettings.Instance;
+
+builder.Services.AddControllers();
+
+// Add services to the container.
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+// Backend Services
+builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<LoginService>();
+
+// Blazor radzen service dependencies
+builder.Services.AddScoped<ExampleService>();
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
+
+//builder.Services.AddAuthentication("CookieAuthentication")
+//.AddCookie("CookieAuthentication", config =>
+//{
+//    config.Cookie.Name = _configurationSettings.CookieName;
+//    config.LoginPath = "/login";
+//    // config.ExpireTimeSpan = TimeSpan.FromSeconds(25);
+//    config.ExpireTimeSpan = TimeSpan.FromDays(_configurationSettings.JWTExpireDays);
+//    config.SlidingExpiration = true;
+//});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.Cookie.Name = "myauth";
+            options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+            // Add this new line
+            options.EventsType = typeof(CookieAuthenticationEvents);    // <---
+        });
+// Add this new line
+builder.Services.AddScoped<CookieAuthenticationEvents>();
+
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapBlazorHub();
+    endpoints.MapFallbackToPage("/_Host");
+});
+
+
+CurrentUserPermissionManager.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
+HttpCaller.Configure(app.Services.GetRequiredService<IHttpContextAccessor>()); 
+
+app.Run();
