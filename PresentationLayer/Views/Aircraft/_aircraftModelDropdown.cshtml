@@ -1,0 +1,25 @@
+﻿@using DataModels.Models;
+@model List<AircraftModel>
+@{
+    Layout = null;
+
+    int selectedId = Convert.ToInt32(ViewData["modelId"]);
+
+    List<SelectListItem> aircraftModelList = new List<SelectListItem>();
+    aircraftModelList.Add(new SelectListItem { Text = "Select model", Value = "" });
+    aircraftModelList.Add(new SelectListItem { Text = "+ Add New", Value = "" });
+
+    aircraftModelList.AddRange(Model.ConvertAll(a =>
+    {
+        return new SelectListItem()
+        {
+            Text = a.Name.ToString(),
+            Value = a.Id.ToString(),
+            Selected = a.Id == selectedId ? true : false
+        };
+    }));
+}
+
+
+<label class="control-label" for="AircraftModelId">Model</label>
+<select class="form-control" id="AircraftModelId" name="AircraftModelId" asp-items="aircraftModelList"></select>

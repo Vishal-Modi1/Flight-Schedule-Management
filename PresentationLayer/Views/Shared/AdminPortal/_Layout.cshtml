@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <title>Flight Schedule Management</title>
+    <partial name="AdminPortal/_Styles" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <partial name="AdminPortal/_TopNavigation" />
+        <partial name="AdminPortal/_MainNavigation" />
+        <div class="content-wrapper">
+            @*<div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Starter Page</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Starter Page</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+
+                    <div class="loader" style="display:none" id="loader">
+                        @*<div class="center">
+                <img alt="" src="https://www.aspsnippets.com/demos/loader4.gif" />
+            </div>*@
+                    </div>
+
+                    <style>
+                        .loader {
+                            position: fixed;
+                            left: 0px;
+                            top: 0px;
+                            width: 100%;
+                            height: 100%;
+                            z-index: 9999;
+                            background: url('https://www.aspsnippets.com/demos/loader4.gif') 50% 50% no-repeat;
+                        }
+                    </style>
+
+                    @*Full length Create Modal*@
+                    <div class="modal fade" id="create-modal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="create-modal-title">Large Modal</h4>
+                                    <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="create-modal-body">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Create Modal*@
+
+                    <div class="modal fade" id="create-small-modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="create-small-modal-title">Large Modal</h4>
+                                    <button type="button" class="close closeSmallModal" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                              
+                                <div class="modal-body" id="create-small-body">
+                                 
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Delete Modal*@
+                    <div class="modal fade" id="delete-modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger" style="height:53px">
+                                    <h5 class="delete-modal-title" id="delete-modal-title"></h5>
+                                    <button type="button" class="close closeDeleteModal" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete <span id="deleteItem" style="font-weight:bold"> </span>? </p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default closeDeleteModal" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary modal-danger btnDeleteModalButton bg-danger">Delete</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    @*Info Modal**@
+                    <div class="modal fade" id="info-modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header btn-primary" style="height:53px;">
+                                    <h5 class="info-modal-title" id="info-modal-title"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to <span id="infoItem" style="font-weight:bold"> </span>? </p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary btnInfoModalButton">Save changes</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <aside class="control-sidebar control-sidebar-dark">
+            <div class="p-3">
+                <h5>Title</h5>
+                <p>Sidebar content</p>
+            </div>
+        </aside>
+        <partial name="AdminPortal/_Footer" />
+    </div>
+    <partial name="AdminPortal/_Scripts" />
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+﻿<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6 col-md-6 col-lg-6 col-xl-6">
+                <h1>Manage Aircraft</h1>
+            </div>
+            <div class="offset-md-3 offset-lg-3 offset-xl-3"></div>
+            <div class="col-6 col-md-3 col-lg-3 col-xl-3">
+                <button type="button" id="createAircraft" class="btn btn-block btn-primary float-right" >
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    &nbsp; Create Aircraft
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-3">
+                <input type="search" placeholder="Search" value="" id="txtAircraftSearch" name="txtAircraftSearch" class="form-control" />
+            </div>
+
+            <div class="col-sm-2">
+
+                <select id="ddlStatus" class="form-control">
+                    <option value="true">Active</option>
+                    <option value="false">InActive</option>
+                </select>
+
+            </div>
+
+            <div class="col-sm-3">
+                <button type="button" id="btnSearchAircraft" class="btn btn-block btn-primary" >
+                    Clear filter
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<div style="margin-top:20px" id="aircraftList">
+
+  
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/Modules/aircraft.js"></script>
+}
+

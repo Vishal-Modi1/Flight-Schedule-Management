@@ -1,12 +1,8 @@
 ﻿using DataModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ViewModels.VM;
 
 namespace Repository
 {
@@ -26,7 +22,7 @@ namespace Repository
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appsettings.json")
+                   .AddJsonFile("configuration.json")
                    .Build();
                 var connectionString = configuration.GetConnectionString("DefaultConnection");
                 optionsBuilder.UseSqlServer(connectionString);
@@ -39,6 +35,34 @@ namespace Repository
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<InstructorType> InstructorTypes { get; set; }
+
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<UserSearchList> UserSearchList { get; set; }
+
+        public DbSet<EmailToken> EmailTokens { get; set; }
+
+        public DbSet<InstructorTypeVM> InstructorTypeVM { get; set; }
+
+        public DbSet<AirCraft> AirCrafts { get; set; }
+
+        //public DbSet<AirCraftVM> AirCraftVM { get; set; }
+
+        public DbSet<AircraftMake> AircraftMakes { get; set; }
+
+        public DbSet<AircraftModel> AircraftModels { get; set; }
+        
+        public DbSet<AircraftEquipmentTime> AircraftEquipmentTimes { get; set; }
+
+        public DbSet<AircraftCategory> AircraftCategories { get; set; }
+
+        public DbSet<AircraftClass> AircraftClasses { get; set; }
+
+        public DbSet<FlightSimulatorClass> FlightSimulatorClasses { get; set; }
 
     }
 

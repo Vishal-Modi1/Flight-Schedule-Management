@@ -1,0 +1,87 @@
+﻿@using ViewModels.VM
+
+@{ Menus menuList = new Menus();
+
+                List<MenuItem> menuItems = new List<MenuItem>();
+                menuItems.Add(new MenuItem { Controller = "Home", Action = "Index", DisplayName = "Dashboard", FavIconStyle = "nav-icon fas fa-tachometer-alt" });
+                menuItems.Add(new MenuItem { Controller = "User", Action = "Index", DisplayName = "User", FavIconStyle = "far fa-user nav-icon", });
+                menuItems.Add(new MenuItem { Controller = "InstructorType", Action = "Index", DisplayName = "Instructor Type", FavIconStyle = "far fa-user nav-icon" });
+                menuItems.Add(new MenuItem { Controller = "Aircraft", Action = "Index", DisplayName = "Air Craft", FavIconStyle = "fas fa-plane nav-icon" });
+                menuItems.Add(new MenuItem { Controller = "Account", Action = "Logout", DisplayName = "Logout", FavIconStyle = "far fa-circle nav-icon" });
+    }
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+        <img src="~/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">F.M.S.</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">Alexander Pierce</a>
+            </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        @*<div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>*@
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul id="left-menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                @foreach (var menuItem in menuItems)
+                {
+                    if (menuItem.MenuItems == null || menuItem.MenuItems.Count() == 0)
+                    {
+    <li class="nav-item">
+        <a href="@Url.Action(menuItem.Action, menuItem.Controller)" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == menuItem.Action && ViewContext.RouteData.Values["Controller"].ToString() == menuItem.Controller ? "active" : "")">
+            <i class="@(menuItem.FavIconStyle)"></i>
+            <p>@menuItem.DisplayName</p>
+        </a>
+    </li>
+ }
+else
+{
+<li class="nav-item">
+    <a href="#" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == menuItem.Action && ViewContext.RouteData.Values["Controller"].ToString() == menuItem.Controller ? "active" : "")">
+        <i class="@(menuItem.FavIconStyle)"></i>
+        <p>
+            @(menuItem.DisplayName)
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        @foreach (var submenu in menuItem.MenuItems)
+        {
+<li class="nav-item">
+    <a href="@Url.Action(submenu.Action, submenu.Controller)" class="nav-link">
+        <i class="@(submenu.FavIconStyle)"></i>
+        <p>@(submenu.DisplayName)</p>
+    </a>
+</li>}
+    </ul>
+</li>
+}
+
+            }
+
+            </ul>
+        </nav>
+    </div>
+</aside>

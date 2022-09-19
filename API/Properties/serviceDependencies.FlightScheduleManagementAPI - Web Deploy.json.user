@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2021-09-23T05:24:34.7570051Z"
+    },
+    "apis1": {
+      "restored": true,
+      "restoreTime": "2021-09-22T15:43:19.6609617Z"
+    }
+  },
+  "parameters": {
+    "apis1.resourceGroupName": {
+      "Name": "apis1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "cloud-shell-storage-centralindia"
+    },
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "a3cdd07c-015a-4703-8f5c-a7f96f157532"
+    },
+    "apis1.subscriptionId": {
+      "Name": "apis1.subscriptionId",
+      "Type": "subscription",
+      "Value": "a3cdd07c-015a-4703-8f5c-a7f96f157532"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "DemoAPI_ResourceGroup"
+    }
+  }
+}
